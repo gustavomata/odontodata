@@ -97,7 +97,7 @@ export default function EpidemiologiaPage() {
       />
 
       {/* Indicadores */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         <StatCard
           title="CPO-D Brasil 12 anos"
           value={indicadoresEpidemiologia.cpodBrasil_12anos}
@@ -129,7 +129,7 @@ export default function EpidemiologiaPage() {
       </div>
 
       {/* Tend\u00eancia Hist\u00f3rica */}
-      <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 mb-6">
+      <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6 mb-6">
         <h2 className="text-white font-semibold mb-1">Tend\u00eancia Hist\u00f3rica (1986\u20132024)</h2>
         <p className="text-slate-500 text-xs mb-4">
           Evolu\u00e7\u00e3o do CPO-D aos 12 anos, edentulismo e cobertura de equipes de sa\u00fade bucal
@@ -151,7 +151,7 @@ export default function EpidemiologiaPage() {
 
       {/* Preval\u00eancia Regional + Fluoreta\u00e7\u00e3o */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-        <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
+        <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6">
           <h2 className="text-white font-semibold mb-1">Preval\u00eancia Regional</h2>
           <p className="text-slate-500 text-xs mb-4">CPO-D 12 anos, edentulismo e doen\u00e7a periodontal por regi\u00e3o</p>
           <ResponsiveContainer width="100%" height={280}>
@@ -168,7 +168,7 @@ export default function EpidemiologiaPage() {
           </ResponsiveContainer>
         </div>
 
-        <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
+        <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6">
           <h2 className="text-white font-semibold mb-1">Fluoreta\u00e7\u00e3o \u00d7 CPO-D</h2>
           <p className="text-slate-500 text-xs mb-4">Cobertura de fluoreta\u00e7\u00e3o e CPO-D m\u00e9dio por porte municipal</p>
           <ResponsiveContainer width="100%" height={280}>
@@ -200,8 +200,8 @@ export default function EpidemiologiaPage() {
       </div>
 
       {/* Tabela Doen\u00e7as Bucais */}
-      <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 mb-6">
-        <div className="flex items-center justify-between mb-4">
+      <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6 mb-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
           <div>
             <h2 className="text-white font-semibold mb-1">Doen\u00e7as Bucais</h2>
             <p className="text-slate-500 text-xs">Preval\u00eancia, tend\u00eancia e impacto das principais doen\u00e7as</p>
@@ -213,7 +213,7 @@ export default function EpidemiologiaPage() {
               placeholder="Buscar doen\u00e7a..."
               value={buscaDoenca}
               onChange={(e) => setBuscaDoenca(e.target.value)}
-              className="bg-slate-800 border border-slate-700 rounded-lg pl-9 pr-3 py-1.5 text-sm text-slate-300 placeholder-slate-500 focus:outline-none focus:border-blue-500 w-48"
+              className="bg-slate-800 border border-slate-700 rounded-lg pl-9 pr-3 py-1.5 text-sm text-slate-300 placeholder-slate-500 focus:outline-none focus:border-blue-500 w-full sm:w-48"
             />
           </div>
         </div>
@@ -252,10 +252,10 @@ export default function EpidemiologiaPage() {
       </div>
 
       {/* Determinantes Sociais */}
-      <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 mb-6">
+      <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6 mb-6">
         <h2 className="text-white font-semibold mb-1">Determinantes Sociais</h2>
         <p className="text-slate-500 text-xs mb-4">Acesso ao dentista (%) por determinante social da sa\u00fade</p>
-        <div className="flex items-center gap-4 mb-3">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-4 mb-3">
           {Object.entries(CORES_CATEGORIAS).map(([cat, cor]) => (
             <div key={cat} className="flex items-center gap-1.5">
               <div className="w-2.5 h-2.5 rounded-full" style={{ background: cor }} />
@@ -264,10 +264,10 @@ export default function EpidemiologiaPage() {
           ))}
         </div>
         <ResponsiveContainer width="100%" height={360}>
-          <BarChart data={determinantesSociais} layout="vertical" margin={{ top: 0, right: 20, left: 120, bottom: 0 }}>
+          <BarChart data={determinantesSociais} layout="vertical" margin={{ top: 0, right: 20, left: 70, bottom: 0 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" horizontal={false} />
             <XAxis type="number" tick={{ fill: "#94a3b8", fontSize: 11 }} domain={[0, 100]} tickFormatter={(v) => `${v}%`} />
-            <YAxis type="category" dataKey="fator" tick={{ fill: "#94a3b8", fontSize: 11 }} width={115} />
+            <YAxis type="category" dataKey="fator" tick={{ fill: "#94a3b8", fontSize: 11 }} width={65} />
             <Tooltip content={<CustomTooltip />} />
             <Bar dataKey="acessoDentista" name="Acesso ao dentista (%)" radius={[0, 4, 4, 0]}>
               {determinantesSociais.map((d, i) => (
@@ -279,8 +279,8 @@ export default function EpidemiologiaPage() {
       </div>
 
       {/* Tabela C\u00e2ncer Bucal por UF */}
-      <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 mb-6">
-        <div className="flex items-center justify-between mb-4">
+      <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6 mb-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
           <div>
             <h2 className="text-white font-semibold mb-1">C\u00e2ncer Bucal por UF</h2>
             <p className="text-slate-500 text-xs">Incid\u00eancia, mortalidade e indicadores por unidade federativa</p>
@@ -292,7 +292,7 @@ export default function EpidemiologiaPage() {
               placeholder="Buscar UF ou estado..."
               value={buscaCancer}
               onChange={(e) => setBuscaCancer(e.target.value)}
-              className="bg-slate-800 border border-slate-700 rounded-lg pl-9 pr-3 py-1.5 text-sm text-slate-300 placeholder-slate-500 focus:outline-none focus:border-blue-500 w-52"
+              className="bg-slate-800 border border-slate-700 rounded-lg pl-9 pr-3 py-1.5 text-sm text-slate-300 placeholder-slate-500 focus:outline-none focus:border-blue-500 w-full sm:w-52"
             />
           </div>
         </div>

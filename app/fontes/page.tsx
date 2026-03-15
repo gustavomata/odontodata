@@ -35,7 +35,7 @@ export default function FontesPage() {
       />
 
       {/* Plano */}
-      <div className="bg-slate-900 border border-blue-600/30 rounded-xl p-6 mb-8">
+      <div className="bg-slate-900 border border-blue-600/30 rounded-xl p-4 md:p-6 mb-8">
         <div className="flex items-start gap-3 mb-4">
           <Database className="w-5 h-5 text-blue-400 mt-0.5" />
           <div>
@@ -72,7 +72,7 @@ export default function FontesPage() {
       </div>
 
       {/* Cruzamentos */}
-      <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 mb-8">
+      <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6 mb-8">
         <h2 className="text-white font-semibold mb-4">Cruzamentos Implementados</h2>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
           {[
@@ -107,7 +107,7 @@ export default function FontesPage() {
       {/* Cards das Fontes */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
         {fontesDados.map((fonte) => (
-          <div key={fonte.nome} className="bg-slate-900 border border-slate-800 rounded-xl p-6 hover:border-slate-700 transition-colors">
+          <div key={fonte.nome} className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6 hover:border-slate-700 transition-colors">
             <div className="flex items-start justify-between mb-3">
               <div className="flex-1">
                 <div className="flex items-center gap-2 flex-wrap mb-2">
@@ -154,8 +154,9 @@ export default function FontesPage() {
       </div>
 
       {/* Tabela de Acesso */}
-      <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 mt-6">
+      <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6 mt-6">
         <h2 className="text-white font-semibold mb-4">Resumo Técnico das Bases</h2>
+        <div className="overflow-x-auto">
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b border-slate-800">
@@ -186,6 +187,7 @@ export default function FontesPage() {
             ))}
           </tbody>
         </table>
+        </div>
       </div>
     </AppShell>
   );

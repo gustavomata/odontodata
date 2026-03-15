@@ -68,7 +68,7 @@ export default function ProtesePage() {
       />
 
       {/* Indicadores principais */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         <StatCard
           title="Total LRPDs"
           value={indicadoresProtese.totalLRPDs_Brasil}
@@ -100,7 +100,7 @@ export default function ProtesePage() {
       </div>
 
       {/* Indicadores secundarios */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         <StatCard
           title="Fila de Espera SUS"
           value={`${indicadoresProtese.filaEsperaSUS_mil} mil`}
@@ -148,7 +148,7 @@ export default function ProtesePage() {
       {/* Graficos lado a lado */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
         {/* Evolucao proteses SUS */}
-        <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
+        <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6">
           <h2 className="text-white font-semibold mb-1">Evolucao Proteses SUS (2005-2024)</h2>
           <p className="text-slate-500 text-xs mb-4">Proteses entregues vs fila de espera (em milhares)</p>
           <ResponsiveContainer width="100%" height={280}>
@@ -179,7 +179,7 @@ export default function ProtesePage() {
         </div>
 
         {/* LRPD por regiao */}
-        <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
+        <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6">
           <h2 className="text-white font-semibold mb-1">LRPD por Regiao</h2>
           <p className="text-slate-500 text-xs mb-4">
             Laboratorios SUS vs Privados e taxa de ocupacao
@@ -207,7 +207,7 @@ export default function ProtesePage() {
       </div>
 
       {/* Demanda vs Oferta */}
-      <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 mb-6">
+      <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6 mb-6">
         <h2 className="text-white font-semibold mb-1">Demanda vs Oferta por UF</h2>
         <p className="text-slate-500 text-xs mb-4">
           Demanda estimada de proteses vs capacidade instalada (destaque para deficit)
@@ -227,7 +227,7 @@ export default function ProtesePage() {
       </div>
 
       {/* Tabela producao proteses SUS */}
-      <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 mb-6">
+      <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6 mb-6">
         <h2 className="text-white font-semibold mb-1">Tipos de Protese SUS</h2>
         <p className="text-slate-500 text-xs mb-4">Producao anual, valores e defasagem por tipo</p>
         <div className="overflow-x-auto">
@@ -283,7 +283,7 @@ export default function ProtesePage() {
       </div>
 
       {/* Tabela materiais */}
-      <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 mb-6">
+      <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6 mb-6">
         <h2 className="text-white font-semibold mb-1">Materiais e Tecnologias</h2>
         <p className="text-slate-500 text-xs mb-4">Participacao de mercado, custos e tendencias</p>
         <div className="overflow-x-auto">
@@ -331,7 +331,7 @@ export default function ProtesePage() {
       </div>
 
       {/* TPDs por regiao */}
-      <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 mb-6">
+      <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6 mb-6">
         <h2 className="text-white font-semibold mb-1">TPDs por Regiao</h2>
         <p className="text-slate-500 text-xs mb-4">
           Total de tecnicos em protese dentaria e renda media por regiao

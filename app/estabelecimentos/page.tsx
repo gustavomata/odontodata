@@ -34,45 +34,45 @@ export default function EstabelecimentosPage() {
         badge="Fonte: CNES - Cadastro Nacional de Estabelecimentos de Saúde"
       />
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <div className="bg-blue-600/20 border border-slate-800 rounded-xl p-5">
-          <p className="text-slate-400 text-sm mb-2">Total de Estabelecimentos</p>
-          <p className="text-blue-400 text-2xl font-bold">{totalEstab.toLocaleString("pt-BR")}</p>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <div className="bg-blue-600/20 border border-slate-800 rounded-xl p-3 md:p-5">
+          <p className="text-slate-400 text-xs md:text-sm mb-2">Total de Estabelecimentos</p>
+          <p className="text-blue-400 text-lg md:text-2xl font-bold">{totalEstab.toLocaleString("pt-BR")}</p>
           <p className="text-slate-500 text-xs mt-1">Cadastrados no CNES</p>
         </div>
-        <div className="bg-emerald-600/20 border border-slate-800 rounded-xl p-5">
-          <p className="text-slate-400 text-sm mb-2">Dentistas Vinculados</p>
-          <p className="text-emerald-400 text-2xl font-bold">{totalDentistas.toLocaleString("pt-BR")}</p>
+        <div className="bg-emerald-600/20 border border-slate-800 rounded-xl p-3 md:p-5">
+          <p className="text-slate-400 text-xs md:text-sm mb-2">Dentistas Vinculados</p>
+          <p className="text-emerald-400 text-lg md:text-2xl font-bold">{totalDentistas.toLocaleString("pt-BR")}</p>
           <p className="text-slate-500 text-xs mt-1">Vinculações ativas</p>
         </div>
-        <div className="bg-amber-600/20 border border-slate-800 rounded-xl p-5">
-          <p className="text-slate-400 text-sm mb-2">Estabelecimentos Públicos</p>
-          <p className="text-amber-400 text-2xl font-bold">{dadosEstabelecimentos.reduce((s,e)=>s+e.publicos,0).toLocaleString("pt-BR")}</p>
+        <div className="bg-amber-600/20 border border-slate-800 rounded-xl p-3 md:p-5">
+          <p className="text-slate-400 text-xs md:text-sm mb-2">Estabelecimentos Públicos</p>
+          <p className="text-amber-400 text-lg md:text-2xl font-bold">{dadosEstabelecimentos.reduce((s,e)=>s+e.publicos,0).toLocaleString("pt-BR")}</p>
           <p className="text-slate-500 text-xs mt-1">SUS e governo</p>
         </div>
-        <div className="bg-purple-600/20 border border-slate-800 rounded-xl p-5">
-          <p className="text-slate-400 text-sm mb-2">Estabelecimentos Privados</p>
-          <p className="text-purple-400 text-2xl font-bold">{dadosEstabelecimentos.reduce((s,e)=>s+e.privados,0).toLocaleString("pt-BR")}</p>
+        <div className="bg-purple-600/20 border border-slate-800 rounded-xl p-3 md:p-5">
+          <p className="text-slate-400 text-xs md:text-sm mb-2">Estabelecimentos Privados</p>
+          <p className="text-purple-400 text-lg md:text-2xl font-bold">{dadosEstabelecimentos.reduce((s,e)=>s+e.privados,0).toLocaleString("pt-BR")}</p>
           <p className="text-slate-500 text-xs mt-1">Clínicas e consultórios</p>
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-        <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
+        <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6">
           <h2 className="text-white font-semibold mb-1">Tipos de Estabelecimento</h2>
           <p className="text-slate-500 text-xs mb-4">Quantidade por categoria de estabelecimento</p>
           <ResponsiveContainer width="100%" height={280}>
-            <BarChart data={dadosEstabelecimentos} layout="vertical" margin={{ top: 0, right: 20, left: 155, bottom: 0 }}>
+            <BarChart data={dadosEstabelecimentos} layout="vertical" margin={{ top: 0, right: 20, left: 90, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" horizontal={false} />
               <XAxis type="number" tick={{ fill: "#94a3b8", fontSize: 10 }} tickFormatter={(v) => `${(v/1000).toFixed(0)}k`} />
-              <YAxis type="category" dataKey="tipo" tick={{ fill: "#94a3b8", fontSize: 10 }} width={150} />
+              <YAxis type="category" dataKey="tipo" tick={{ fill: "#94a3b8", fontSize: 10 }} width={85} />
               <Tooltip content={<CustomTooltip />} />
               <Bar dataKey="total" name="Estabelecimentos" fill="#3b82f6" radius={[0,4,4,0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>
 
-        <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
+        <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6">
           <h2 className="text-white font-semibold mb-1">Dentistas por Tipo</h2>
           <p className="text-slate-500 text-xs mb-4">Número de dentistas vinculados por tipo de estabelecimento</p>
           <ResponsiveContainer width="100%" height={280}>
@@ -87,14 +87,14 @@ export default function EstabelecimentosPage() {
         </div>
       </div>
 
-      <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
+      <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6">
         <h2 className="text-white font-semibold mb-1">Público vs Privado por Tipo</h2>
         <p className="text-slate-500 text-xs mb-4">Comparação da composição pública e privada em cada tipo de estabelecimento</p>
         <ResponsiveContainer width="100%" height={280}>
-          <BarChart data={dadosEstabelecimentos} layout="vertical" margin={{ top: 0, right: 20, left: 155, bottom: 0 }}>
+          <BarChart data={dadosEstabelecimentos} layout="vertical" margin={{ top: 0, right: 20, left: 90, bottom: 0 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" horizontal={false} />
             <XAxis type="number" tick={{ fill: "#94a3b8", fontSize: 10 }} tickFormatter={(v) => `${(v/1000).toFixed(0)}k`} />
-            <YAxis type="category" dataKey="tipo" tick={{ fill: "#94a3b8", fontSize: 10 }} width={150} />
+            <YAxis type="category" dataKey="tipo" tick={{ fill: "#94a3b8", fontSize: 10 }} width={85} />
             <Tooltip content={<CustomTooltip />} />
             <Legend wrapperStyle={{ color: "#94a3b8", fontSize: 12 }} />
             <Bar dataKey="publicos" name="Público" fill="#f59e0b" stackId="a" />
@@ -104,7 +104,7 @@ export default function EstabelecimentosPage() {
       </div>
 
       <div className="overflow-x-auto mt-6">
-        <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
+        <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6">
           <h2 className="text-white font-semibold mb-4">Tabela Detalhada</h2>
           <table className="w-full text-sm">
             <thead>

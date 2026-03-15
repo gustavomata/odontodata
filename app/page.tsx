@@ -66,14 +66,14 @@ export default function Dashboard() {
         badge="CFO · CNES · IBGE · Março 2025"
       />
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         <StatCard title="Total de Dentistas" value={indicadoresGerais.totalDentistas} subtitle="Registros ativos no CFO" icon={Users} color="blue" trend={{ value: indicadoresGerais.crescimentoUltimoAno, label: "vs ano anterior" }} />
         <StatCard title="Dentistas Ativos" value={indicadoresGerais.dentistasAtivos} subtitle="Com anuidade em dia" icon={CheckCircle2} color="green" />
         <StatCard title="Especialistas CFO" value={indicadoresGerais.totalEspecialistas} subtitle="Com especialidade reconhecida" icon={Award} color="purple" />
         <StatCard title="Faculdades de Odontologia" value={indicadoresGerais.faculdadesOdontologia} subtitle={`${indicadoresGerais.vagasAnuais.toLocaleString("pt-BR")} vagas/ano`} icon={Building2} color="cyan" />
       </div>
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         <StatCard title="Setor Público (SUS)" value={indicadoresGerais.dentistasPublicos} subtitle="UBS, CEO, Hospitais" icon={Building2} color="yellow" />
         <StatCard title="Setor Privado" value={indicadoresGerais.dentistasPrivados} subtitle="Clínicas e consultórios" icon={Stethoscope} color="blue" />
         <StatCard title="Municípios com Cobertura" value={`${coberturaPct}%`} subtitle={`${indicadoresGerais.totalMunicipiosComCobertura} de ${indicadoresGerais.totalMunicipios} municípios`} icon={MapPin} color="green" />
@@ -92,7 +92,7 @@ export default function Dashboard() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-        <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
+        <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6">
           <h2 className="text-white font-semibold mb-1">Dentistas por Região</h2>
           <p className="text-slate-500 text-xs mb-4">Total de registros ativos por grande região</p>
           <ResponsiveContainer width="100%" height={250}>
@@ -108,10 +108,10 @@ export default function Dashboard() {
           </ResponsiveContainer>
         </div>
 
-        <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
+        <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6">
           <h2 className="text-white font-semibold mb-1">Distribuição Regional (%)</h2>
           <p className="text-slate-500 text-xs mb-4">Proporção de dentistas por região do Brasil</p>
-          <div className="flex items-center gap-4">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
             <ResponsiveContainer width="60%" height={220}>
               <PieChart>
                 <Pie data={dadosPorRegiao} dataKey="totalDentistas" nameKey="regiao" cx="50%" cy="50%" innerRadius={55} outerRadius={90}>
@@ -137,21 +137,21 @@ export default function Dashboard() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-        <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
+        <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6">
           <h2 className="text-white font-semibold mb-1">Top 5 Especialidades</h2>
           <p className="text-slate-500 text-xs mb-4">Especialidades com maior número de profissionais</p>
           <ResponsiveContainer width="100%" height={250}>
-            <BarChart data={top5Esp} layout="vertical" margin={{ top: 0, right: 20, left: 90, bottom: 0 }}>
+            <BarChart data={top5Esp} layout="vertical" margin={{ top: 0, right: 10, left: 60, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" horizontal={false} />
               <XAxis type="number" tick={{ fill: "#94a3b8", fontSize: 11 }} tickFormatter={(v) => `${(v/1000).toFixed(0)}k`} />
-              <YAxis type="category" dataKey="especialidade" tick={{ fill: "#94a3b8", fontSize: 11 }} width={85} />
+              <YAxis type="category" dataKey="especialidade" tick={{ fill: "#94a3b8", fontSize: 11 }} width={55} />
               <Tooltip content={<CustomTooltip />} />
               <Bar dataKey="total" name="Dentistas" fill="#3b82f6" radius={[0,4,4,0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>
 
-        <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
+        <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6">
           <h2 className="text-white font-semibold mb-1">Crescimento (2020–2024)</h2>
           <p className="text-slate-500 text-xs mb-4">Evolução do total de dentistas registrados</p>
           <ResponsiveContainer width="100%" height={250}>
@@ -168,7 +168,7 @@ export default function Dashboard() {
         </div>
       </div>
 
-      <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
+      <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6">
         <h2 className="text-white font-semibold mb-1">Público vs. Privado por Região</h2>
         <p className="text-slate-500 text-xs mb-4">Comparação da distribuição entre setor público (SUS) e privado</p>
         <ResponsiveContainer width="100%" height={250}>
