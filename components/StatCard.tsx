@@ -7,6 +7,7 @@ interface StatCardProps {
   icon: LucideIcon;
   color?: "blue" | "green" | "yellow" | "red" | "purple" | "cyan";
   trend?: { value: number; label: string };
+  onClick?: () => void;
 }
 
 const colorMap = {
@@ -25,10 +26,14 @@ export default function StatCard({
   icon: Icon,
   color = "blue",
   trend,
+  onClick,
 }: StatCardProps) {
   const c = colorMap[color];
   return (
-    <div className={`${c.bg} border border-slate-800 rounded-xl p-3 md:p-5 flex flex-col gap-2 md:gap-3`}>
+    <div
+      className={`${c.bg} border border-slate-800 rounded-xl p-3 md:p-5 flex flex-col gap-2 md:gap-3 ${onClick ? "cursor-pointer hover:border-slate-600 transition-colors" : ""}`}
+      onClick={onClick}
+    >
       <div className="flex items-center justify-between">
         <p className="text-slate-400 text-xs md:text-sm">{title}</p>
         <div className={`${c.icon} w-7 h-7 md:w-8 md:h-8 rounded-lg flex items-center justify-center`}>
