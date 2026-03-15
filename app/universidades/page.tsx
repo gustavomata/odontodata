@@ -80,7 +80,7 @@ export default function UniversidadesPage() {
       />
 
       {/* Indicadores principais */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         <StatCard
           title="Faculdades"
           value={indicadoresUniversidades.totalFaculdades}
@@ -108,7 +108,7 @@ export default function UniversidadesPage() {
         />
       </div>
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         <StatCard
           title="Programas Pós-Grad"
           value={indicadoresUniversidades.programasPosGrad}
@@ -149,7 +149,7 @@ export default function UniversidadesPage() {
       </div>
 
       {/* Evolução faculdades */}
-      <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 mb-6">
+      <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6 mb-6">
         <h2 className="text-white font-semibold mb-4">Evolução de Faculdades de Odontologia (2005–2024)</h2>
         <ResponsiveContainer width="100%" height={320}>
           <LineChart data={tendenciaFormacao}>
@@ -167,7 +167,7 @@ export default function UniversidadesPage() {
       </div>
 
       {/* Formação por região */}
-      <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 mb-6">
+      <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6 mb-6">
         <h2 className="text-white font-semibold mb-4">Formação por Região</h2>
         <ResponsiveContainer width="100%" height={320}>
           <BarChart data={formacaoRegional}>
@@ -185,7 +185,7 @@ export default function UniversidadesPage() {
       </div>
 
       {/* Top Faculdades */}
-      <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 mb-6 overflow-x-auto">
+      <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6 mb-6 overflow-x-auto">
         <h2 className="text-white font-semibold mb-4">Top Faculdades de Odontologia</h2>
         <table className="w-full text-sm">
           <thead>
@@ -222,7 +222,7 @@ export default function UniversidadesPage() {
       </div>
 
       {/* Egressos no mercado */}
-      <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 mb-6">
+      <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6 mb-6">
         <h2 className="text-white font-semibold mb-4">Egressos no Mercado de Trabalho</h2>
         <ResponsiveContainer width="100%" height={320}>
           <BarChart data={egressosMercado}>
@@ -241,7 +241,7 @@ export default function UniversidadesPage() {
       </div>
 
       {/* Saturação por UF */}
-      <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 mb-6 overflow-x-auto">
+      <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6 mb-6 overflow-x-auto">
         <h2 className="text-white font-semibold mb-4">Saturação do Mercado por UF</h2>
         <table className="w-full text-sm">
           <thead>
@@ -272,13 +272,13 @@ export default function UniversidadesPage() {
       </div>
 
       {/* Produção Científica */}
-      <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 mb-6">
+      <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6 mb-6">
         <h2 className="text-white font-semibold mb-4">Produção Científica por Área</h2>
         <ResponsiveContainer width="100%" height={400}>
           <BarChart data={producaoCientifica} layout="vertical">
             <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
             <XAxis type="number" stroke="#94a3b8" tick={{ fontSize: 12 }} />
-            <YAxis dataKey="area" type="category" stroke="#94a3b8" tick={{ fontSize: 11 }} width={140} />
+            <YAxis dataKey="area" type="category" stroke="#94a3b8" tick={{ fontSize: 11 }} width={80} />
             <Tooltip content={<CustomTooltip />} />
             <Legend wrapperStyle={{ fontSize: 12, color: "#94a3b8" }} />
             <Bar dataKey="artigosNacionais_ano" name="Artigos Nacionais" fill="#3B82F6" radius={[0, 4, 4, 0]} />
@@ -288,7 +288,7 @@ export default function UniversidadesPage() {
       </div>
 
       {/* Pós-Graduação */}
-      <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 mb-6 overflow-x-auto">
+      <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6 mb-6 overflow-x-auto">
         <h2 className="text-white font-semibold mb-4">Programas de Pós-Graduação por Área</h2>
         <table className="w-full text-sm">
           <thead>

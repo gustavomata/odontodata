@@ -57,7 +57,7 @@ export default function CruzamentoPage() {
       />
 
       {/* Especialidade x Região */}
-      <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 mb-6">
+      <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6 mb-6">
         <div className="flex items-center gap-2 mb-1">
           <GitCompare className="w-4 h-4 text-blue-400" />
           <h2 className="text-white font-semibold">Especialidade × Região</h2>
@@ -79,7 +79,7 @@ export default function CruzamentoPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
         {/* Radar */}
-        <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
+        <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6">
           <h2 className="text-white font-semibold mb-1">Radar Multi-Dimensional por Região</h2>
           <p className="text-slate-500 text-xs mb-4">Cobertura, Volume e Setor Público comparados por região</p>
           <ResponsiveContainer width="100%" height={300}>
@@ -97,7 +97,7 @@ export default function CruzamentoPage() {
         </div>
 
         {/* Comparação Direta */}
-        <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
+        <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6">
           <h2 className="text-white font-semibold mb-4">Comparação Direta Entre Estados</h2>
           <div className="flex gap-3 mb-5">
             <div className="flex-1">
@@ -160,7 +160,7 @@ export default function CruzamentoPage() {
       </div>
 
       {/* Ranking Municípios */}
-      <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
+      <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6">
         <div className="flex items-center gap-2 mb-1">
           <Trophy className="w-4 h-4 text-amber-400" />
           <h2 className="text-white font-semibold">Ranking de Municípios por Cobertura</h2>

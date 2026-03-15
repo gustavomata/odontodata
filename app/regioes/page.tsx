@@ -56,7 +56,7 @@ export default function RegioesPage() {
       />
 
       {/* Região Cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 mb-8">
         {dadosPorRegiao.map((r) => (
           <div key={r.regiao} className="bg-slate-900 border border-slate-800 rounded-xl p-4" style={{ borderLeftColor: CORES_REGIOES[r.regiao], borderLeftWidth: 3 }}>
             <p className="text-slate-400 text-xs mb-1">{r.regiao}</p>
@@ -78,7 +78,7 @@ export default function RegioesPage() {
 
       {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-        <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
+        <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6">
           <h2 className="text-white font-semibold mb-1">Top 10 Estados por Volume</h2>
           <p className="text-slate-500 text-xs mb-4">Estados com maior número de dentistas</p>
           <ResponsiveContainer width="100%" height={280}>
@@ -92,7 +92,7 @@ export default function RegioesPage() {
           </ResponsiveContainer>
         </div>
 
-        <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
+        <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6">
           <h2 className="text-white font-semibold mb-1">Habitantes por Dentista</h2>
           <p className="text-slate-500 text-xs mb-4">Cobertura — menor valor = melhor atendimento</p>
           <ResponsiveContainer width="100%" height={280}>
@@ -108,7 +108,7 @@ export default function RegioesPage() {
       </div>
 
       {/* Tabela de Estados */}
-      <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
+      <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-5">
           <div>
             <h2 className="text-white font-semibold">Tabela por Estado</h2>
@@ -118,7 +118,7 @@ export default function RegioesPage() {
             <div className="relative">
               <Search className="absolute left-2.5 top-2.5 w-4 h-4 text-slate-500" />
               <input type="text" placeholder="Buscar estado..." value={search} onChange={(e) => setSearch(e.target.value)}
-                className="bg-slate-800 border border-slate-700 rounded-lg pl-9 pr-3 py-2 text-sm text-slate-200 placeholder:text-slate-500 focus:outline-none focus:border-blue-500 w-44" />
+                className="bg-slate-800 border border-slate-700 rounded-lg pl-9 pr-3 py-2 text-sm text-slate-200 placeholder:text-slate-500 focus:outline-none focus:border-blue-500 w-full sm:w-44" />
             </div>
             <select value={regiao} onChange={(e) => setRegiao(e.target.value)}
               className="bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-blue-500">

@@ -44,14 +44,14 @@ export default function EspecialidadesPage() {
 
       {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-        <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
+        <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6">
           <h2 className="text-white font-semibold mb-1">Volume por Especialidade</h2>
           <p className="text-slate-500 text-xs mb-4">Número de profissionais registrados por especialidade</p>
           <ResponsiveContainer width="100%" height={320}>
-            <BarChart data={especialidades.slice(0, 10)} layout="vertical" margin={{ top: 0, right: 20, left: 130, bottom: 0 }}>
+            <BarChart data={especialidades.slice(0, 10)} layout="vertical" margin={{ top: 0, right: 10, left: 80, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" horizontal={false} />
               <XAxis type="number" tick={{ fill: "#94a3b8", fontSize: 10 }} tickFormatter={(v) => `${(v/1000).toFixed(0)}k`} />
-              <YAxis type="category" dataKey="especialidade" tick={{ fill: "#94a3b8", fontSize: 10 }} width={125} />
+              <YAxis type="category" dataKey="especialidade" tick={{ fill: "#94a3b8", fontSize: 10 }} width={75} />
               <Tooltip content={<CustomTooltip />} />
               <Bar dataKey="total" name="Dentistas" radius={[0,4,4,0]}>
                 {especialidades.slice(0,10).map((_, i) => <Cell key={i} fill={COLORS[i % COLORS.length]} />)}
@@ -60,14 +60,14 @@ export default function EspecialidadesPage() {
           </ResponsiveContainer>
         </div>
 
-        <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
+        <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6">
           <h2 className="text-white font-semibold mb-1">Crescimento Anual (%)</h2>
           <p className="text-slate-500 text-xs mb-4">Especialidades com maior expansão no último ano</p>
           <ResponsiveContainer width="100%" height={320}>
-            <BarChart data={crescimento} layout="vertical" margin={{ top: 0, right: 20, left: 130, bottom: 0 }}>
+            <BarChart data={crescimento} layout="vertical" margin={{ top: 0, right: 10, left: 80, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" horizontal={false} />
               <XAxis type="number" tick={{ fill: "#94a3b8", fontSize: 10 }} tickFormatter={(v) => `${v}%`} />
-              <YAxis type="category" dataKey="especialidade" tick={{ fill: "#94a3b8", fontSize: 10 }} width={125} />
+              <YAxis type="category" dataKey="especialidade" tick={{ fill: "#94a3b8", fontSize: 10 }} width={75} />
               <Tooltip content={<CustomTooltip />} />
               <Bar dataKey="crescimentoAnual" name="Crescimento %" radius={[0,4,4,0]}>
                 {crescimento.map((e, i) => <Cell key={i} fill={e.crescimentoAnual >= 5 ? "#10b981" : e.crescimentoAnual >= 0 ? "#3b82f6" : "#ef4444"} />)}
@@ -78,7 +78,7 @@ export default function EspecialidadesPage() {
       </div>
 
       {/* Tabela */}
-      <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
+      <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-5">
           <div>
             <h2 className="text-white font-semibold">Todas as Especialidades</h2>
@@ -92,7 +92,7 @@ export default function EspecialidadesPage() {
                 placeholder="Buscar especialidade..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="bg-slate-800 border border-slate-700 rounded-lg pl-9 pr-3 py-2 text-sm text-slate-200 placeholder:text-slate-500 focus:outline-none focus:border-blue-500 w-52"
+                className="bg-slate-800 border border-slate-700 rounded-lg pl-9 pr-3 py-2 text-sm text-slate-200 placeholder:text-slate-500 focus:outline-none focus:border-blue-500 w-full sm:w-52"
               />
             </div>
             <select

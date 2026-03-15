@@ -207,7 +207,7 @@ export default function IndicadoresPage() {
         <div className="space-y-3">
           {municipiosExibidos.map((m) => (
             <div key={m.municipio} className="bg-slate-900 border border-slate-800 rounded-xl p-4">
-              <div className="flex items-center justify-between mb-2">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 sm:gap-0 mb-2">
                 <div className="flex items-center gap-2">
                   <span className="text-white font-medium text-sm">{m.municipio}</span>
                   <span className="text-slate-500 text-xs">{m.uf} &middot; {m.regiao}</span>
@@ -583,7 +583,7 @@ export default function IndicadoresPage() {
               <BarChart data={internacionalChart} layout="vertical">
                 <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
                 <XAxis type="number" tick={{ fill: "#94a3b8", fontSize: 11 }} />
-                <YAxis type="category" dataKey="pais" tick={{ fill: "#94a3b8", fontSize: 11 }} width={90} />
+                <YAxis type="category" dataKey="pais" tick={{ fill: "#94a3b8", fontSize: 11 }} width={60} />
                 <Tooltip content={<CustomTooltip />} />
                 <Bar dataKey="dentistasPor100k" name="Dentistas/100k" radius={[0, 4, 4, 0]}>
                   {internacionalChart.map((entry, i) => (

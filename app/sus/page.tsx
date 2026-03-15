@@ -49,7 +49,7 @@ export default function SUSPage() {
       />
 
       {/* Stat Cards - Row 1 */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         <StatCard title="Equipes Saúde Bucal" value={indicadoresSUS.totalEquipesESB} icon={Users} color="blue" subtitle="ESB implantadas" />
         <StatCard title="Cobertura Nacional" value={indicadoresSUS.coberturaNacional + "%"} icon={ShieldCheck} color="green" subtitle="População coberta" />
         <StatCard title="Procedimentos/Ano" value={indicadoresSUS.procedimentosAno_mi + " mi"} icon={Activity} color="purple" subtitle="Procedimentos odontológicos" />
@@ -57,7 +57,7 @@ export default function SUSPage() {
       </div>
 
       {/* Stat Cards - Row 2 */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         <StatCard title="CEOs" value={indicadoresSUS.totalCEOs} icon={Building2} color="cyan" subtitle="Centros de Especialidades" />
         <StatCard title="LRPDs" value={indicadoresSUS.totalLRPDs} icon={FlaskConical} color="purple" subtitle="Laboratórios de prótese" />
         <StatCard title="Resolutividade" value={indicadoresSUS.taxaResolutividade + "%"} icon={CheckCircle2} color="green" subtitle="Taxa de tratamento completado" />
@@ -67,7 +67,7 @@ export default function SUSPage() {
       {/* Charts Row 1 */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         {/* Evolução do SUS Odontológico */}
-        <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
+        <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6">
           <h2 className="text-white font-semibold mb-1">Evolução do SUS Odontológico</h2>
           <p className="text-slate-500 text-xs mb-4">Série histórica 2004-2024 — equipes, CEOs e cobertura</p>
           <ResponsiveContainer width="100%" height={320}>
@@ -86,7 +86,7 @@ export default function SUSPage() {
         </div>
 
         {/* Produção por Região */}
-        <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
+        <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6">
           <h2 className="text-white font-semibold mb-1">Produção por Região</h2>
           <p className="text-slate-500 text-xs mb-4">Procedimentos odontológicos SUS por tipo e região (mil)</p>
           <ResponsiveContainer width="100%" height={320}>
@@ -107,7 +107,7 @@ export default function SUSPage() {
       </div>
 
       {/* Brasil Sorridente Indicators */}
-      <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 mb-8">
+      <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6 mb-8">
         <h2 className="text-white font-semibold mb-1">Brasil Sorridente — Indicadores</h2>
         <p className="text-slate-500 text-xs mb-5">Acompanhamento de metas do programa nacional de saúde bucal</p>
         <div className="space-y-6">
@@ -147,7 +147,7 @@ export default function SUSPage() {
       {/* Charts Row 2 */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         {/* CEO Produção por Região */}
-        <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
+        <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6">
           <h2 className="text-white font-semibold mb-1">CEO Produção por Região</h2>
           <p className="text-slate-500 text-xs mb-4">Produção dos Centros de Especialidades Odontológicas (mil)</p>
           <ResponsiveContainer width="100%" height={320}>
@@ -166,7 +166,7 @@ export default function SUSPage() {
         </div>
 
         {/* Atenção Básica por Porte */}
-        <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
+        <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6">
           <h2 className="text-white font-semibold mb-1">Atenção Básica por Porte Municipal</h2>
           <p className="text-slate-500 text-xs mb-4">Cobertura (%) vs procedimentos per capita por faixa populacional</p>
           <ResponsiveContainer width="100%" height={320}>
@@ -185,7 +185,7 @@ export default function SUSPage() {
       </div>
 
       {/* Table: Cobertura por UF */}
-      <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 mb-8">
+      <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6 mb-8">
         <h2 className="text-white font-semibold mb-1">Cobertura de Saúde Bucal por UF</h2>
         <p className="text-slate-500 text-xs mb-4">Equipes, cobertura e infraestrutura por unidade federativa</p>
         <div className="overflow-x-auto">
@@ -233,7 +233,7 @@ export default function SUSPage() {
       </div>
 
       {/* Table: Procedimentos SUS */}
-      <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
+      <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6">
         <h2 className="text-white font-semibold mb-1">Procedimentos Odontológicos SUS</h2>
         <p className="text-slate-500 text-xs mb-4">Detalhamento por grupo e subgrupo — volume, valor e tendência</p>
         <div className="overflow-x-auto">

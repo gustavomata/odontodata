@@ -40,30 +40,30 @@ export default function HistoricoPage() {
         badge="Fonte: CFO - Registros Anuais"
       />
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <div className="bg-blue-600/20 border border-slate-800 rounded-xl p-5">
-          <p className="text-slate-400 text-sm mb-2">Crescimento Total (10 anos)</p>
-          <p className="text-blue-400 text-2xl font-bold">+{totalCrescimento.toLocaleString("pt-BR")}</p>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <div className="bg-blue-600/20 border border-slate-800 rounded-xl p-3 md:p-5">
+          <p className="text-slate-400 text-xs md:text-sm mb-2">Crescimento Total (10 anos)</p>
+          <p className="text-blue-400 text-lg md:text-2xl font-bold">+{totalCrescimento.toLocaleString("pt-BR")}</p>
           <p className="text-slate-500 text-xs mt-1">{pctCrescimento}% de 2015 a 2024</p>
         </div>
-        <div className="bg-emerald-600/20 border border-slate-800 rounded-xl p-5">
-          <p className="text-slate-400 text-sm mb-2">Média Novos Registros/Ano</p>
-          <p className="text-emerald-400 text-2xl font-bold">{Math.round(mediaAnual).toLocaleString("pt-BR")}</p>
+        <div className="bg-emerald-600/20 border border-slate-800 rounded-xl p-3 md:p-5">
+          <p className="text-slate-400 text-xs md:text-sm mb-2">Média Novos Registros/Ano</p>
+          <p className="text-emerald-400 text-lg md:text-2xl font-bold">{Math.round(mediaAnual).toLocaleString("pt-BR")}</p>
           <p className="text-slate-500 text-xs mt-1">Novos dentistas por ano</p>
         </div>
-        <div className="bg-amber-600/20 border border-slate-800 rounded-xl p-5">
-          <p className="text-slate-400 text-sm mb-2">Maior Crescimento</p>
-          <p className="text-amber-400 text-2xl font-bold">2022–2023</p>
+        <div className="bg-amber-600/20 border border-slate-800 rounded-xl p-3 md:p-5">
+          <p className="text-slate-400 text-xs md:text-sm mb-2">Maior Crescimento</p>
+          <p className="text-amber-400 text-lg md:text-2xl font-bold">2022–2023</p>
           <p className="text-slate-500 text-xs mt-1">+21.400 registros em 2023</p>
         </div>
-        <div className="bg-red-600/20 border border-slate-800 rounded-xl p-5">
-          <p className="text-slate-400 text-sm mb-2">Impacto COVID-19</p>
-          <p className="text-red-400 text-2xl font-bold">2020</p>
+        <div className="bg-red-600/20 border border-slate-800 rounded-xl p-3 md:p-5">
+          <p className="text-slate-400 text-xs md:text-sm mb-2">Impacto COVID-19</p>
+          <p className="text-red-400 text-lg md:text-2xl font-bold">2020</p>
           <p className="text-slate-500 text-xs mt-1">Queda de 16% nos novos registros</p>
         </div>
       </div>
 
-      <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 mb-6">
+      <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6 mb-6">
         <h2 className="text-white font-semibold mb-1">Total de Dentistas (2015–2024)</h2>
         <p className="text-slate-500 text-xs mb-4">Evolução do estoque total de cirurgiões-dentistas registrados no CFO</p>
         <ResponsiveContainer width="100%" height={280}>
@@ -84,7 +84,7 @@ export default function HistoricoPage() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-        <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
+        <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6">
           <h2 className="text-white font-semibold mb-1">Novos Registros vs Cancelamentos</h2>
           <p className="text-slate-500 text-xs mb-4">Entradas e saídas anuais no registro do CFO</p>
           <ResponsiveContainer width="100%" height={260}>
@@ -100,7 +100,7 @@ export default function HistoricoPage() {
           </ResponsiveContainer>
         </div>
 
-        <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
+        <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6">
           <h2 className="text-white font-semibold mb-1">Crescimento Percentual Anual</h2>
           <p className="text-slate-500 text-xs mb-4">Taxa de crescimento do número de dentistas a cada ano</p>
           <ResponsiveContainer width="100%" height={260}>
@@ -117,8 +117,9 @@ export default function HistoricoPage() {
         </div>
       </div>
 
-      <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
+      <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6">
         <h2 className="text-white font-semibold mb-4">Tabela Histórica Completa</h2>
+        <div className="overflow-x-auto">
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b border-slate-800">
@@ -160,6 +161,7 @@ export default function HistoricoPage() {
             })}
           </tbody>
         </table>
+        </div>
       </div>
     </AppShell>
   );
