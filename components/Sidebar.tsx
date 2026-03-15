@@ -23,6 +23,7 @@ import {
   Microscope,
   FlaskConical,
   BookOpen,
+  Globe,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 
@@ -40,6 +41,7 @@ const navItems = [
   { href: "/historico", label: "Serie Historica", icon: TrendingUp },
   { href: "/fontes", label: "Bases de Dados", icon: Database },
   // --- Inteligência Disruptiva ---
+  { href: "/mapa", label: "Mapa Interativo", icon: Globe },
   { href: "/onde-abrir", label: "Onde Abrir", icon: Compass },
   { href: "/radar-sus", label: "Radar SUS", icon: Radar },
   { href: "/saturacao", label: "Saturação Futura", icon: BarChart3 },
