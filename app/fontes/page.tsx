@@ -11,6 +11,18 @@ const TIPO_CORES: Record<string, string> = {
   "Produção Ambulatorial": "text-purple-400 bg-purple-400/10",
   "Saúde Suplementar": "text-cyan-400 bg-cyan-400/10",
   "Educação": "text-pink-400 bg-pink-400/10",
+  "Epidemiologia": "text-red-400 bg-red-400/10",
+  "Vigilância Epidemiológica": "text-orange-400 bg-orange-400/10",
+  "Oncologia": "text-rose-400 bg-rose-400/10",
+  "Atenção Básica": "text-teal-400 bg-teal-400/10",
+  "Fatores de Risco": "text-yellow-400 bg-yellow-400/10",
+  "Pesquisa & Pós-Graduação": "text-indigo-400 bg-indigo-400/10",
+  "Regulação Educacional": "text-violet-400 bg-violet-400/10",
+  "Pesquisa Científica": "text-sky-400 bg-sky-400/10",
+  "Regulação Sanitária": "text-lime-400 bg-lime-400/10",
+  "Vigilância Ambiental": "text-green-400 bg-green-400/10",
+  "Comparação Internacional": "text-fuchsia-400 bg-fuchsia-400/10",
+  "Inovação & Patentes": "text-amber-400 bg-amber-400/10",
 };
 
 export default function FontesPage() {
@@ -19,7 +31,7 @@ export default function FontesPage() {
       <PageHeader
         title="Bases de Dados"
         subtitle="Fontes oficiais utilizadas na plataforma OdontoData"
-        badge="6 bases integradas"
+        badge="18 bases integradas"
       />
 
       {/* Plano */}
@@ -70,6 +82,15 @@ export default function FontesPage() {
             { a: "CFO", b: "ANS", resultado: "Profissionais atendendo plano de saúde", badge: "text-cyan-400" },
             { a: "INEP", b: "CFO", resultado: "Taxa de absorção de formandos no mercado", badge: "text-amber-400" },
             { a: "DataSUS", b: "CNES", resultado: "Produção odontológica por estabelecimento", badge: "text-pink-400" },
+            { a: "SB Brasil", b: "IBGE", resultado: "CPO-D × IDH × renda por município", badge: "text-red-400" },
+            { a: "VIGIAGUA", b: "SB Brasil", resultado: "Fluoretação da água × prevalência de cárie", badge: "text-teal-400" },
+            { a: "INCA", b: "CNES", resultado: "Câncer bucal × cobertura CEO × diagnóstico precoce", badge: "text-rose-400" },
+            { a: "VIGITEL", b: "SIM", resultado: "Tabagismo × mortalidade por câncer de boca", badge: "text-orange-400" },
+            { a: "CAPES", b: "INPI", resultado: "Pesquisa científica × conversão em patentes", badge: "text-indigo-400" },
+            { a: "IBGE", b: "CFO", resultado: "Envelhecimento populacional × demanda odontogeriatria", badge: "text-violet-400" },
+            { a: "ANVISA", b: "SIA/SUS", resultado: "Materiais disponíveis × tecnologia usada no SUS", badge: "text-lime-400" },
+            { a: "INEP", b: "IBGE", resultado: "Saturação mercado × formação × distribuição regional", badge: "text-sky-400" },
+            { a: "PNS", b: "DataSUS", resultado: "Determinantes sociais × acesso a saúde bucal", badge: "text-yellow-400" },
           ].map(({ a, b, resultado, badge }) => (
             <div key={resultado} className="bg-slate-800 rounded-lg p-3 flex items-start gap-3">
               <div className="flex items-center gap-1 shrink-0">
