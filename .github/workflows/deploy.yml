@@ -76,32 +76,30 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           port: ${{ secrets.SERVER_PORT || 22 }}
           script: |
-            # Variaveis
-            APP_DIR="/var/www/odontodata"
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 
-            # Garante que o diretorio existe
-            mkdir -p $APP_DIR
+            # Diretorio correto do projeto
+            APP_DIR="/var/www/odontodata/odontodata"
             cd $APP_DIR
 
             # Pull das ultimas mudancas
             git pull origin main
 
-            # Instala dependencias (somente producao)
+            # Instala dependencias
             npm ci --production=false
 
             # Build da aplicacao
             npm run build
 
-            # Reinicia a aplicacao com PM2
-            # Se nao existir, cria; se existir, reinicia
+            # Reinicia na porta 3001 (porta 3000 ocupada por outro app)
+            export PORT=3001
             pm2 describe odontodata > /dev/null 2>&1
             if [ $? -eq 0 ]; then
-              pm2 restart odontodata
+              PORT=3001 pm2 restart odontodata --update-env
             else
-              pm2 start npm --name "odontodata" -- start
+              PORT=3001 pm2 start npm --name "odontodata" -- start
             fi
 
-            # Salva a config do PM2 para sobreviver a reboots
             pm2 save
-
-            echo "Deploy concluido com sucesso!"
+            echo "Deploy concluido com sucesso na porta 3001!"
