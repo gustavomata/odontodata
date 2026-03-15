@@ -63,7 +63,7 @@ const classifColor: Record<string, string> = {
   Bom: "bg-blue-600/20 text-blue-400 border-blue-600/30",
   Regular: "bg-yellow-600/20 text-yellow-400 border-yellow-600/30",
   Ruim: "bg-orange-600/20 text-orange-400 border-orange-600/30",
-  "Cr\u00edtico": "bg-red-600/20 text-red-400 border-red-600/30",
+  "Crítico": "bg-red-600/20 text-red-400 border-red-600/30",
 };
 
 const classifBarColor: Record<string, string> = {
@@ -71,47 +71,47 @@ const classifBarColor: Record<string, string> = {
   Bom: "bg-blue-500",
   Regular: "bg-yellow-500",
   Ruim: "bg-orange-500",
-  "Cr\u00edtico": "bg-red-500",
+  "Crítico": "bg-red-500",
 };
 
 const desertoColor: Record<string, string> = {
   "Deserto absoluto": "bg-red-600/20 text-red-400 border-red-600/30",
   "Deserto parcial": "bg-orange-600/20 text-orange-400 border-orange-600/30",
-  "Car\u00eancia severa": "bg-yellow-600/20 text-yellow-400 border-yellow-600/30",
+  "Carência severa": "bg-yellow-600/20 text-yellow-400 border-yellow-600/30",
 };
 
 const categoriaColor: Record<string, string> = {
-  "Preven\u00e7\u00e3o": "border-emerald-500/40",
+  "Prevenção": "border-emerald-500/40",
   Equidade: "border-purple-500/40",
-  "Proje\u00e7\u00e3o": "border-blue-500/40",
-  "Vigil\u00e2ncia": "border-red-500/40",
+  "Projeção": "border-blue-500/40",
+  "Vigilância": "border-red-500/40",
   Tecnologia: "border-cyan-500/40",
-  "Forma\u00e7\u00e3o": "border-amber-500/40",
+  "Formação": "border-amber-500/40",
   Comorbidade: "border-pink-500/40",
   Determinantes: "border-orange-500/40",
-  "Regula\u00e7\u00e3o": "border-slate-500/40",
-  "Inova\u00e7\u00e3o": "border-indigo-500/40",
-  "Gest\u00e3o": "border-teal-500/40",
+  "Regulação": "border-slate-500/40",
+  "Inovação": "border-indigo-500/40",
+  "Gestão": "border-teal-500/40",
 };
 
 const categoriaBadge: Record<string, string> = {
-  "Preven\u00e7\u00e3o": "bg-emerald-600/20 text-emerald-400",
+  "Prevenção": "bg-emerald-600/20 text-emerald-400",
   Equidade: "bg-purple-600/20 text-purple-400",
-  "Proje\u00e7\u00e3o": "bg-blue-600/20 text-blue-400",
-  "Vigil\u00e2ncia": "bg-red-600/20 text-red-400",
+  "Projeção": "bg-blue-600/20 text-blue-400",
+  "Vigilância": "bg-red-600/20 text-red-400",
   Tecnologia: "bg-cyan-600/20 text-cyan-400",
-  "Forma\u00e7\u00e3o": "bg-amber-600/20 text-amber-400",
+  "Formação": "bg-amber-600/20 text-amber-400",
   Comorbidade: "bg-pink-600/20 text-pink-400",
   Determinantes: "bg-orange-600/20 text-orange-400",
-  "Regula\u00e7\u00e3o": "bg-slate-600/20 text-slate-400",
-  "Inova\u00e7\u00e3o": "bg-indigo-600/20 text-indigo-400",
-  "Gest\u00e3o": "bg-teal-600/20 text-teal-400",
+  "Regulação": "bg-slate-600/20 text-slate-400",
+  "Inovação": "bg-indigo-600/20 text-indigo-400",
+  "Gestão": "bg-teal-600/20 text-teal-400",
 };
 
 const faixaIDHColor: Record<string, string> = {
   "Muito Alto": "bg-emerald-600/20 text-emerald-400 border-emerald-600/30",
   Alto: "bg-blue-600/20 text-blue-400 border-blue-600/30",
-  "M\u00e9dio": "bg-yellow-600/20 text-yellow-400 border-yellow-600/30",
+  "Médio": "bg-yellow-600/20 text-yellow-400 border-yellow-600/30",
   Baixo: "bg-red-600/20 text-red-400 border-red-600/30",
 };
 
@@ -120,7 +120,7 @@ const subIndices = [
   { key: "indiceAcesso", label: "Acesso", color: "bg-blue-500" },
   { key: "indiceEpidemiologico", label: "Epidemiol.", color: "bg-purple-500" },
   { key: "indiceInfraestrutura", label: "Infra.", color: "bg-amber-500" },
-  { key: "indiceFormacao", label: "Forma\u00e7\u00e3o", color: "bg-cyan-500" },
+  { key: "indiceFormacao", label: "Formação", color: "bg-cyan-500" },
   { key: "indiceEquidade", label: "Equidade", color: "bg-pink-500" },
 ] as const;
 
@@ -159,20 +159,20 @@ export default function IndicadoresPage() {
   return (
     <AppShell>
       <PageHeader
-        title="Indicadores Compostos & Intelig\u00eancia"
-        subtitle="Cruzamentos avan\u00e7ados, proje\u00e7\u00f5es demogr\u00e1ficas, desertos odontol\u00f3gicos e compara\u00e7\u00e3o internacional"
-        badge="18 bases integradas \u00b7 An\u00e1lise SOTA"
+        title="Indicadores Compostos & Inteligência"
+        subtitle="Cruzamentos avançados, projeções demográficas, desertos odontológicos e comparação internacional"
+        badge="18 bases integradas \· Análise SOTA"
       />
 
       {/* Alert - Methodology */}
       <div className="bg-blue-950/40 border border-blue-800/40 rounded-xl p-4 mb-8 flex gap-3">
         <Info className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
         <div className="text-sm text-blue-300/90">
-          <strong className="text-blue-300">Metodologia do \u00cdndice Composto:</strong> Combina 6 sub-\u00edndices
-          normalizados (0-100) &mdash; Cobertura, Acesso, Epidemiol\u00f3gico, Infraestrutura, Forma\u00e7\u00e3o e
-          Equidade &mdash; calculados a partir de 18 fontes prim\u00e1rias (CFO, CNES, IBGE, DataSUS, INEP, ANS, SIM,
-          SINAN, PNS, VIGITEL, CAPES, ANVISA, SB Brasil, e-MEC, SISAGUA, VIGIAGUA, POF, CNPq). Pondera\u00e7\u00e3o por
-          an\u00e1lise fatorial confirmat\u00f3ria com bootstrapping.
+          <strong className="text-blue-300">Metodologia do Índice Composto:</strong> Combina 6 sub-índices
+          normalizados (0-100) &mdash; Cobertura, Acesso, Epidemiológico, Infraestrutura, Formação e
+          Equidade &mdash; calculados a partir de 18 fontes primárias (CFO, CNES, IBGE, DataSUS, INEP, ANS, SIM,
+          SINAN, PNS, VIGITEL, CAPES, ANVISA, SB Brasil, e-MEC, SISAGUA, VIGIAGUA, POF, CNPq). Ponderação por
+          análise fatorial confirmatória com bootstrapping.
         </div>
       </div>
 
@@ -180,7 +180,7 @@ export default function IndicadoresPage() {
       <section className="mb-10">
         <div className="flex items-center gap-3 mb-4">
           <Layers className="w-5 h-5 text-blue-400" />
-          <h2 className="text-lg font-semibold text-white">\u00cdndice Municipal de Sa\u00fade Bucal</h2>
+          <h2 className="text-lg font-semibold text-white">Índice Municipal de Saúde Bucal</h2>
         </div>
         <div className="flex gap-2 mb-4">
           <button
@@ -248,7 +248,7 @@ export default function IndicadoresPage() {
       <section className="mb-10">
         <div className="flex items-center gap-3 mb-4">
           <Brain className="w-5 h-5 text-purple-400" />
-          <h2 className="text-lg font-semibold text-white">Cruzamentos Avan\u00e7ados</h2>
+          <h2 className="text-lg font-semibold text-white">Cruzamentos Avançados</h2>
         </div>
         <div className="flex flex-wrap gap-1.5 mb-4">
           {categoriasUnicas.map((cat) => (
@@ -291,7 +291,7 @@ export default function IndicadoresPage() {
               <p className="text-slate-300 text-xs leading-relaxed mb-3">{c.insight}</p>
               <div className="flex items-center gap-3 mb-2">
                 <div className="flex items-center gap-1">
-                  <span className="text-slate-500 text-[10px]">Correla\u00e7\u00e3o:</span>
+                  <span className="text-slate-500 text-[10px]">Correlação:</span>
                   <span className={`text-xs font-mono font-bold ${c.correlacao > 0 ? "text-blue-400" : c.correlacao < 0 ? "text-red-400" : "text-slate-400"}`}>
                     {c.correlacao > 0 ? "+" : ""}{c.correlacao.toFixed(2)}
                   </span>
@@ -325,14 +325,14 @@ export default function IndicadoresPage() {
       <section className="mb-10">
         <div className="flex items-center gap-3 mb-4">
           <MapPinOff className="w-5 h-5 text-red-400" />
-          <h2 className="text-lg font-semibold text-white">Desertos Odontol\u00f3gicos</h2>
+          <h2 className="text-lg font-semibold text-white">Desertos Odontológicos</h2>
         </div>
         <div className="bg-red-950/30 border border-red-800/30 rounded-xl p-4 mb-4 flex gap-3">
           <AlertTriangle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
           <div className="text-sm text-red-300/90">
-            <strong className="text-red-300">{desertosOdontologicos.filter((d) => d.classificacao === "Deserto absoluto").length} munic\u00edpios</strong>{" "}
-            classificados como deserto absoluto &mdash; zero ou quase zero dentistas, dist\u00e2ncias superiores a 200 km
-            at\u00e9 o servi\u00e7o mais pr\u00f3ximo, e edentulismo estimado acima de 65%. Popula\u00e7\u00e3o combinada:{" "}
+            <strong className="text-red-300">{desertosOdontologicos.filter((d) => d.classificacao === "Deserto absoluto").length} municípios</strong>{" "}
+            classificados como deserto absoluto &mdash; zero ou quase zero dentistas, distâncias superiores a 200 km
+            até o serviço mais próximo, e edentulismo estimado acima de 65%. População combinada:{" "}
             <strong>{desertosOdontologicos.reduce((s, d) => s + d.populacao, 0).toLocaleString("pt-BR")} habitantes.</strong>
           </div>
         </div>
@@ -340,7 +340,7 @@ export default function IndicadoresPage() {
           <table className="w-full text-xs">
             <thead>
               <tr className="border-b border-slate-800">
-                <th className="text-left text-slate-400 py-2 px-3 font-medium">Munic\u00edpio</th>
+                <th className="text-left text-slate-400 py-2 px-3 font-medium">Município</th>
                 <th className="text-left text-slate-400 py-2 px-2 font-medium">UF</th>
                 <th className="text-right text-slate-400 py-2 px-2 font-medium">Pop.</th>
                 <th className="text-right text-slate-400 py-2 px-2 font-medium">Dist. (km)</th>
@@ -386,7 +386,7 @@ export default function IndicadoresPage() {
       <section className="mb-10">
         <div className="flex items-center gap-3 mb-4">
           <TrendingUp className="w-5 h-5 text-blue-400" />
-          <h2 className="text-lg font-semibold text-white">Proje\u00e7\u00e3o Demogr\u00e1fica &times; Demanda Odontol\u00f3gica</h2>
+          <h2 className="text-lg font-semibold text-white">Projeção Demográfica &times; Demanda Odontológica</h2>
         </div>
         <div className="bg-slate-900 border border-slate-800 rounded-xl p-4">
           <div className="h-80">
@@ -409,13 +409,13 @@ export default function IndicadoresPage() {
                 <Area
                   type="monotone"
                   dataKey="demandaProteses_mi"
-                  name="Demanda Pr\u00f3teses (mi)"
+                  name="Demanda Próteses (mi)"
                   stroke="#F59E0B"
                   fill="#F59E0B"
                   fillOpacity={0.1}
                   strokeWidth={2}
                 />
-                <Line type="monotone" dataKey="dentistasNecessarios" name="Dentistas Necess\u00e1rios" stroke="#EF4444" strokeWidth={2} dot={{ r: 3 }} />
+                <Line type="monotone" dataKey="dentistasNecessarios" name="Dentistas Necessários" stroke="#EF4444" strokeWidth={2} dot={{ r: 3 }} />
                 <Line type="monotone" dataKey="dentistasProjetados" name="Dentistas Projetados" stroke="#10B981" strokeWidth={2} dot={{ r: 3 }} strokeDasharray="5 5" />
               </AreaChart>
             </ResponsiveContainer>
@@ -428,7 +428,7 @@ export default function IndicadoresPage() {
                   {p.gap >= 0 ? "+" : ""}{p.gap.toLocaleString("pt-BR")}
                 </div>
                 <div className="text-slate-500 text-[10px]">
-                  {p.gap >= 0 ? "super\u00e1vit" : "d\u00e9ficit"} dentistas
+                  {p.gap >= 0 ? "superávit" : "déficit"} dentistas
                 </div>
                 <div className="flex items-center justify-center gap-1 mt-1">
                   {p.gap >= 0 ? (
@@ -448,7 +448,7 @@ export default function IndicadoresPage() {
       <section className="mb-10">
         <div className="flex items-center gap-3 mb-4">
           <Activity className="w-5 h-5 text-emerald-400" />
-          <h2 className="text-lg font-semibold text-white">IDH &times; Sa\u00fade Bucal por UF</h2>
+          <h2 className="text-lg font-semibold text-white">IDH &times; Saúde Bucal por UF</h2>
         </div>
         <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 mb-4">
           <div className="h-64">
@@ -557,11 +557,11 @@ export default function IndicadoresPage() {
                   <span className="text-slate-300 text-xs">{e.odontogeriatrasNecessarios_2030.toLocaleString("pt-BR")}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-slate-500 text-[10px]">D\u00e9ficit 2030</span>
+                  <span className="text-slate-500 text-[10px]">Déficit 2030</span>
                   <span className="text-red-400 text-xs font-bold">-{e.deficit_2030.toLocaleString("pt-BR")}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-slate-500 text-[10px]">Pr\u00f3tese +</span>
+                  <span className="text-slate-500 text-[10px]">Prótese +</span>
                   <span className="text-blue-400 text-xs">+{e.demandaProtese_crescimento_pct.toFixed(1)}%</span>
                 </div>
               </div>
@@ -574,7 +574,7 @@ export default function IndicadoresPage() {
       <section className="mb-10">
         <div className="flex items-center gap-3 mb-4">
           <Globe2 className="w-5 h-5 text-cyan-400" />
-          <h2 className="text-lg font-semibold text-white">Compara\u00e7\u00e3o Internacional</h2>
+          <h2 className="text-lg font-semibold text-white">Comparação Internacional</h2>
         </div>
         <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 mb-4">
           <h3 className="text-slate-400 text-xs mb-3">Dentistas por 100 mil habitantes</h3>
@@ -598,11 +598,11 @@ export default function IndicadoresPage() {
           <table className="w-full text-xs">
             <thead>
               <tr className="border-b border-slate-800">
-                <th className="text-left text-slate-400 py-2 px-3 font-medium">Pa\u00eds</th>
+                <th className="text-left text-slate-400 py-2 px-3 font-medium">País</th>
                 <th className="text-right text-slate-400 py-2 px-2 font-medium">Dent./100k</th>
                 <th className="text-right text-slate-400 py-2 px-2 font-medium">CPO-D 12a</th>
                 <th className="text-right text-slate-400 py-2 px-2 font-medium">Gasto/cap (US$)</th>
-                <th className="text-right text-slate-400 py-2 px-2 font-medium">Cobert. P\u00fablica</th>
+                <th className="text-right text-slate-400 py-2 px-2 font-medium">Cobert. Pública</th>
                 <th className="text-right text-slate-400 py-2 px-2 font-medium">Faculdades</th>
                 <th className="text-right text-slate-400 py-2 px-2 font-medium">Exp. Vida</th>
                 <th className="text-right text-slate-400 py-2 px-3 font-medium">IDH</th>
@@ -647,8 +647,8 @@ export default function IndicadoresPage() {
       <div className="bg-slate-900/50 border border-slate-800 rounded-xl p-4 text-center">
         <FlaskConical className="w-4 h-4 text-slate-500 inline mr-2" />
         <span className="text-slate-500 text-xs">
-          \u00cdndices compostos calculados com pondera\u00e7\u00e3o por an\u00e1lise fatorial confirmat\u00f3ria &middot; Proje\u00e7\u00f5es baseadas em modelos ARIMA com
-          intervalos de confian\u00e7a 95% &middot; Correla\u00e7\u00f5es ajustadas por Bonferroni &middot; Atualizado com dados at\u00e9 2024
+          Índices compostos calculados com ponderação por análise fatorial confirmatória &middot; Projeções baseadas em modelos ARIMA com
+          intervalos de confiança 95% &middot; Correlações ajustadas por Bonferroni &middot; Atualizado com dados até 2024
         </span>
       </div>
     </AppShell>

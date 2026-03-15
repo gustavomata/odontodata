@@ -16,6 +16,13 @@ import {
   Brain,
   Menu,
   X,
+  Compass,
+  Radar,
+  BarChart3,
+  Activity,
+  Microscope,
+  FlaskConical,
+  BookOpen,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 
@@ -32,6 +39,14 @@ const navItems = [
   { href: "/estabelecimentos", label: "Estabelecimentos", icon: Building2 },
   { href: "/historico", label: "Serie Historica", icon: TrendingUp },
   { href: "/fontes", label: "Bases de Dados", icon: Database },
+  // --- Inteligência Disruptiva ---
+  { href: "/onde-abrir", label: "Onde Abrir", icon: Compass },
+  { href: "/radar-sus", label: "Radar SUS", icon: Radar },
+  { href: "/saturacao", label: "Saturação Futura", icon: BarChart3 },
+  { href: "/monitor-cro", label: "Monitor CRO", icon: Activity },
+  { href: "/demanda-epidemiologica", label: "Demanda Epidemiológica", icon: Microscope },
+  { href: "/intel-labs", label: "Intel Labs Protéticos", icon: FlaskConical },
+  { href: "/sb-brasil", label: "SB Brasil", icon: BookOpen },
 ];
 
 export default function Sidebar() {
@@ -100,7 +115,7 @@ export default function Sidebar() {
       {/* Footer */}
       <div className="p-3 md:p-4 border-t border-slate-800">
         <div className="bg-slate-800 rounded-lg p-3">
-          <p className="text-xs text-slate-400 font-medium mb-1">18 Bases de Dados</p>
+          <p className="text-xs text-slate-400 font-medium mb-1">19 Bases de Dados</p>
           <p className="text-xs text-slate-500">CFO · CNES · IBGE · DataSUS · ANS · INEP · INCA · CAPES · ANVISA</p>
           <p className="text-xs text-slate-600 mt-1">Atualizado: Mar 2025</p>
         </div>
