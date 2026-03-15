@@ -56,8 +56,8 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 const CORES_CATEGORIAS: Record<string, string> = {
   Renda: "#3B82F6",
   Escolaridade: "#10B981",
-  "Localiza\u00e7\u00e3o": "#F59E0B",
-  "Ra\u00e7a/cor": "#8B5CF6",
+  "Localização": "#F59E0B",
+  "Raça/cor": "#8B5CF6",
 };
 
 const corTendencia = (t: string) => {
@@ -91,9 +91,9 @@ export default function EpidemiologiaPage() {
   return (
     <AppShell>
       <PageHeader
-        title="Epidemiologia da Sa\u00fade Bucal"
-        subtitle="Dados epidemiol\u00f3gicos abrangentes sobre as condi\u00e7\u00f5es de sa\u00fade bucal da popula\u00e7\u00e3o brasileira"
-        badge="SB Brasil \u00b7 PNS \u00b7 SIM \u00b7 SINAN \u00b7 VIGITEL"
+        title="Epidemiologia da Saúde Bucal"
+        subtitle="Dados epidemiológicos abrangentes sobre as condições de saúde bucal da população brasileira"
+        badge="SB Brasil \· PNS \· SIM \· SINAN \· VIGITEL"
       />
 
       {/* Indicadores */}
@@ -115,24 +115,24 @@ export default function EpidemiologiaPage() {
         <StatCard
           title="Nunca foi ao dentista"
           value={`${(indicadoresEpidemiologia.populacaoNuncaDentista / 1000000).toFixed(1)} mi`}
-          subtitle={`${indicadoresEpidemiologia.percentualNuncaDentista}% da popula\u00e7\u00e3o`}
+          subtitle={`${indicadoresEpidemiologia.percentualNuncaDentista}% da população`}
           icon={UserX}
           color="yellow"
         />
         <StatCard
-          title="C\u00e2ncer bucal/ano"
+          title="Câncer bucal/ano"
           value={indicadoresEpidemiologia.casosNovosCanBucal_ano.toLocaleString("pt-BR")}
-          subtitle={`${indicadoresEpidemiologia.obitosCanBucal_ano.toLocaleString("pt-BR")} \u00f3bitos/ano`}
+          subtitle={`${indicadoresEpidemiologia.obitosCanBucal_ano.toLocaleString("pt-BR")} óbitos/ano`}
           icon={HeartPulse}
           color="purple"
         />
       </div>
 
-      {/* Tend\u00eancia Hist\u00f3rica */}
+      {/* Tendência Histórica */}
       <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6 mb-6">
-        <h2 className="text-white font-semibold mb-1">Tend\u00eancia Hist\u00f3rica (1986\u20132024)</h2>
+        <h2 className="text-white font-semibold mb-1">Tendência Histórica (1986\–2024)</h2>
         <p className="text-slate-500 text-xs mb-4">
-          Evolu\u00e7\u00e3o do CPO-D aos 12 anos, edentulismo e cobertura de equipes de sa\u00fade bucal
+          Evolução do CPO-D aos 12 anos, edentulismo e cobertura de equipes de saúde bucal
         </p>
         <ResponsiveContainer width="100%" height={300}>
           <LineChart data={tendenciasEpidemiologicas} margin={{ top: 5, right: 20, left: 10, bottom: 0 }}>
@@ -149,11 +149,11 @@ export default function EpidemiologiaPage() {
         </ResponsiveContainer>
       </div>
 
-      {/* Preval\u00eancia Regional + Fluoreta\u00e7\u00e3o */}
+      {/* Prevalência Regional + Fluoretação */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
         <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6">
-          <h2 className="text-white font-semibold mb-1">Preval\u00eancia Regional</h2>
-          <p className="text-slate-500 text-xs mb-4">CPO-D 12 anos, edentulismo e doen\u00e7a periodontal por regi\u00e3o</p>
+          <h2 className="text-white font-semibold mb-1">Prevalência Regional</h2>
+          <p className="text-slate-500 text-xs mb-4">CPO-D 12 anos, edentulismo e doença periodontal por região</p>
           <ResponsiveContainer width="100%" height={280}>
             <BarChart data={prevalenciaRegional}>
               <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
@@ -169,8 +169,8 @@ export default function EpidemiologiaPage() {
         </div>
 
         <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6">
-          <h2 className="text-white font-semibold mb-1">Fluoreta\u00e7\u00e3o \u00d7 CPO-D</h2>
-          <p className="text-slate-500 text-xs mb-4">Cobertura de fluoreta\u00e7\u00e3o e CPO-D m\u00e9dio por porte municipal</p>
+          <h2 className="text-white font-semibold mb-1">Fluoretação × CPO-D</h2>
+          <p className="text-slate-500 text-xs mb-4">Cobertura de fluoretação e CPO-D médio por porte municipal</p>
           <ResponsiveContainer width="100%" height={280}>
             <BarChart data={fluoretacaoImpacto}>
               <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
@@ -179,8 +179,8 @@ export default function EpidemiologiaPage() {
               <YAxis yAxisId="right" orientation="right" tick={{ fill: "#94a3b8", fontSize: 11 }} />
               <Tooltip content={<CustomTooltip />} />
               <Legend wrapperStyle={{ color: "#94a3b8", fontSize: 12 }} />
-              <Bar yAxisId="left" dataKey="comFluoretacao" name="Munic. c/ fluoreta\u00e7\u00e3o" fill="#06B6D4" radius={[4, 4, 0, 0]} />
-              <Bar yAxisId="right" dataKey="cpodMedio" name="CPO-D m\u00e9dio" fill="#F59E0B" radius={[4, 4, 0, 0]} />
+              <Bar yAxisId="left" dataKey="comFluoretacao" name="Munic. c/ fluoretação" fill="#06B6D4" radius={[4, 4, 0, 0]} />
+              <Bar yAxisId="right" dataKey="cpodMedio" name="CPO-D médio" fill="#F59E0B" radius={[4, 4, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -190,27 +190,27 @@ export default function EpidemiologiaPage() {
       <div className="bg-amber-600/10 border border-amber-600/30 rounded-xl p-4 mb-8 flex items-start gap-3">
         <AlertCircle className="w-5 h-5 text-amber-400 mt-0.5 shrink-0" />
         <div>
-          <p className="text-amber-300 font-medium text-sm">Desigualdades em Sa\u00fade Bucal</p>
+          <p className="text-amber-300 font-medium text-sm">Desigualdades em Saúde Bucal</p>
           <p className="text-amber-400/70 text-xs mt-1">
-            A Regi\u00e3o Norte apresenta CPO-D de <strong>3.16</strong> aos 12 anos, mais que o dobro do Sudeste (<strong>1.48</strong>).
-            O edentulismo entre idosos no Norte (<strong>68.4%</strong>) \u00e9 42% superior ao do Sudeste (<strong>48.2%</strong>).
-            Pessoas com renda at\u00e9 1 SM t\u00eam 2.7x menos acesso ao dentista comparado a quem ganha mais de 5 SM.
+            A Região Norte apresenta CPO-D de <strong>3.16</strong> aos 12 anos, mais que o dobro do Sudeste (<strong>1.48</strong>).
+            O edentulismo entre idosos no Norte (<strong>68.4%</strong>) é 42% superior ao do Sudeste (<strong>48.2%</strong>).
+            Pessoas com renda até 1 SM têm 2.7x menos acesso ao dentista comparado a quem ganha mais de 5 SM.
           </p>
         </div>
       </div>
 
-      {/* Tabela Doen\u00e7as Bucais */}
+      {/* Tabela Doenças Bucais */}
       <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6 mb-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
           <div>
-            <h2 className="text-white font-semibold mb-1">Doen\u00e7as Bucais</h2>
-            <p className="text-slate-500 text-xs">Preval\u00eancia, tend\u00eancia e impacto das principais doen\u00e7as</p>
+            <h2 className="text-white font-semibold mb-1">Doenças Bucais</h2>
+            <p className="text-slate-500 text-xs">Prevalência, tendência e impacto das principais doenças</p>
           </div>
           <div className="relative">
             <Search className="w-4 h-4 text-slate-500 absolute left-3 top-1/2 -translate-y-1/2" />
             <input
               type="text"
-              placeholder="Buscar doen\u00e7a..."
+              placeholder="Buscar doença..."
               value={buscaDoenca}
               onChange={(e) => setBuscaDoenca(e.target.value)}
               className="bg-slate-800 border border-slate-700 rounded-lg pl-9 pr-3 py-1.5 text-sm text-slate-300 placeholder-slate-500 focus:outline-none focus:border-blue-500 w-full sm:w-48"
@@ -221,10 +221,10 @@ export default function EpidemiologiaPage() {
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-slate-800 text-slate-400 text-xs">
-                <th className="text-left py-2 px-3">Doen\u00e7a</th>
+                <th className="text-left py-2 px-3">Doença</th>
                 <th className="text-right py-2 px-3">Prev. Adultos</th>
-                <th className="text-right py-2 px-3">Prev. Crian\u00e7as</th>
-                <th className="text-center py-2 px-3">Tend\u00eancia</th>
+                <th className="text-right py-2 px-3">Prev. Crianças</th>
+                <th className="text-center py-2 px-3">Tendência</th>
                 <th className="text-right py-2 px-3">Custo SUS (mi)</th>
                 <th className="text-center py-2 px-3">Impacto</th>
               </tr>
@@ -254,7 +254,7 @@ export default function EpidemiologiaPage() {
       {/* Determinantes Sociais */}
       <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6 mb-6">
         <h2 className="text-white font-semibold mb-1">Determinantes Sociais</h2>
-        <p className="text-slate-500 text-xs mb-4">Acesso ao dentista (%) por determinante social da sa\u00fade</p>
+        <p className="text-slate-500 text-xs mb-4">Acesso ao dentista (%) por determinante social da saúde</p>
         <div className="flex flex-wrap items-center gap-2 sm:gap-4 mb-3">
           {Object.entries(CORES_CATEGORIAS).map(([cat, cor]) => (
             <div key={cat} className="flex items-center gap-1.5">
@@ -278,12 +278,12 @@ export default function EpidemiologiaPage() {
         </ResponsiveContainer>
       </div>
 
-      {/* Tabela C\u00e2ncer Bucal por UF */}
+      {/* Tabela Câncer Bucal por UF */}
       <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6 mb-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
           <div>
-            <h2 className="text-white font-semibold mb-1">C\u00e2ncer Bucal por UF</h2>
-            <p className="text-slate-500 text-xs">Incid\u00eancia, mortalidade e indicadores por unidade federativa</p>
+            <h2 className="text-white font-semibold mb-1">Câncer Bucal por UF</h2>
+            <p className="text-slate-500 text-xs">Incidência, mortalidade e indicadores por unidade federativa</p>
           </div>
           <div className="relative">
             <Search className="w-4 h-4 text-slate-500 absolute left-3 top-1/2 -translate-y-1/2" />
@@ -301,9 +301,9 @@ export default function EpidemiologiaPage() {
             <thead>
               <tr className="border-b border-slate-800 text-slate-400 text-xs">
                 <th className="text-left py-2 px-3">UF</th>
-                <th className="text-right py-2 px-3">Incid\u00eancia /100k</th>
+                <th className="text-right py-2 px-3">Incidência /100k</th>
                 <th className="text-right py-2 px-3">Mortalidade /100k</th>
-                <th className="text-right py-2 px-3">Raz\u00e3o M/I</th>
+                <th className="text-right py-2 px-3">Razão M/I</th>
                 <th className="text-right py-2 px-3">Diag. Precoce</th>
                 <th className="text-right py-2 px-3">Cobertura CEO</th>
                 <th className="text-right py-2 px-3">IDH</th>
