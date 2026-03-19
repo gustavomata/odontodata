@@ -64,7 +64,7 @@ function getEstadoCor(uf: string, metrica: MetricaFiltro, pais: PaisCode): strin
         return getCorScore(score);
       }
       case "dentistas": return getCorDensidade(estado.totalDentistas);
-      case "regiao":    return CORES_REGIOES_WORLD[pais][estado.regiao] || "#475569";
+      case "regiao":    return CORES_REGIOES_WORLD[pais]![estado.regiao] || "#475569";
     }
   }
 
@@ -78,15 +78,15 @@ function getEstadoCor(uf: string, metrica: MetricaFiltro, pais: PaisCode): strin
         return getCorScore(score);
       }
       case "dentistas": return getCorDensidade(bl.totalDentistas);
-      case "regiao":    return CORES_REGIOES_WORLD[pais][bl.regiao] || "#475569";
+      case "regiao":    return CORES_REGIOES_WORLD[pais]![bl.regiao] || "#475569";
     }
   }
 
   // Para EUA e Austrália: colorir por região
-  const config = COUNTRY_CONFIGS[pais];
+  const config = COUNTRY_CONFIGS[pais]!;
   const estadoConfig = config.estados.find((e) => e.code === uf);
   if (!estadoConfig) return "#475569";
-  return CORES_REGIOES_WORLD[pais][estadoConfig.regiao] || "#475569";
+  return CORES_REGIOES_WORLD[pais]![estadoConfig.regiao] || "#475569";
 }
 
 function getMunicipioCor(m: MunicipioOdonto, metrica: MetricaFiltro, pais: PaisCode): string {
@@ -95,7 +95,7 @@ function getMunicipioCor(m: MunicipioOdonto, metrica: MetricaFiltro, pais: PaisC
     case "oportunidade": return m.score_oportunidade ? getCorScore(m.score_oportunidade) : "#475569";
     case "dentistas":   return getCorDensidade(m.dentistas_total);
     case "regiao": {
-      const coresRegiao = CORES_REGIOES_WORLD[pais];
+      const coresRegiao = CORES_REGIOES_WORLD[pais]!;
       return coresRegiao[m.regiao] || CORES_REGIOES_MAP[m.regiao] || "#475569";
     }
     default: return "#475569";
@@ -224,7 +224,7 @@ export default function BrazilMap({
   const [municipios, setMunicipios] = useState<MunicipioOdonto[]>([]);
   const [dataSource, setDataSource] = useState<"api" | "static" | "loading">("loading");
 
-  const countryConfig = COUNTRY_CONFIGS[pais];
+  const countryConfig = COUNTRY_CONFIGS[pais]!;
 
   // Recarrega GeoJSON quando o país muda
   useEffect(() => {
@@ -328,7 +328,7 @@ export default function BrazilMap({
     if (geoLayerRef.current) map.removeLayer(geoLayerRef.current);
 
     const isAllRegions = regiaoFiltro === "Todas" || regiaoFiltro === "All";
-    const coresRegiao = CORES_REGIOES_WORLD[pais];
+    const coresRegiao = CORES_REGIOES_WORLD[pais]!;
 
     geoLayerRef.current = L.geoJSON(geoData, {
       style: (feature) => {
@@ -367,7 +367,7 @@ export default function BrazilMap({
         } else if (pais === "US") {
           const estado = dadosPorEstadoUSA.find((e) => e.uf === uf);
           const estadoConfig = countryConfig.estados.find((e) => e.code === uf);
-          const corRegiao = estadoConfig ? (CORES_REGIOES_WORLD[pais][estadoConfig.regiao] ?? "#94a3b8") : "#94a3b8";
+          const corRegiao = estadoConfig ? (CORES_REGIOES_WORLD[pais]![estadoConfig.regiao] ?? "#94a3b8") : "#94a3b8";
           if (estado) {
             layer.bindTooltip(
               `<div style="font-family:system-ui;font-size:13px;min-width:180px;">
@@ -388,7 +388,7 @@ export default function BrazilMap({
         } else if (pais === "DE") {
           const bl = bundeslaenderDental.find((b) => b.code === uf);
           const estadoConfig = countryConfig.estados.find((e) => e.code === uf);
-          const corRegiao = estadoConfig ? (CORES_REGIOES_WORLD[pais][estadoConfig.regiao] ?? "#94a3b8") : "#94a3b8";
+          const corRegiao = estadoConfig ? (CORES_REGIOES_WORLD[pais]![estadoConfig.regiao] ?? "#94a3b8") : "#94a3b8";
           if (bl) {
             layer.bindTooltip(
               `<div style="font-family:system-ui;font-size:13px;min-width:180px;">
@@ -409,7 +409,7 @@ export default function BrazilMap({
         } else {
           const estadoConfig = countryConfig.estados.find((e) => e.code === uf);
           if (estadoConfig) {
-            const corRegiao = CORES_REGIOES_WORLD[pais][estadoConfig.regiao] ?? "#94a3b8";
+            const corRegiao = CORES_REGIOES_WORLD[pais]![estadoConfig.regiao] ?? "#94a3b8";
             layer.bindTooltip(
               `<div style="font-family:system-ui;font-size:13px;">
                 <strong>${nome}</strong><br/>

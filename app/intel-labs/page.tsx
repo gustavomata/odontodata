@@ -25,7 +25,6 @@ import {
 } from "recharts";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { t } from "@/lib/translations";
-
 type PaisCode = "BR" | "US" | "DE";
 
 const CustomTooltip = ({ active, payload, label }: any) => {

@@ -14,8 +14,8 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 import { TrendingUp, TrendingDown, CheckCircle2, XCircle, Search } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { t } from "@/lib/translations";
-
 type PaisCode = "BR" | "US" | "DE" | "UK" | "FR" | "CA" | "JP";
+
 const COLORS = ["#3b82f6","#10b981","#f59e0b","#ef4444","#8b5cf6","#06b6d4","#ec4899","#84cc16","#f97316","#6366f1","#14b8a6","#e11d48","#7c3aed","#0284c7","#16a34a","#ca8a04","#dc2626","#9333ea","#0891b2","#65a30d"];
 
 const BADGES: Record<PaisCode, string> = {

@@ -24,13 +24,13 @@ function getLabels() {
   };
 }
 
-interface Props {
-  value: PaisCode;
-  onChange: (code: PaisCode) => void;
+interface Props<T extends PaisCode = PaisCode> {
+  value: T;
+  onChange: (code: T) => void;
   countries?: PaisCode[];
 }
 
-export default function CountrySelector({ value, onChange, countries = ["BR", "US", "DE"] }: Props) {
+export default function CountrySelector<T extends PaisCode = PaisCode>({ value, onChange, countries = ["BR", "US", "DE"] }: Props<T>) {
   const { lang } = useLanguage();
   const filtered = PAISES.filter((p) => countries.includes(p.code));
   return (
@@ -38,7 +38,7 @@ export default function CountrySelector({ value, onChange, countries = ["BR", "U
       {filtered.map(({ code, labelKey, flag }) => (
         <button
           key={code}
-          onClick={() => onChange(code)}
+          onClick={() => onChange(code as T)}
           className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all border ${
             value === code
               ? "bg-blue-600/20 border-blue-500 text-blue-300"
