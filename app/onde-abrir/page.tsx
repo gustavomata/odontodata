@@ -17,6 +17,8 @@ import {
   ScatterChart, Scatter, ZAxis, Cell,
 } from "recharts";
 import { useState } from "react";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { t } from "@/lib/translations";
 
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
@@ -49,9 +51,9 @@ const classColor = (c: string) => {
   return "bg-red-600/20 text-red-400";
 };
 
-const tendColor = (t: string) => {
-  if (t === "Oportunidade") return "bg-emerald-600/20 text-emerald-400";
-  if (t === "Estavel") return "bg-blue-600/20 text-blue-400";
+const tendColor = (trend: string) => {
+  if (trend === "Oportunidade") return "bg-emerald-600/20 text-emerald-400";
+  if (trend === "Estavel") return "bg-blue-600/20 text-blue-400";
   return "bg-red-600/20 text-red-400";
 };
 
@@ -59,6 +61,7 @@ const top15 = [...scoreOportunidadeMunicipio].sort((a, b) => b.score_oportunidad
 const scatterData = scoreOportunidadeMunicipio.map((m) => ({ name: m.municipio, x: m.renda_per_capita, y: m.score_oportunidade, z: m.populacao }));
 
 export default function OndeAbrirPage() {
+  const { lang } = useLanguage();
   const [busca, setBusca] = useState("");
   const [buscaEstado, setBuscaEstado] = useState("");
 
@@ -68,23 +71,23 @@ export default function OndeAbrirPage() {
   return (
     <AppShell>
       <PageHeader
-        title="Onde Abrir — Inteligência Locacional"
-        subtitle="Score de oportunidade por município baseado em saturação, demanda epidemiológica, potencial econômico e pipeline de formandos"
-        badge="CFO · IBGE · CNES · DataSUS · INEP"
+        title={t("onde_title", lang)}
+        subtitle={t("onde_subtitle", lang)}
+        badge={t("onde_badge", lang)}
       />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-        <StatCard title="Municípios sem Dentista" value={indicadoresOndeAbrir.municipiosSemDentista} icon={AlertTriangle} color="red" subtitle="Nenhum CD registrado" />
-        <StatCard title="Pop. Desassistida" value={indicadoresOndeAbrir.populacaoDesassistida_mi + " mi"} icon={Users} color="red" subtitle="Sem acesso a CD" />
-        <StatCard title="Score Médio Nacional" value={indicadoresOndeAbrir.scoreMedioNacional + "/100"} icon={Target} color="yellow" subtitle="Oportunidade média" />
-        <StatCard title="Municípios c/ Oportunidade" value={indicadoresOndeAbrir.municipiosOportunidade.toLocaleString("pt-BR")} icon={MapPin} color="green" subtitle="Score > 50" />
+        <StatCard title={t("onde_mun_sem_cd", lang)} value={indicadoresOndeAbrir.municipiosSemDentista} icon={AlertTriangle} color="red" subtitle={t("onde_nenhum_cd", lang)} />
+        <StatCard title={t("onde_pop_desass", lang)} value={indicadoresOndeAbrir.populacaoDesassistida_mi + " mi"} icon={Users} color="red" subtitle={t("onde_sem_acesso", lang)} />
+        <StatCard title={t("onde_score_medio", lang)} value={indicadoresOndeAbrir.scoreMedioNacional + "/100"} icon={Target} color="yellow" subtitle={t("onde_oport_media", lang)} />
+        <StatCard title={t("onde_mun_oport", lang)} value={indicadoresOndeAbrir.municipiosOportunidade.toLocaleString("pt-BR")} icon={MapPin} color="green" subtitle="Score > 50" />
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <StatCard title="Estado + Oportunidades" value={indicadoresOndeAbrir.estadoMaisOportunidades} icon={Compass} color="blue" subtitle="Pará lidera o ranking" />
-        <StatCard title="Especialidade + Carente" value={indicadoresOndeAbrir.especialidadeMaisCarente} icon={TrendingUp} color="purple" subtitle="Maior déficit nacional" />
-        <StatCard title="Score Máximo" value={indicadoresOndeAbrir.scoreMáximoEncontrado} icon={Award} color="green" subtitle="Breves/PA" />
-        <StatCard title="Pipeline Formandos/Ano" value={indicadoresOndeAbrir.pipelineFormandosAno.toLocaleString("pt-BR")} icon={GraduationCap} color="cyan" subtitle="Novos CDs entrando no mercado" />
+        <StatCard title={t("onde_estado_oport", lang)} value={indicadoresOndeAbrir.estadoMaisOportunidades} icon={Compass} color="blue" subtitle="Pará lidera o ranking" />
+        <StatCard title={t("onde_espec_carente", lang)} value={indicadoresOndeAbrir.especialidadeMaisCarente} icon={TrendingUp} color="purple" subtitle="Maior déficit nacional" />
+        <StatCard title={t("onde_score_max", lang)} value={indicadoresOndeAbrir.scoreMáximoEncontrado} icon={Award} color="green" subtitle="Breves/PA" />
+        <StatCard title={t("onde_pipeline", lang)} value={indicadoresOndeAbrir.pipelineFormandosAno.toLocaleString("pt-BR")} icon={GraduationCap} color="cyan" subtitle={t("onde_novos_cds", lang)} />
       </div>
 
       {/* Alert */}
@@ -101,15 +104,15 @@ export default function OndeAbrirPage() {
       {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6">
-          <h2 className="text-white font-semibold mb-1">Top 15 Municípios por Score de Oportunidade</h2>
-          <p className="text-slate-500 text-xs mb-4">Score composto (0-100) — quanto maior, melhor a oportunidade</p>
+          <h2 className="text-white font-semibold mb-1">{t("onde_top15", lang)}</h2>
+          <p className="text-slate-500 text-xs mb-4">{t("onde_top15_sub", lang)}</p>
           <ResponsiveContainer width="100%" height={420}>
             <BarChart data={top15} layout="vertical" margin={{ top: 5, right: 20, left: 0, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
               <XAxis type="number" domain={[0, 100]} tick={{ fill: "#94a3b8", fontSize: 10 }} />
               <YAxis type="category" dataKey="municipio" width={110} tick={{ fill: "#94a3b8", fontSize: 10 }} />
               <Tooltip content={<CustomTooltip />} />
-              <Bar dataKey="score_oportunidade" name="Score" radius={[0, 4, 4, 0]}>
+              <Bar dataKey="score_oportunidade" name={t("onde_score_label", lang)} radius={[0, 4, 4, 0]}>
                 {top15.map((entry, i) => (
                   <Cell key={i} fill={entry.score_oportunidade >= 80 ? "#10b981" : entry.score_oportunidade >= 60 ? "#3b82f6" : "#f59e0b"} />
                 ))}
@@ -119,23 +122,23 @@ export default function OndeAbrirPage() {
         </div>
 
         <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6">
-          <h2 className="text-white font-semibold mb-1">Score vs Renda per Capita</h2>
-          <p className="text-slate-500 text-xs mb-4">Oportunidade não é apenas baixa renda — municípios com boa renda e pouca concorrência são ideais</p>
+          <h2 className="text-white font-semibold mb-1">{t("onde_scatter", lang)}</h2>
+          <p className="text-slate-500 text-xs mb-4">{t("onde_scatter_sub", lang)}</p>
           <ResponsiveContainer width="100%" height={420}>
             <ScatterChart margin={{ top: 5, right: 20, left: 0, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
-              <XAxis type="number" dataKey="x" name="Renda per Capita" tick={{ fill: "#94a3b8", fontSize: 10 }} tickFormatter={(v) => `R$${v}`} />
-              <YAxis type="number" dataKey="y" name="Score" domain={[0, 100]} tick={{ fill: "#94a3b8", fontSize: 10 }} />
-              <ZAxis type="number" dataKey="z" range={[40, 400]} name="População" />
+              <XAxis type="number" dataKey="x" name={t("onde_renda", lang)} tick={{ fill: "#94a3b8", fontSize: 10 }} tickFormatter={(v) => `R$${v}`} />
+              <YAxis type="number" dataKey="y" name={t("onde_score_label", lang)} domain={[0, 100]} tick={{ fill: "#94a3b8", fontSize: 10 }} />
+              <ZAxis type="number" dataKey="z" range={[40, 400]} name={t("onde_pop_label", lang)} />
               <Tooltip content={({ active, payload }: any) => {
                 if (active && payload?.length) {
                   const d = payload[0].payload;
                   return (
                     <div className="bg-slate-800 border border-slate-700 rounded-lg p-3 text-sm">
                       <p className="text-white font-medium">{d.name}</p>
-                      <p className="text-slate-400">Renda: R$ {d.x.toLocaleString("pt-BR")}</p>
-                      <p className="text-slate-400">Score: {d.y}</p>
-                      <p className="text-slate-400">Pop: {d.z.toLocaleString("pt-BR")}</p>
+                      <p className="text-slate-400">{t("onde_renda", lang)}: R$ {d.x.toLocaleString("pt-BR")}</p>
+                      <p className="text-slate-400">{t("onde_score_label", lang)}: {d.y}</p>
+                      <p className="text-slate-400">{t("onde_pop_label", lang)}: {d.z.toLocaleString("pt-BR")}</p>
                     </div>
                   );
                 }
@@ -155,11 +158,11 @@ export default function OndeAbrirPage() {
       <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6 mb-8">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
           <div>
-            <h2 className="text-white font-semibold">Saturação por Especialidade</h2>
-            <p className="text-slate-500 text-xs">Profissionais por 100k habitantes — média nacional vs extremos</p>
+            <h2 className="text-white font-semibold">{t("onde_saturacao_esp", lang)}</h2>
+            <p className="text-slate-500 text-xs">{t("onde_sat_sub", lang)}</p>
           </div>
           <input
-            type="text" placeholder="Buscar especialidade..." value={busca} onChange={(e) => setBusca(e.target.value)}
+            type="text" placeholder={t("onde_buscar_esp", lang)} value={busca} onChange={(e) => setBusca(e.target.value)}
             className="bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-500 w-full sm:w-64"
           />
         </div>
@@ -167,11 +170,11 @@ export default function OndeAbrirPage() {
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-slate-800">
-                <th className="text-left py-3 px-3 text-slate-400 font-medium">Especialidade</th>
-                <th className="text-right py-3 px-3 text-slate-400 font-medium">Média Nacional</th>
-                <th className="text-left py-3 px-3 text-slate-400 font-medium">Mais Saturada</th>
-                <th className="text-left py-3 px-3 text-slate-400 font-medium">Maior Oportunidade</th>
-                <th className="text-center py-3 px-3 text-slate-400 font-medium">Tendência</th>
+                <th className="text-left py-3 px-3 text-slate-400 font-medium">{t("col_especialidade", lang)}</th>
+                <th className="text-right py-3 px-3 text-slate-400 font-medium">{t("col_media_nac", lang)}</th>
+                <th className="text-left py-3 px-3 text-slate-400 font-medium">{t("col_mais_saturada", lang)}</th>
+                <th className="text-left py-3 px-3 text-slate-400 font-medium">{t("col_maior_oport", lang)}</th>
+                <th className="text-center py-3 px-3 text-slate-400 font-medium">{t("col_tendencia", lang)}</th>
               </tr>
             </thead>
             <tbody>
@@ -195,11 +198,11 @@ export default function OndeAbrirPage() {
       <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6 mb-8">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
           <div>
-            <h2 className="text-white font-semibold">Ranking de Oportunidade por Estado</h2>
-            <p className="text-slate-500 text-xs">Score médio dos municípios de cada estado</p>
+            <h2 className="text-white font-semibold">{t("onde_ranking_estado", lang)}</h2>
+            <p className="text-slate-500 text-xs">{t("onde_rank_sub", lang)}</p>
           </div>
           <input
-            type="text" placeholder="Buscar estado..." value={buscaEstado} onChange={(e) => setBuscaEstado(e.target.value)}
+            type="text" placeholder={t("onde_buscar_estado", lang)} value={buscaEstado} onChange={(e) => setBuscaEstado(e.target.value)}
             className="bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-500 w-full sm:w-64"
           />
         </div>
@@ -207,12 +210,12 @@ export default function OndeAbrirPage() {
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-slate-800">
-                <th className="text-left py-3 px-3 text-slate-400 font-medium">UF</th>
-                <th className="text-left py-3 px-3 text-slate-400 font-medium">Estado</th>
-                <th className="text-right py-3 px-3 text-slate-400 font-medium">Score Médio</th>
-                <th className="text-left py-3 px-3 text-slate-400 font-medium">Melhor Município</th>
-                <th className="text-left py-3 px-3 text-slate-400 font-medium">Pior Município</th>
-                <th className="text-right py-3 px-3 text-slate-400 font-medium">% Sem Acesso</th>
+                <th className="text-left py-3 px-3 text-slate-400 font-medium">{t("col_uf", lang)}</th>
+                <th className="text-left py-3 px-3 text-slate-400 font-medium">{t("col_estado", lang)}</th>
+                <th className="text-right py-3 px-3 text-slate-400 font-medium">{t("col_score_medio", lang)}</th>
+                <th className="text-left py-3 px-3 text-slate-400 font-medium">{t("col_melhor_mun", lang)}</th>
+                <th className="text-left py-3 px-3 text-slate-400 font-medium">{t("col_pior_mun", lang)}</th>
+                <th className="text-right py-3 px-3 text-slate-400 font-medium">{t("col_pct_sem_acesso", lang)}</th>
               </tr>
             </thead>
             <tbody>
@@ -233,8 +236,8 @@ export default function OndeAbrirPage() {
 
       {/* Methodology */}
       <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6">
-        <h2 className="text-white font-semibold mb-4">Metodologia do Score de Oportunidade</h2>
-        <p className="text-slate-400 text-xs mb-4">O score combina 5 dimensões normalizadas (0-100) com os seguintes pesos:</p>
+        <h2 className="text-white font-semibold mb-4">{t("onde_metodologia", lang)}</h2>
+        <p className="text-slate-400 text-xs mb-4">{t("onde_met_sub", lang)}</p>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
           {Object.entries(criteriosPeso).map(([key, peso]) => {
             const labels: Record<string, string> = {

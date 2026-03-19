@@ -1,0 +1,59 @@
+name: Daily Scrape & Indicators Refresh
+
+on:
+  schedule:
+    # Todo dia às 10:00 UTC (07:00 Brasília)
+    - cron: '0 10 * * *'
+  # Permite rodar manualmente pelo GitHub
+  workflow_dispatch:
+
+jobs:
+  scrape:
+    name: Scrape Concursos Odontologia
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Trigger scrape via API
+        run: |
+          HTTP_STATUS=$(curl -s -o /tmp/resp.json -w "%{http_code}" \
+            -X POST "${{ secrets.NEXT_PUBLIC_APP_URL }}/api/cron" \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            -H "Content-Type: application/json" \
+            --data '{"daysBack": 1}' \
+            --max-time 60)
+
+          echo "HTTP Status: $HTTP_STATUS"
+          cat /tmp/resp.json
+
+          if [ "$HTTP_STATUS" != "200" ]; then
+            echo "❌ Scrape falhou com status $HTTP_STATUS"
+            exit 1
+          fi
+
+          TOTAL=$(cat /tmp/resp.json | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('result',{}).get('total',0))" 2>/dev/null || echo "?")
+          echo "✅ Scrape concluído: $TOTAL novos itens adicionados à fila"
+
+  refresh-indicators:
+    name: Refresh Dental Indicators (CFO + all countries)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    needs: scrape
+    if: always()
+
+    steps:
+      - name: Trigger indicators refresh via API
+        run: |
+          HTTP_STATUS=$(curl -s -o /tmp/ind.json -w "%{http_code}" \
+            -X GET "${{ secrets.NEXT_PUBLIC_APP_URL }}/api/cron/indicadores" \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            --max-time 30)
+
+          echo "HTTP Status: $HTTP_STATUS"
+          cat /tmp/ind.json
+
+          if [ "$HTTP_STATUS" != "200" ]; then
+            echo "⚠️  Indicators refresh falhou com status $HTTP_STATUS (non-blocking)"
+          else
+            echo "✅ Indicadores atualizados para todos os países"
+          fi

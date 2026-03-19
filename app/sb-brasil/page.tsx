@@ -14,6 +14,8 @@ import {
   BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip,
   ResponsiveContainer, Legend, Cell,
 } from "recharts";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { t } from "@/lib/translations";
 
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
@@ -31,10 +33,10 @@ const CustomTooltip = ({ active, payload, label }: any) => {
   return null;
 };
 
-const tendColor = (t: string) => {
-  if (t === "Melhora significativa") return "bg-emerald-600/20 text-emerald-400";
-  if (t === "Melhora moderada") return "bg-blue-600/20 text-blue-400";
-  if (t === "Estável") return "bg-slate-600/20 text-slate-400";
+const tendColor = (trend: string) => {
+  if (trend === "Melhora significativa") return "bg-emerald-600/20 text-emerald-400";
+  if (trend === "Melhora moderada") return "bg-blue-600/20 text-blue-400";
+  if (trend === "Estável") return "bg-slate-600/20 text-slate-400";
   return "bg-red-600/20 text-red-400";
 };
 
@@ -66,26 +68,28 @@ const componentesChart = [2003, 2010, 2023].map((ano) => {
 });
 
 export default function SBBrasilPage() {
+  const { lang } = useLanguage();
+
   return (
     <AppShell>
       <PageHeader
-        title="SB Brasil — Pesquisa Nacional de Saúde Bucal"
-        subtitle="O maior levantamento epidemiológico de saúde bucal do Brasil, conduzido pelo Ministério da Saúde"
-        badge="MS · SVS · SB Brasil 2003 / 2010 / 2023"
+        title={t("sbb_title", lang)}
+        subtitle={t("sbb_subtitle", lang)}
+        badge={t("sbb_badge", lang)}
       />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-        <StatCard title="Edição Atual" value={indicadoresSBBrasil.edicaoAtual} icon={BookOpen} color="blue" subtitle="Última pesquisa" />
-        <StatCard title="Amostra Total" value={indicadoresSBBrasil.amostraTotal} icon={Users} color="purple" subtitle="Pessoas examinadas" />
-        <StatCard title="Redução CPO-D 12a" value={indicadoresSBBrasil.reducaoCPOD12anos} icon={TrendingDown} color="green" subtitle="Desde 2003" />
-        <StatCard title="Redução Edentulismo" value={indicadoresSBBrasil.reducaoEdentulismo} icon={TrendingDown} color="green" subtitle="Desde 2003" />
+        <StatCard title={t("sbb_edicao", lang)} value={indicadoresSBBrasil.edicaoAtual} icon={BookOpen} color="blue" subtitle={t("sbb_ultima", lang)} />
+        <StatCard title={t("sbb_amostra", lang)} value={indicadoresSBBrasil.amostraTotal} icon={Users} color="purple" subtitle={t("sbb_examinadas", lang)} />
+        <StatCard title={t("sbb_reduc_cpod", lang)} value={indicadoresSBBrasil.reducaoCPOD12anos} icon={TrendingDown} color="green" subtitle={t("sbb_desde_2003", lang)} />
+        <StatCard title={t("sbb_reduc_edent", lang)} value={indicadoresSBBrasil.reducaoEdentulismo} icon={TrendingDown} color="green" subtitle={t("sbb_desde_2003", lang)} />
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <StatCard title="Nunca foi ao Dentista" value={indicadoresSBBrasil.aindaNuncaDentista_mi + " mi"} icon={UserX} color="red" subtitle="Brasileiros" />
-        <StatCard title="Melhor Região" value={indicadoresSBBrasil.melhorRegiao} icon={MapPin} color="green" subtitle="Melhores indicadores" />
-        <StatCard title="Pior Região" value={indicadoresSBBrasil.piorRegiao} icon={MapPin} color="red" subtitle="Piores indicadores" />
-        <StatCard title="Metas OMS" value={indicadoresSBBrasil.metasOMSAtingidas} icon={Target} color="yellow" subtitle="Atingidas" />
+        <StatCard title={t("sbb_nunca_dent", lang)} value={indicadoresSBBrasil.aindaNuncaDentista_mi + " mi"} icon={UserX} color="red" subtitle={t("sbb_brasileiros", lang)} />
+        <StatCard title={t("sbb_melhor_reg", lang)} value={indicadoresSBBrasil.melhorRegiao} icon={MapPin} color="green" subtitle={t("sbb_melhores_ind", lang)} />
+        <StatCard title={t("sbb_pior_reg", lang)} value={indicadoresSBBrasil.piorRegiao} icon={MapPin} color="red" subtitle={t("sbb_piores_ind", lang)} />
+        <StatCard title={t("sbb_metas_oms", lang)} value={indicadoresSBBrasil.metasOMSAtingidas} icon={Target} color="yellow" subtitle={t("sbb_atingidas", lang)} />
       </div>
 
       {/* Info Box */}
@@ -102,8 +106,8 @@ export default function SBBrasilPage() {
       {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
         <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6">
-          <h2 className="text-white font-semibold mb-1">CPO-D por Faixa Etária</h2>
-          <p className="text-slate-500 text-xs mb-4">Comparativo entre as 3 edições</p>
+          <h2 className="text-white font-semibold mb-1">{t("sbb_cpod_faixa", lang)}</h2>
+          <p className="text-slate-500 text-xs mb-4">{t("sbb_cpod_comp", lang)}</p>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={cpodGrupoChart} margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
@@ -119,8 +123,8 @@ export default function SBBrasilPage() {
         </div>
 
         <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6">
-          <h2 className="text-white font-semibold mb-1">CPO-D 12 Anos por Região</h2>
-          <p className="text-slate-500 text-xs mb-4">Evolução regional ao longo das 3 edições</p>
+          <h2 className="text-white font-semibold mb-1">{t("sbb_cpod_regiao", lang)}</h2>
+          <p className="text-slate-500 text-xs mb-4">{t("sbb_cpod_reg_sub", lang)}</p>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={cpod12anosChart} margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
@@ -136,8 +140,8 @@ export default function SBBrasilPage() {
         </div>
 
         <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6">
-          <h2 className="text-white font-semibold mb-1">Componentes do CPO-D (12 anos)</h2>
-          <p className="text-slate-500 text-xs mb-4">Cariado, Perdido e Obturado — evolução</p>
+          <h2 className="text-white font-semibold mb-1">{t("sbb_componentes", lang)}</h2>
+          <p className="text-slate-500 text-xs mb-4">{t("sbb_comp_sub", lang)}</p>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={componentesChart} margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
@@ -145,9 +149,9 @@ export default function SBBrasilPage() {
               <YAxis tick={{ fill: "#94a3b8", fontSize: 10 }} />
               <Tooltip content={<CustomTooltip />} />
               <Legend wrapperStyle={{ fontSize: 10, color: "#94a3b8" }} />
-              <Bar dataKey="Cariado" stackId="a" fill="#ef4444" />
-              <Bar dataKey="Perdido" stackId="a" fill="#f59e0b" />
-              <Bar dataKey="Obturado" stackId="a" fill="#10b981" />
+              <Bar dataKey="Cariado" name={t("sbb_cariado", lang)} stackId="a" fill="#ef4444" />
+              <Bar dataKey="Perdido" name={t("sbb_perdido", lang)} stackId="a" fill="#f59e0b" />
+              <Bar dataKey="Obturado" name={t("sbb_obturado", lang)} stackId="a" fill="#10b981" />
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -155,17 +159,17 @@ export default function SBBrasilPage() {
 
       {/* Edições */}
       <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6 mb-8">
-        <h2 className="text-white font-semibold mb-4">Edições do SB Brasil</h2>
+        <h2 className="text-white font-semibold mb-4">{t("sbb_edicoes", lang)}</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {edicoesSBBrasil.map((e) => (
             <div key={e.ano} className="bg-slate-800 border border-slate-700 rounded-xl p-4">
               <div className="text-2xl font-bold text-blue-400 mb-2">SB Brasil {e.ano}</div>
               <div className="space-y-1 mb-3">
-                <p className="text-slate-400 text-xs">Amostra: <strong className="text-white">{e.amostra_total.toLocaleString("pt-BR")}</strong></p>
-                <p className="text-slate-400 text-xs">Municípios: <strong className="text-white">{e.municipios_pesquisados}</strong></p>
+                <p className="text-slate-400 text-xs">{t("sbb_amostra_col", lang)} <strong className="text-white">{e.amostra_total.toLocaleString("pt-BR")}</strong></p>
+                <p className="text-slate-400 text-xs">{t("sbb_municipios_col", lang)} <strong className="text-white">{e.municipios_pesquisados}</strong></p>
               </div>
               <div className="border-t border-slate-700 pt-3">
-                <p className="text-slate-500 text-xs font-medium mb-2">Principais Achados:</p>
+                <p className="text-slate-500 text-xs font-medium mb-2">{t("sbb_principais", lang)}</p>
                 <ul className="space-y-1">
                   {e.principais_achados.map((a, i) => (
                     <li key={i} className="text-slate-400 text-xs flex gap-2"><span className="text-blue-400 shrink-0">•</span>{a}</li>
@@ -179,18 +183,18 @@ export default function SBBrasilPage() {
 
       {/* Prevalência */}
       <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6 mb-8">
-        <h2 className="text-white font-semibold mb-4">Prevalência de Condições — Evolução</h2>
+        <h2 className="text-white font-semibold mb-4">{t("sbb_prevalencia", lang)}</h2>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-slate-800">
-                <th className="text-left py-3 px-3 text-slate-400 font-medium">Condição</th>
-                <th className="text-left py-3 px-3 text-slate-400 font-medium">Grupo</th>
+                <th className="text-left py-3 px-3 text-slate-400 font-medium">{t("col_condicao_col", lang)}</th>
+                <th className="text-left py-3 px-3 text-slate-400 font-medium">{t("col_grupo_et", lang)}</th>
                 <th className="text-right py-3 px-3 text-slate-400 font-medium">2003</th>
                 <th className="text-right py-3 px-3 text-slate-400 font-medium">2010</th>
                 <th className="text-right py-3 px-3 text-slate-400 font-medium">2023</th>
-                <th className="text-right py-3 px-3 text-slate-400 font-medium">Variação</th>
-                <th className="text-center py-3 px-3 text-slate-400 font-medium">Tendência</th>
+                <th className="text-right py-3 px-3 text-slate-400 font-medium">{t("col_variacao", lang)}</th>
+                <th className="text-center py-3 px-3 text-slate-400 font-medium">{t("col_tendencia", lang)}</th>
               </tr>
             </thead>
             <tbody>
@@ -212,16 +216,16 @@ export default function SBBrasilPage() {
 
       {/* Acesso a Serviços */}
       <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6 mb-8">
-        <h2 className="text-white font-semibold mb-4">Acesso a Serviços Odontológicos</h2>
+        <h2 className="text-white font-semibold mb-4">{t("sbb_acesso", lang)}</h2>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-slate-800">
-                <th className="text-left py-3 px-3 text-slate-400 font-medium">Indicador</th>
+                <th className="text-left py-3 px-3 text-slate-400 font-medium">{t("col_indicador", lang)}</th>
                 <th className="text-right py-3 px-3 text-slate-400 font-medium">2003</th>
                 <th className="text-right py-3 px-3 text-slate-400 font-medium">2010</th>
                 <th className="text-right py-3 px-3 text-slate-400 font-medium">2023</th>
-                <th className="text-center py-3 px-3 text-slate-400 font-medium">Unidade</th>
+                <th className="text-center py-3 px-3 text-slate-400 font-medium">{t("col_unidade", lang)}</th>
               </tr>
             </thead>
             <tbody>
@@ -241,18 +245,18 @@ export default function SBBrasilPage() {
 
       {/* Desigualdades */}
       <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6 mb-8">
-        <h2 className="text-white font-semibold mb-4">Desigualdades Sociais em Saúde Bucal</h2>
+        <h2 className="text-white font-semibold mb-4">{t("sbb_desigualdades", lang)}</h2>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-slate-800">
-                <th className="text-left py-3 px-3 text-slate-400 font-medium">Determinante</th>
-                <th className="text-left py-3 px-3 text-slate-400 font-medium">Grupo Favorecido</th>
-                <th className="text-right py-3 px-3 text-slate-400 font-medium">Valor</th>
-                <th className="text-left py-3 px-3 text-slate-400 font-medium">Grupo Desfavorecido</th>
-                <th className="text-right py-3 px-3 text-slate-400 font-medium">Valor</th>
-                <th className="text-right py-3 px-3 text-slate-400 font-medium">Razão</th>
-                <th className="text-left py-3 px-3 text-slate-400 font-medium">Indicador</th>
+                <th className="text-left py-3 px-3 text-slate-400 font-medium">{t("col_determinante", lang)}</th>
+                <th className="text-left py-3 px-3 text-slate-400 font-medium">{t("col_grupo_fav", lang)}</th>
+                <th className="text-right py-3 px-3 text-slate-400 font-medium">{t("col_valor", lang)}</th>
+                <th className="text-left py-3 px-3 text-slate-400 font-medium">{t("col_grupo_desfav", lang)}</th>
+                <th className="text-right py-3 px-3 text-slate-400 font-medium">{t("col_valor", lang)}</th>
+                <th className="text-right py-3 px-3 text-slate-400 font-medium">{t("col_razao", lang)}</th>
+                <th className="text-left py-3 px-3 text-slate-400 font-medium">{t("col_ind_usado", lang)}</th>
               </tr>
             </thead>
             <tbody>
@@ -274,16 +278,16 @@ export default function SBBrasilPage() {
 
       {/* Metas OMS */}
       <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6">
-        <h2 className="text-white font-semibold mb-4">Metas da OMS para Saúde Bucal</h2>
+        <h2 className="text-white font-semibold mb-4">{t("sbb_metas_oms_title", lang)}</h2>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-slate-800">
-                <th className="text-left py-3 px-3 text-slate-400 font-medium">Meta</th>
-                <th className="text-left py-3 px-3 text-slate-400 font-medium">Descrição</th>
-                <th className="text-center py-3 px-3 text-slate-400 font-medium">Alvo 2020</th>
-                <th className="text-center py-3 px-3 text-slate-400 font-medium">Brasil 2023</th>
-                <th className="text-center py-3 px-3 text-slate-400 font-medium">Status</th>
+                <th className="text-left py-3 px-3 text-slate-400 font-medium">{t("col_meta", lang)}</th>
+                <th className="text-left py-3 px-3 text-slate-400 font-medium">{t("col_descricao", lang)}</th>
+                <th className="text-center py-3 px-3 text-slate-400 font-medium">{t("col_alvo_2020", lang)}</th>
+                <th className="text-center py-3 px-3 text-slate-400 font-medium">{t("col_brasil_2023", lang)}</th>
+                <th className="text-center py-3 px-3 text-slate-400 font-medium">{t("col_status", lang)}</th>
               </tr>
             </thead>
             <tbody>

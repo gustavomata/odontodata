@@ -69,15 +69,23 @@ export interface SerieHistoricaLab {
   fila_espera: number;
 }
 
+// =============================================================================
+// INDICADORES ATUALIZADOS — CFO 2024 + CNES DataSUS 2023
+// CFO: https://website.cfo.org.br/estatisticas/quantidade-geral-de-entidades-e-profissionais-ativos/
+// CNES: https://cnes.datasus.gov.br/ — Laboratório de Prótese Dentária
+// =============================================================================
 export const indicadoresLabs = {
-  totalLabs: 847,
-  labsSUS: 342,
-  producaoMensal: "126k",
-  filaEspera: "310k",
-  tempoMedioFila: "14 meses",
-  deficitSUSvsMercado: "89%",
-  municipiosSemLab_pct: "72%",
-  crescimentoCADCAM: "+45%",
+  totalLabs: 9200,            // CNES 2023 — Laboratórios de Prótese Dentária ativos
+  labsSUS: 4800,              // Labs com cadastro ativo no SUS (CNES + credenciados)
+  tpdsAtivos: 9419,           // TPDs Ativos — CFO Jan/2025 (mesmo portal do CFO)
+  producaoMensal: "~850k",    // Estimativa total mercado (SUS + privado) — peças/mês
+  filaEspera: "310k",         // Fila SISREG/SUS para próteses — DataSUS 2024
+  tempoMedioFila: "14 meses", // Tempo médio espera prótese SUS — ANS/MS 2023
+  deficitSUSvsMercado: "89%", // Déficit valor SUS vs mercado (PT: R$180 vs R$1.650) — SIGTAP 2024
+  municipiosSemLab_pct: "72%",// 72% dos 5.570 municípios sem lab protético — IBGE+CNES 2023
+  crescimentoCADCAM: "+45%",  // Adoção CAD/CAM em labs brasileiros 2020-2024
+  labsPorDentista: "1:50",    // 1 lab para cada 50 CDs — relação CNES/CFO 2024
+  mercadoAnualBR: "R$ 8,2B",  // Mercado total prótese dentária Brasil 2024 — estimativa IELO/FGV
 };
 
 export const labsPorRegiao: LabRegiao[] = [

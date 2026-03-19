@@ -41,6 +41,8 @@ import {
   Crosshair,
   FlaskConical,
 } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { t } from "@/lib/translations";
 
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
@@ -128,6 +130,7 @@ type TabType = "melhores" | "piores";
 type CruzCategoria = "Todas" | string;
 
 export default function IndicadoresPage() {
+  const { lang } = useLanguage();
   const [municipioTab, setMunicipioTab] = useState<TabType>("melhores");
   const [cruzCategoria, setCruzCategoria] = useState<CruzCategoria>("Todas");
 
@@ -159,9 +162,9 @@ export default function IndicadoresPage() {
   return (
     <AppShell>
       <PageHeader
-        title="Indicadores Compostos & Inteligência"
-        subtitle="Cruzamentos avançados, projeções demográficas, desertos odontológicos e comparação internacional"
-        badge="18 bases integradas \· Análise SOTA"
+        title={t("ind_title", lang)}
+        subtitle={t("ind_subtitle", lang)}
+        badge={t("ind_badge", lang)}
       />
 
       {/* Alert - Methodology */}
@@ -180,7 +183,7 @@ export default function IndicadoresPage() {
       <section className="mb-10">
         <div className="flex items-center gap-3 mb-4">
           <Layers className="w-5 h-5 text-blue-400" />
-          <h2 className="text-lg font-semibold text-white">Índice Municipal de Saúde Bucal</h2>
+          <h2 className="text-lg font-semibold text-white">{t("ind_indice_mun", lang)}</h2>
         </div>
         <div className="flex gap-2 mb-4">
           <button
@@ -191,7 +194,7 @@ export default function IndicadoresPage() {
                 : "bg-slate-800 text-slate-400 border border-slate-700 hover:text-slate-300"
             }`}
           >
-            Melhores
+            {t("ind_melhores", lang)}
           </button>
           <button
             onClick={() => setMunicipioTab("piores")}
@@ -201,7 +204,7 @@ export default function IndicadoresPage() {
                 : "bg-slate-800 text-slate-400 border border-slate-700 hover:text-slate-300"
             }`}
           >
-            Piores
+            {t("ind_piores", lang)}
           </button>
         </div>
         <div className="space-y-3">
@@ -248,7 +251,7 @@ export default function IndicadoresPage() {
       <section className="mb-10">
         <div className="flex items-center gap-3 mb-4">
           <Brain className="w-5 h-5 text-purple-400" />
-          <h2 className="text-lg font-semibold text-white">Cruzamentos Avançados</h2>
+          <h2 className="text-lg font-semibold text-white">{t("ind_cruzamentos", lang)}</h2>
         </div>
         <div className="flex flex-wrap gap-1.5 mb-4">
           {categoriasUnicas.map((cat) => (
@@ -291,7 +294,7 @@ export default function IndicadoresPage() {
               <p className="text-slate-300 text-xs leading-relaxed mb-3">{c.insight}</p>
               <div className="flex items-center gap-3 mb-2">
                 <div className="flex items-center gap-1">
-                  <span className="text-slate-500 text-[10px]">Correlação:</span>
+                  <span className="text-slate-500 text-[10px]">{t("ind_correlacao", lang)}</span>
                   <span className={`text-xs font-mono font-bold ${c.correlacao > 0 ? "text-blue-400" : c.correlacao < 0 ? "text-red-400" : "text-slate-400"}`}>
                     {c.correlacao > 0 ? "+" : ""}{c.correlacao.toFixed(2)}
                   </span>
@@ -325,7 +328,7 @@ export default function IndicadoresPage() {
       <section className="mb-10">
         <div className="flex items-center gap-3 mb-4">
           <MapPinOff className="w-5 h-5 text-red-400" />
-          <h2 className="text-lg font-semibold text-white">Desertos Odontológicos</h2>
+          <h2 className="text-lg font-semibold text-white">{t("ind_desertos", lang)}</h2>
         </div>
         <div className="bg-red-950/30 border border-red-800/30 rounded-xl p-4 mb-4 flex gap-3">
           <AlertTriangle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
@@ -340,15 +343,15 @@ export default function IndicadoresPage() {
           <table className="w-full text-xs">
             <thead>
               <tr className="border-b border-slate-800">
-                <th className="text-left text-slate-400 py-2 px-3 font-medium">Município</th>
-                <th className="text-left text-slate-400 py-2 px-2 font-medium">UF</th>
-                <th className="text-right text-slate-400 py-2 px-2 font-medium">Pop.</th>
-                <th className="text-right text-slate-400 py-2 px-2 font-medium">Dist. (km)</th>
-                <th className="text-right text-slate-400 py-2 px-2 font-medium">Dentistas</th>
-                <th className="text-right text-slate-400 py-2 px-2 font-medium">ESB</th>
-                <th className="text-right text-slate-400 py-2 px-2 font-medium">IDH-M</th>
-                <th className="text-right text-slate-400 py-2 px-2 font-medium">Edentulismo</th>
-                <th className="text-left text-slate-400 py-2 px-3 font-medium">Status</th>
+                <th className="text-left text-slate-400 py-2 px-3 font-medium">{t("col_municipio", lang)}</th>
+                <th className="text-left text-slate-400 py-2 px-2 font-medium">{t("col_uf", lang)}</th>
+                <th className="text-right text-slate-400 py-2 px-2 font-medium">{t("col_populacao", lang)}</th>
+                <th className="text-right text-slate-400 py-2 px-2 font-medium">{t("col_dist_km", lang)}</th>
+                <th className="text-right text-slate-400 py-2 px-2 font-medium">{t("col_dentistas_col", lang)}</th>
+                <th className="text-right text-slate-400 py-2 px-2 font-medium">{t("col_esb", lang)}</th>
+                <th className="text-right text-slate-400 py-2 px-2 font-medium">{t("col_idh_m", lang)}</th>
+                <th className="text-right text-slate-400 py-2 px-2 font-medium">{t("col_edentulismo_est", lang)}</th>
+                <th className="text-left text-slate-400 py-2 px-3 font-medium">{t("col_status", lang)}</th>
               </tr>
             </thead>
             <tbody>
@@ -386,7 +389,7 @@ export default function IndicadoresPage() {
       <section className="mb-10">
         <div className="flex items-center gap-3 mb-4">
           <TrendingUp className="w-5 h-5 text-blue-400" />
-          <h2 className="text-lg font-semibold text-white">Projeção Demográfica &times; Demanda Odontológica</h2>
+          <h2 className="text-lg font-semibold text-white">{t("ind_proj_demo", lang)}</h2>
         </div>
         <div className="bg-slate-900 border border-slate-800 rounded-xl p-4">
           <div className="h-80">
@@ -400,7 +403,7 @@ export default function IndicadoresPage() {
                 <Area
                   type="monotone"
                   dataKey="populacaoIdosa_mi"
-                  name="Pop. Idosa (mi)"
+                  name={t("ind_pop_idosa", lang)}
                   stroke="#8B5CF6"
                   fill="#8B5CF6"
                   fillOpacity={0.15}
@@ -409,14 +412,14 @@ export default function IndicadoresPage() {
                 <Area
                   type="monotone"
                   dataKey="demandaProteses_mi"
-                  name="Demanda Próteses (mi)"
+                  name={t("ind_demanda_proteses", lang)}
                   stroke="#F59E0B"
                   fill="#F59E0B"
                   fillOpacity={0.1}
                   strokeWidth={2}
                 />
-                <Line type="monotone" dataKey="dentistasNecessarios" name="Dentistas Necessários" stroke="#EF4444" strokeWidth={2} dot={{ r: 3 }} />
-                <Line type="monotone" dataKey="dentistasProjetados" name="Dentistas Projetados" stroke="#10B981" strokeWidth={2} dot={{ r: 3 }} strokeDasharray="5 5" />
+                <Line type="monotone" dataKey="dentistasNecessarios" name={t("ind_dent_necessarios", lang)} stroke="#EF4444" strokeWidth={2} dot={{ r: 3 }} />
+                <Line type="monotone" dataKey="dentistasProjetados" name={t("ind_dent_projetados", lang)} stroke="#10B981" strokeWidth={2} dot={{ r: 3 }} strokeDasharray="5 5" />
               </AreaChart>
             </ResponsiveContainer>
           </div>
@@ -428,7 +431,7 @@ export default function IndicadoresPage() {
                   {p.gap >= 0 ? "+" : ""}{p.gap.toLocaleString("pt-BR")}
                 </div>
                 <div className="text-slate-500 text-[10px]">
-                  {p.gap >= 0 ? "superávit" : "déficit"} dentistas
+                  {p.gap >= 0 ? t("ind_superavit", lang) : t("ind_deficit", lang)} dentistas
                 </div>
                 <div className="flex items-center justify-center gap-1 mt-1">
                   {p.gap >= 0 ? (
@@ -436,7 +439,7 @@ export default function IndicadoresPage() {
                   ) : (
                     <ArrowDownRight className="w-3 h-3 text-red-400" />
                   )}
-                  <span className="text-slate-400 text-[10px]">{p.percentualIdoso.toFixed(1)}% idosos</span>
+                  <span className="text-slate-400 text-[10px]">{p.percentualIdoso.toFixed(1)}% {t("ind_idosos_pct", lang)}</span>
                 </div>
               </div>
             ))}
@@ -448,7 +451,7 @@ export default function IndicadoresPage() {
       <section className="mb-10">
         <div className="flex items-center gap-3 mb-4">
           <Activity className="w-5 h-5 text-emerald-400" />
-          <h2 className="text-lg font-semibold text-white">IDH &times; Saúde Bucal por UF</h2>
+          <h2 className="text-lg font-semibold text-white">{t("ind_idh_saude", lang)}</h2>
         </div>
         <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 mb-4">
           <div className="h-64">
@@ -458,7 +461,7 @@ export default function IndicadoresPage() {
                 <XAxis type="number" domain={[0, 1]} tick={{ fill: "#94a3b8", fontSize: 11 }} />
                 <YAxis type="category" dataKey="uf" tick={{ fill: "#94a3b8", fontSize: 11 }} width={30} />
                 <Tooltip content={<CustomTooltip />} />
-                <Bar dataKey="idhm" name="IDH-M" radius={[0, 4, 4, 0]}>
+                <Bar dataKey="idhm" name={t("col_idh_m", lang)} radius={[0, 4, 4, 0]}>
                   {idhxSaudeBucal.map((entry, i) => (
                     <Cell key={i} fill={entry.cor} />
                   ))}
@@ -471,14 +474,14 @@ export default function IndicadoresPage() {
           <table className="w-full text-xs">
             <thead>
               <tr className="border-b border-slate-800">
-                <th className="text-left text-slate-400 py-2 px-3 font-medium">UF</th>
-                <th className="text-right text-slate-400 py-2 px-2 font-medium">IDH-M</th>
-                <th className="text-left text-slate-400 py-2 px-2 font-medium">Faixa</th>
-                <th className="text-right text-slate-400 py-2 px-2 font-medium">Hab/Dentista</th>
-                <th className="text-right text-slate-400 py-2 px-2 font-medium">Cobert. ESB</th>
-                <th className="text-right text-slate-400 py-2 px-2 font-medium">CPO-D 12a</th>
-                <th className="text-right text-slate-400 py-2 px-2 font-medium">Acesso 12m</th>
-                <th className="text-right text-slate-400 py-2 px-3 font-medium">Edentulismo 65-74</th>
+                <th className="text-left text-slate-400 py-2 px-3 font-medium">{t("col_uf", lang)}</th>
+                <th className="text-right text-slate-400 py-2 px-2 font-medium">{t("col_idh_m", lang)}</th>
+                <th className="text-left text-slate-400 py-2 px-2 font-medium">{t("col_faixa_idh", lang)}</th>
+                <th className="text-right text-slate-400 py-2 px-2 font-medium">{t("col_hab_dentista", lang)}</th>
+                <th className="text-right text-slate-400 py-2 px-2 font-medium">{t("col_cobert_esb", lang)}</th>
+                <th className="text-right text-slate-400 py-2 px-2 font-medium">{t("col_cpod_12a", lang)}</th>
+                <th className="text-right text-slate-400 py-2 px-2 font-medium">{t("col_acesso_12m", lang)}</th>
+                <th className="text-right text-slate-400 py-2 px-3 font-medium">{t("col_edent_65_74", lang)}</th>
               </tr>
             </thead>
             <tbody>
@@ -518,7 +521,7 @@ export default function IndicadoresPage() {
       <section className="mb-10">
         <div className="flex items-center gap-3 mb-4">
           <Users className="w-5 h-5 text-amber-400" />
-          <h2 className="text-lg font-semibold text-white">Impacto do Envelhecimento na Odontologia</h2>
+          <h2 className="text-lg font-semibold text-white">{t("ind_envelh", lang)}</h2>
         </div>
         <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 mb-4">
           <div className="h-72">
@@ -529,9 +532,9 @@ export default function IndicadoresPage() {
                 <YAxis tick={{ fill: "#94a3b8", fontSize: 11 }} />
                 <Tooltip content={<CustomTooltip />} />
                 <Legend wrapperStyle={{ fontSize: 11, color: "#94a3b8" }} />
-                <Bar dataKey="2024" name="Pop. Idosa 2024 (mi)" fill="#3B82F6" radius={[2, 2, 0, 0]} />
-                <Bar dataKey="2030" name="Pop. Idosa 2030 (mi)" fill="#8B5CF6" radius={[2, 2, 0, 0]} />
-                <Bar dataKey="2040" name="Pop. Idosa 2040 (mi)" fill="#F59E0B" radius={[2, 2, 0, 0]} />
+                <Bar dataKey="2024" name={t("ind_pop_idosa_2024", lang)} fill="#3B82F6" radius={[2, 2, 0, 0]} />
+                <Bar dataKey="2030" name={t("ind_pop_idosa_2030", lang)} fill="#8B5CF6" radius={[2, 2, 0, 0]} />
+                <Bar dataKey="2040" name={t("ind_pop_idosa_2040", lang)} fill="#F59E0B" radius={[2, 2, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -545,23 +548,23 @@ export default function IndicadoresPage() {
               </div>
               <div className="space-y-1.5">
                 <div className="flex justify-between">
-                  <span className="text-slate-500 text-[10px]">Crescimento idoso</span>
+                  <span className="text-slate-500 text-[10px]">{t("ind_cresc_idoso", lang)}</span>
                   <span className="text-amber-400 text-xs font-bold">+{e.crescimentoIdoso_pct.toFixed(1)}%</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-slate-500 text-[10px]">Odontogeriatras</span>
+                  <span className="text-slate-500 text-[10px]">{t("ind_odontogeriatras", lang)}</span>
                   <span className="text-slate-300 text-xs">{e.odontogeriatrasAtuais}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-slate-500 text-[10px]">Necess. 2030</span>
+                  <span className="text-slate-500 text-[10px]">{t("ind_necess_2030", lang)}</span>
                   <span className="text-slate-300 text-xs">{e.odontogeriatrasNecessarios_2030.toLocaleString("pt-BR")}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-slate-500 text-[10px]">Déficit 2030</span>
+                  <span className="text-slate-500 text-[10px]">{t("ind_deficit_2030", lang)}</span>
                   <span className="text-red-400 text-xs font-bold">-{e.deficit_2030.toLocaleString("pt-BR")}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-slate-500 text-[10px]">Prótese +</span>
+                  <span className="text-slate-500 text-[10px]">{t("ind_protese_plus", lang)}</span>
                   <span className="text-blue-400 text-xs">+{e.demandaProtese_crescimento_pct.toFixed(1)}%</span>
                 </div>
               </div>
@@ -574,10 +577,10 @@ export default function IndicadoresPage() {
       <section className="mb-10">
         <div className="flex items-center gap-3 mb-4">
           <Globe2 className="w-5 h-5 text-cyan-400" />
-          <h2 className="text-lg font-semibold text-white">Comparação Internacional</h2>
+          <h2 className="text-lg font-semibold text-white">{t("ind_comparacao_int", lang)}</h2>
         </div>
         <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 mb-4">
-          <h3 className="text-slate-400 text-xs mb-3">Dentistas por 100 mil habitantes</h3>
+          <h3 className="text-slate-400 text-xs mb-3">{t("ind_dent_100k", lang)}</h3>
           <div className="h-72">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={internacionalChart} layout="vertical">
@@ -585,7 +588,7 @@ export default function IndicadoresPage() {
                 <XAxis type="number" tick={{ fill: "#94a3b8", fontSize: 11 }} />
                 <YAxis type="category" dataKey="pais" tick={{ fill: "#94a3b8", fontSize: 11 }} width={60} />
                 <Tooltip content={<CustomTooltip />} />
-                <Bar dataKey="dentistasPor100k" name="Dentistas/100k" radius={[0, 4, 4, 0]}>
+                <Bar dataKey="dentistasPor100k" name={t("ind_dent_100k_label", lang)} radius={[0, 4, 4, 0]}>
                   {internacionalChart.map((entry, i) => (
                     <Cell key={i} fill={entry.fill} />
                   ))}
@@ -598,14 +601,14 @@ export default function IndicadoresPage() {
           <table className="w-full text-xs">
             <thead>
               <tr className="border-b border-slate-800">
-                <th className="text-left text-slate-400 py-2 px-3 font-medium">País</th>
-                <th className="text-right text-slate-400 py-2 px-2 font-medium">Dent./100k</th>
-                <th className="text-right text-slate-400 py-2 px-2 font-medium">CPO-D 12a</th>
-                <th className="text-right text-slate-400 py-2 px-2 font-medium">Gasto/cap (US$)</th>
-                <th className="text-right text-slate-400 py-2 px-2 font-medium">Cobert. Pública</th>
-                <th className="text-right text-slate-400 py-2 px-2 font-medium">Faculdades</th>
-                <th className="text-right text-slate-400 py-2 px-2 font-medium">Exp. Vida</th>
-                <th className="text-right text-slate-400 py-2 px-3 font-medium">IDH</th>
+                <th className="text-left text-slate-400 py-2 px-3 font-medium">{t("col_pais", lang)}</th>
+                <th className="text-right text-slate-400 py-2 px-2 font-medium">{t("col_dent_100k", lang)}</th>
+                <th className="text-right text-slate-400 py-2 px-2 font-medium">{t("col_cpod_12a_col", lang)}</th>
+                <th className="text-right text-slate-400 py-2 px-2 font-medium">{t("col_gasto_cap", lang)}</th>
+                <th className="text-right text-slate-400 py-2 px-2 font-medium">{t("col_cobert_publica", lang)}</th>
+                <th className="text-right text-slate-400 py-2 px-2 font-medium">{t("col_faculdades", lang)}</th>
+                <th className="text-right text-slate-400 py-2 px-2 font-medium">{t("col_exp_vida", lang)}</th>
+                <th className="text-right text-slate-400 py-2 px-3 font-medium">{t("col_idh", lang)}</th>
               </tr>
             </thead>
             <tbody>
