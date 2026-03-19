@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { t } from "@/lib/translations";
 
@@ -44,7 +45,7 @@ export default function CountrySelector({ value, onChange, countries = ["BR", "U
               : "bg-slate-800/50 border-slate-700 text-slate-400 hover:border-slate-600 hover:text-slate-300"
           }`}
         >
-          <img src={flag} alt={code} className="w-7 h-5 rounded object-cover" />
+          <Image src={flag} alt={code} width={28} height={20} className="rounded object-cover" />
           <span className="text-xs">{t(labelKey as any, lang)}</span>
         </button>
       ))}

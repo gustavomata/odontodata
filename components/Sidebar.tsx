@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -131,7 +132,7 @@ export default function Sidebar() {
         {/* Brazil-only section */}
         <div className="mt-4 pt-3 border-t border-slate-800">
           <div className="flex items-center gap-2 px-3 mb-2">
-            <img src="https://flagcdn.com/br.svg" alt="BR" className="w-4 h-3 rounded-sm object-cover opacity-70" />
+            <Image src="https://flagcdn.com/br.svg" alt="BR" width={16} height={12} className="rounded-sm object-cover opacity-70" />
             <span className="text-slate-600 text-xs font-medium uppercase tracking-wider">
               {lang === "PT" ? "Exclusivo Brasil" : "Brazil Only"}
             </span>
