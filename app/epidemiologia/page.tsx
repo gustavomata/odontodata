@@ -5,7 +5,6 @@ import PageHeader from "@/components/PageHeader";
 import StatCard from "@/components/StatCard";
 import CountrySelector from "@/components/CountrySelector";
 import {
-  dadosCPOD,
   prevalenciaRegional,
   cancerBucalPorUF,
   tendenciasEpidemiologicas,
