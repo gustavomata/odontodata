@@ -224,7 +224,7 @@ const DE_ESTADOS: EstadoGeoWorld[] = [
 
 // ─── CORES POR REGIÃO ─────────────────────────────────────────────────────────
 
-export const CORES_REGIOES_WORLD: Record<PaisCode, Record<string, string>> = {
+export const CORES_REGIOES_WORLD: Partial<Record<PaisCode, Record<string, string>>> = {
   BR: {
     "Norte":        "#EF4444",
     "Nordeste":     "#F59E0B",
@@ -255,7 +255,7 @@ export const CORES_REGIOES_WORLD: Record<PaisCode, Record<string, string>> = {
 
 // ─── CONFIGURAÇÕES POR PAÍS ───────────────────────────────────────────────────
 
-export const COUNTRY_CONFIGS: Record<PaisCode, CountryConfig> = {
+export const COUNTRY_CONFIGS: Partial<Record<PaisCode, CountryConfig>> = {
   BR: {
     pais: "BR",
     nome: "Brasil",

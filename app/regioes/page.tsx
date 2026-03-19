@@ -14,7 +14,6 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { t } from "@/lib/translations";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import { Search } from "lucide-react";
-
 type PaisCode = "BR" | "US" | "DE" | "UK" | "FR" | "CA" | "JP";
 
 const BADGES: Record<PaisCode, string> = {

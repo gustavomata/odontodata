@@ -82,7 +82,7 @@ export default function MapaPage() {
   const [showPanel, setShowPanel] = useState(false);
   const { lang } = useLanguage();
 
-  const countryConfig = COUNTRY_CONFIGS[pais];
+  const countryConfig = COUNTRY_CONFIGS[pais]!;
 
   const legenda = useMemo(() => ({
     saturacao: {
@@ -130,7 +130,7 @@ export default function MapaPage() {
 
   const handlePaisChange = (novoPais: PaisCode) => {
     setPais(novoPais);
-    setRegiaoFiltro(COUNTRY_CONFIGS[novoPais].regioes[0]); // "Todas" ou "All"
+    setRegiaoFiltro(COUNTRY_CONFIGS[novoPais]!.regioes[0]); // "Todas" ou "All"
     setEstadoSelecionado(null);
     setCidadeSelecionada(null);
     setShowPanel(false);

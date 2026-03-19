@@ -13,7 +13,6 @@ import { serieHistoricaJP } from "@/lib/data-japan";
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend, AreaChart, Area } from "recharts";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { t } from "@/lib/translations";
-
 type PaisCode = "BR" | "US" | "DE" | "UK" | "FR" | "CA" | "JP";
 
 function CustomTooltip({ active, payload, label, lang }: any) {
