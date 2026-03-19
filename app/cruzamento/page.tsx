@@ -5,6 +5,8 @@ import PageHeader from "@/components/PageHeader";
 import { cruzamentoEspecialidadeRegiao, dadosPorEstado, rankingMunicipios, dadosPorRegiao, CORES_REGIOES } from "@/lib/data";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend, RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from "recharts";
 import { GitCompare, Trophy } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { t } from "@/lib/translations";
 
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
@@ -25,6 +27,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 const regioes = ["Sudeste", "Sul", "Nordeste", "Centro-Oeste", "Norte"];
 
 export default function CruzamentoPage() {
+  const { lang } = useLanguage();
   const [estado1, setEstado1] = useState("SP");
   const [estado2, setEstado2] = useState("PA");
 
@@ -51,18 +54,18 @@ export default function CruzamentoPage() {
   return (
     <AppShell>
       <PageHeader
-        title="Cruzamento de Dados"
-        subtitle="Análise comparativa entre estados, regiões e especialidades"
-        badge="Análise Multi-Dimensional"
+        title={t("cruz_title", lang)}
+        subtitle={t("cruz_subtitle", lang)}
+        badge={t("cruz_badge", lang)}
       />
 
       {/* Especialidade x Região */}
       <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6 mb-6">
         <div className="flex items-center gap-2 mb-1">
           <GitCompare className="w-4 h-4 text-blue-400" />
-          <h2 className="text-white font-semibold">Especialidade × Região</h2>
+          <h2 className="text-white font-semibold">{t("cruz_esp_regiao", lang)}</h2>
         </div>
-        <p className="text-slate-500 text-xs mb-4">Como as principais especialidades estão distribuídas por região do Brasil</p>
+        <p className="text-slate-500 text-xs mb-4">{t("cruz_esp_regiao_sub", lang)}</p>
         <ResponsiveContainer width="100%" height={320}>
           <BarChart data={cruzamentoEspecialidadeRegiao} margin={{ top: 0, right: 0, left: 0, bottom: 60 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
@@ -80,8 +83,8 @@ export default function CruzamentoPage() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
         {/* Radar */}
         <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6">
-          <h2 className="text-white font-semibold mb-1">Radar Multi-Dimensional por Região</h2>
-          <p className="text-slate-500 text-xs mb-4">Cobertura, Volume e Setor Público comparados por região</p>
+          <h2 className="text-white font-semibold mb-1">{t("cruz_radar", lang)}</h2>
+          <p className="text-slate-500 text-xs mb-4">{t("cruz_radar_sub", lang)}</p>
           <ResponsiveContainer width="100%" height={300}>
             <RadarChart data={radarData} cx="50%" cy="50%" outerRadius="75%">
               <PolarGrid stroke="#1e293b" />
@@ -98,17 +101,17 @@ export default function CruzamentoPage() {
 
         {/* Comparação Direta */}
         <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6">
-          <h2 className="text-white font-semibold mb-4">Comparação Direta Entre Estados</h2>
+          <h2 className="text-white font-semibold mb-4">{t("cruz_comparacao", lang)}</h2>
           <div className="flex gap-3 mb-5">
             <div className="flex-1">
-              <label className="text-slate-400 text-xs mb-1 block">Estado 1</label>
+              <label className="text-slate-400 text-xs mb-1 block">{t("cruz_estado1", lang)}</label>
               <select value={estado1} onChange={(e) => setEstado1(e.target.value)}
                 className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-blue-500">
                 {dadosPorEstado.map((e) => <option key={e.uf} value={e.uf}>{e.uf} - {e.estado}</option>)}
               </select>
             </div>
             <div className="flex-1">
-              <label className="text-slate-400 text-xs mb-1 block">Estado 2</label>
+              <label className="text-slate-400 text-xs mb-1 block">{t("cruz_estado2", lang)}</label>
               <select value={estado2} onChange={(e) => setEstado2(e.target.value)}
                 className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-blue-500">
                 {dadosPorEstado.map((e) => <option key={e.uf} value={e.uf}>{e.uf} - {e.estado}</option>)}
@@ -133,7 +136,7 @@ export default function CruzamentoPage() {
                   <div key={label}>
                     <div className="flex justify-between items-center mb-1">
                       <span className="text-slate-400 text-xs">{label}</span>
-                      {winner === 1 ? <span className="text-xs text-emerald-400 font-medium">{e1.uf} melhor</span> : <span className="text-xs text-blue-400 font-medium">{e2.uf} melhor</span>}
+                      {winner === 1 ? <span className="text-xs text-emerald-400 font-medium">{e1.uf} {t("cruz_melhor", lang)}</span> : <span className="text-xs text-blue-400 font-medium">{e2.uf} {t("cruz_melhor", lang)}</span>}
                     </div>
                     <div className="flex items-center gap-2">
                       <span className="text-emerald-400 text-xs font-mono w-16 text-right">{v1.toLocaleString("pt-BR")}</span>
@@ -163,12 +166,12 @@ export default function CruzamentoPage() {
       <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6">
         <div className="flex items-center gap-2 mb-1">
           <Trophy className="w-4 h-4 text-amber-400" />
-          <h2 className="text-white font-semibold">Ranking de Municípios por Cobertura</h2>
+          <h2 className="text-white font-semibold">{t("cruz_ranking", lang)}</h2>
         </div>
-        <p className="text-slate-500 text-xs mb-5">Municípios com melhor e pior cobertura (hab/dentista)</p>
+        <p className="text-slate-500 text-xs mb-5">{t("cruz_ranking_sub", lang)}</p>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div>
-            <h3 className="text-emerald-400 text-sm font-medium mb-3">Melhor cobertura</h3>
+            <h3 className="text-emerald-400 text-sm font-medium mb-3">{t("cruz_melhor_cobertura", lang)}</h3>
             {rankingMunicipios.slice(0, 5).map((m, i) => (
               <div key={m.municipio} className="flex items-center justify-between py-2.5 border-b border-slate-800">
                 <div className="flex items-center gap-3">
@@ -183,7 +186,7 @@ export default function CruzamentoPage() {
             ))}
           </div>
           <div>
-            <h3 className="text-red-400 text-sm font-medium mb-3">Pior cobertura</h3>
+            <h3 className="text-red-400 text-sm font-medium mb-3">{t("cruz_pior_cobertura", lang)}</h3>
             {rankingMunicipios.slice(5).map((m, i) => (
               <div key={m.municipio} className="flex items-center justify-between py-2.5 border-b border-slate-800">
                 <div className="flex items-center gap-3">

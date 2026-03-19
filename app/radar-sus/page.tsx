@@ -13,6 +13,8 @@ import {
   LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip,
   ResponsiveContainer, Legend,
 } from "recharts";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { t } from "@/lib/translations";
 
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
@@ -37,26 +39,28 @@ const urgColor = (u: string) => {
 };
 
 export default function RadarSUSPage() {
+  const { lang } = useLanguage();
+
   return (
     <AppShell>
       <PageHeader
-        title="Radar SUS — Oportunidades no Sistema Público"
-        subtitle="Vagas abertas, CEOs com baixa produção, verba federal não executada e oportunidades por especialidade"
-        badge="CNES · DataSUS · e-Gestor AB · FNS"
+        title={t("radar_title", lang)}
+        subtitle={t("radar_subtitle", lang)}
+        badge={t("radar_badge", lang)}
       />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-        <StatCard title="Vagas SUS Abertas" value={indicadoresRadarSUS.vagasTotalAberto.toLocaleString("pt-BR")} icon={Briefcase} color="blue" subtitle="Em todo o Brasil" />
-        <StatCard title="Salário Médio SUS" value={indicadoresRadarSUS.salarioMedio} icon={DollarSign} color="green" subtitle="Remuneração média" />
-        <StatCard title="Taxa Preenchimento" value={indicadoresRadarSUS.taxaPreenchimento} icon={MapPin} color="yellow" subtitle="32% das vagas ficam vazias" />
-        <StatCard title="CEOs em Risco" value={indicadoresRadarSUS.ceosRiscoDescredenciamento} icon={Building2} color="red" subtitle="Risco de descredenciamento" />
+        <StatCard title={t("radar_vagas_sus", lang)} value={indicadoresRadarSUS.vagasTotalAberto.toLocaleString("pt-BR")} icon={Briefcase} color="blue" subtitle={t("radar_em_brasil", lang)} />
+        <StatCard title={t("radar_salario", lang)} value={indicadoresRadarSUS.salarioMedio} icon={DollarSign} color="green" subtitle={t("radar_remuneracao", lang)} />
+        <StatCard title={t("radar_taxa_preench", lang)} value={indicadoresRadarSUS.taxaPreenchimento} icon={MapPin} color="yellow" subtitle={t("radar_vagas_vazias", lang)} />
+        <StatCard title={t("radar_ceos_risco", lang)} value={indicadoresRadarSUS.ceosRiscoDescredenciamento} icon={Building2} color="red" subtitle={t("radar_risco_desc", lang)} />
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <StatCard title="Verba Não Executada" value={indicadoresRadarSUS.verbaFederalNaoExecutada_bi} icon={Banknote} color="red" subtitle="Recursos disponíveis" />
-        <StatCard title="Estado + Vagas" value={indicadoresRadarSUS.estadoMaisVagas} icon={MapPin} color="purple" subtitle="Maranhão lidera" />
-        <StatCard title="Espec. + Vagas" value={indicadoresRadarSUS.especialidadeMaisVagas} icon={Stethoscope} color="cyan" subtitle="Cirurgia BMF" />
-        <StatCard title="Tempo Médio Aberta" value={indicadoresRadarSUS.tempoMedioAberta} icon={Clock} color="yellow" subtitle="Meses sem preencher" />
+        <StatCard title={t("radar_verba", lang)} value={indicadoresRadarSUS.verbaFederalNaoExecutada_bi} icon={Banknote} color="red" subtitle={t("radar_recursos", lang)} />
+        <StatCard title={t("radar_estado_vagas", lang)} value={indicadoresRadarSUS.estadoMaisVagas} icon={MapPin} color="purple" subtitle="Maranhão lidera" />
+        <StatCard title={t("radar_espec_vagas", lang)} value={indicadoresRadarSUS.especialidadeMaisVagas} icon={Stethoscope} color="cyan" subtitle="Cirurgia BMF" />
+        <StatCard title={t("radar_tempo_aberta", lang)} value={indicadoresRadarSUS.tempoMedioAberta} icon={Clock} color="yellow" subtitle={t("radar_meses_sem", lang)} />
       </div>
 
       <div className="bg-red-600/10 border border-red-600/30 rounded-xl p-4 mb-8">
@@ -71,8 +75,8 @@ export default function RadarSUSPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6">
-          <h2 className="text-white font-semibold mb-1">Evolução Vagas Abertas vs Preenchidas</h2>
-          <p className="text-slate-500 text-xs mb-4">2018-2024 — o gap está aumentando</p>
+          <h2 className="text-white font-semibold mb-1">{t("radar_evolucao", lang)}</h2>
+          <p className="text-slate-500 text-xs mb-4">{t("radar_evolucao_sub", lang)}</p>
           <ResponsiveContainer width="100%" height={320}>
             <LineChart data={serieHistoricaVagas} margin={{ top: 5, right: 20, left: 0, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
@@ -80,15 +84,15 @@ export default function RadarSUSPage() {
               <YAxis tick={{ fill: "#94a3b8", fontSize: 10 }} />
               <Tooltip content={<CustomTooltip />} />
               <Legend wrapperStyle={{ fontSize: 11, color: "#94a3b8" }} />
-              <Line type="monotone" dataKey="vagas_abertas" name="Vagas Abertas" stroke="#ef4444" strokeWidth={2} dot={{ r: 3 }} />
-              <Line type="monotone" dataKey="vagas_preenchidas" name="Vagas Preenchidas" stroke="#10b981" strokeWidth={2} dot={{ r: 3 }} />
+              <Line type="monotone" dataKey="vagas_abertas" name={t("radar_vagas_abertas", lang)} stroke="#ef4444" strokeWidth={2} dot={{ r: 3 }} />
+              <Line type="monotone" dataKey="vagas_preenchidas" name={t("radar_vagas_preenchidas", lang)} stroke="#10b981" strokeWidth={2} dot={{ r: 3 }} />
             </LineChart>
           </ResponsiveContainer>
         </div>
 
         <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6">
-          <h2 className="text-white font-semibold mb-1">Verba Federal: Aprovada vs Executada</h2>
-          <p className="text-slate-500 text-xs mb-4">Milhões R$ — recursos disponíveis por estado</p>
+          <h2 className="text-white font-semibold mb-1">{t("radar_verba_chart", lang)}</h2>
+          <p className="text-slate-500 text-xs mb-4">{t("radar_verba_sub", lang)}</p>
           <ResponsiveContainer width="100%" height={320}>
             <BarChart data={verbaFederalDisponivel} margin={{ top: 5, right: 20, left: 0, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
@@ -96,8 +100,8 @@ export default function RadarSUSPage() {
               <YAxis tick={{ fill: "#94a3b8", fontSize: 10 }} tickFormatter={(v) => `${v}M`} />
               <Tooltip content={<CustomTooltip />} />
               <Legend wrapperStyle={{ fontSize: 11, color: "#94a3b8" }} />
-              <Bar dataKey="verba_aprovada_mi" name="Aprovada (R$ mi)" fill="#3b82f6" radius={[4, 4, 0, 0]} />
-              <Bar dataKey="verba_executada_mi" name="Executada (R$ mi)" fill="#10b981" radius={[4, 4, 0, 0]} />
+              <Bar dataKey="verba_aprovada_mi" name={t("radar_verba_aprov", lang)} fill="#3b82f6" radius={[4, 4, 0, 0]} />
+              <Bar dataKey="verba_executada_mi" name={t("radar_verba_exec", lang)} fill="#10b981" radius={[4, 4, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -105,19 +109,19 @@ export default function RadarSUSPage() {
 
       {/* Vagas SUS */}
       <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6 mb-8">
-        <h2 className="text-white font-semibold mb-1">Vagas SUS Não Preenchidas</h2>
-        <p className="text-slate-500 text-xs mb-4">Oportunidades reais com salário e localização</p>
+        <h2 className="text-white font-semibold mb-1">{t("radar_vagas_nao_preench", lang)}</h2>
+        <p className="text-slate-500 text-xs mb-4">{t("radar_vagas_nao_sub", lang)}</p>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-slate-800">
-                <th className="text-left py-3 px-3 text-slate-400 font-medium">Município</th>
-                <th className="text-left py-3 px-3 text-slate-400 font-medium">UF</th>
-                <th className="text-left py-3 px-3 text-slate-400 font-medium">Tipo</th>
-                <th className="text-right py-3 px-3 text-slate-400 font-medium">Salário</th>
-                <th className="text-center py-3 px-3 text-slate-400 font-medium">CH</th>
-                <th className="text-right py-3 px-3 text-slate-400 font-medium">Meses Aberta</th>
-                <th className="text-center py-3 px-3 text-slate-400 font-medium">Urgência</th>
+                <th className="text-left py-3 px-3 text-slate-400 font-medium">{t("col_municipio", lang)}</th>
+                <th className="text-left py-3 px-3 text-slate-400 font-medium">{t("col_uf", lang)}</th>
+                <th className="text-left py-3 px-3 text-slate-400 font-medium">{t("col_tipo_vaga", lang)}</th>
+                <th className="text-right py-3 px-3 text-slate-400 font-medium">{t("col_salario", lang)}</th>
+                <th className="text-center py-3 px-3 text-slate-400 font-medium">{t("col_ch", lang)}</th>
+                <th className="text-right py-3 px-3 text-slate-400 font-medium">{t("col_meses_aberta", lang)}</th>
+                <th className="text-center py-3 px-3 text-slate-400 font-medium">{t("col_urgencia", lang)}</th>
               </tr>
             </thead>
             <tbody>
@@ -139,19 +143,19 @@ export default function RadarSUSPage() {
 
       {/* CEOs abaixo da meta */}
       <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6 mb-8">
-        <h2 className="text-white font-semibold mb-1">CEOs Abaixo da Meta de Produção</h2>
-        <p className="text-slate-500 text-xs mb-4">Centros que precisam de profissionais para manter credenciamento</p>
+        <h2 className="text-white font-semibold mb-1">{t("radar_ceos_meta", lang)}</h2>
+        <p className="text-slate-500 text-xs mb-4">{t("radar_ceos_sub", lang)}</p>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-slate-800">
-                <th className="text-left py-3 px-3 text-slate-400 font-medium">CEO</th>
-                <th className="text-left py-3 px-3 text-slate-400 font-medium">Município</th>
-                <th className="text-right py-3 px-3 text-slate-400 font-medium">Meta</th>
-                <th className="text-right py-3 px-3 text-slate-400 font-medium">Produção</th>
-                <th className="text-right py-3 px-3 text-slate-400 font-medium">Cumprimento</th>
-                <th className="text-center py-3 px-3 text-slate-400 font-medium">Risco</th>
-                <th className="text-left py-3 px-3 text-slate-400 font-medium">Especialidades em Falta</th>
+                <th className="text-left py-3 px-3 text-slate-400 font-medium">{t("col_ceo", lang)}</th>
+                <th className="text-left py-3 px-3 text-slate-400 font-medium">{t("col_municipio", lang)}</th>
+                <th className="text-right py-3 px-3 text-slate-400 font-medium">{t("col_meta", lang)}</th>
+                <th className="text-right py-3 px-3 text-slate-400 font-medium">{t("col_producao", lang)}</th>
+                <th className="text-right py-3 px-3 text-slate-400 font-medium">{t("col_cumprimento", lang)}</th>
+                <th className="text-center py-3 px-3 text-slate-400 font-medium">{t("col_risco", lang)}</th>
+                <th className="text-left py-3 px-3 text-slate-400 font-medium">{t("col_esp_falta", lang)}</th>
               </tr>
             </thead>
             <tbody>
@@ -163,7 +167,7 @@ export default function RadarSUSPage() {
                   <td className="py-3 px-3 text-right text-slate-300">{c.producao_atual}</td>
                   <td className={`py-3 px-3 text-right font-bold ${c.cumprimento_pct < 60 ? "text-red-400" : "text-amber-400"}`}>{c.cumprimento_pct}%</td>
                   <td className="py-3 px-3 text-center">
-                    {c.risco_descredenciamento ? <span className="bg-red-600/20 text-red-400 px-2 py-1 rounded-full text-xs font-medium">Sim</span> : <span className="bg-slate-700 text-slate-400 px-2 py-1 rounded-full text-xs">Não</span>}
+                    {c.risco_descredenciamento ? <span className="bg-red-600/20 text-red-400 px-2 py-1 rounded-full text-xs font-medium">{t("radar_sim", lang)}</span> : <span className="bg-slate-700 text-slate-400 px-2 py-1 rounded-full text-xs">{t("radar_nao", lang)}</span>}
                   </td>
                   <td className="py-3 px-3 text-xs text-amber-400">{c.especialidades_deficitarias.join(", ")}</td>
                 </tr>
@@ -175,17 +179,17 @@ export default function RadarSUSPage() {
 
       {/* Oportunidades por Especialidade */}
       <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6">
-        <h2 className="text-white font-semibold mb-1">Oportunidades por Especialidade no SUS</h2>
-        <p className="text-slate-500 text-xs mb-4">Vagas abertas, salário médio e regiões mais carentes</p>
+        <h2 className="text-white font-semibold mb-1">{t("radar_oport_esp", lang)}</h2>
+        <p className="text-slate-500 text-xs mb-4">{t("radar_oport_sub", lang)}</p>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-slate-800">
-                <th className="text-left py-3 px-3 text-slate-400 font-medium">Especialidade</th>
-                <th className="text-right py-3 px-3 text-slate-400 font-medium">Vagas Abertas</th>
-                <th className="text-right py-3 px-3 text-slate-400 font-medium">Salário Médio</th>
-                <th className="text-left py-3 px-3 text-slate-400 font-medium">Regiões + Carentes</th>
-                <th className="text-right py-3 px-3 text-slate-400 font-medium">Crescimento</th>
+                <th className="text-left py-3 px-3 text-slate-400 font-medium">{t("col_especialidade", lang)}</th>
+                <th className="text-right py-3 px-3 text-slate-400 font-medium">{t("col_vagas_abertas", lang)}</th>
+                <th className="text-right py-3 px-3 text-slate-400 font-medium">{t("col_salario_medio", lang)}</th>
+                <th className="text-left py-3 px-3 text-slate-400 font-medium">{t("col_regioes_carentes", lang)}</th>
+                <th className="text-right py-3 px-3 text-slate-400 font-medium">{t("col_crescimento", lang)}</th>
               </tr>
             </thead>
             <tbody>

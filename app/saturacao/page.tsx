@@ -14,6 +14,8 @@ import {
   ResponsiveContainer, Legend, AreaChart, Area,
 } from "recharts";
 import { useState } from "react";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { t } from "@/lib/translations";
 
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
@@ -56,29 +58,30 @@ const regioes = ["Sudeste", "Sul", "Centro-Oeste", "Nordeste", "Norte"];
 const especialidades = ["Ortodontia", "Implantodontia", "Endodontia", "Odontogeriatria", "Prótese Dentária"];
 
 export default function SaturacaoPage() {
+  const { lang } = useLanguage();
   const [selEspec, setSelEspec] = useState("Ortodontia");
   const especData = projecaoSaturacao.find((p) => p.especialidade === selEspec);
 
   return (
     <AppShell>
       <PageHeader
-        title="Previsão de Saturação por Especialidade"
-        subtitle="Projeções de oferta vs demanda 2025-2030 baseadas em dados de formação, registros CRO e tendências demográficas"
-        badge="CFO · INEP · CAPES · IBGE"
+        title={t("sat_title", lang)}
+        subtitle={t("sat_subtitle", lang)}
+        badge={t("sat_badge", lang)}
       />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-        <StatCard title="Mais Saturada" value={indicadoresSaturacao.especialidadesMaisSaturadas} icon={TrendingDown} color="red" subtitle="Excesso de oferta" />
-        <StatCard title="Mais Carente" value={indicadoresSaturacao.especialidadesMaisCarentes} icon={TrendingUp} color="green" subtitle="Deficit crítico" />
-        <StatCard title="Formandos/Ano" value={indicadoresSaturacao.formandosAnuais.toLocaleString("pt-BR")} icon={GraduationCap} color="blue" subtitle="Novos profissionais" />
-        <StatCard title="Taxa Absorção" value={indicadoresSaturacao.taxaAbsorcaoMedia} icon={Target} color="yellow" subtitle="Mercado absorve" />
+        <StatCard title={t("sat_mais_saturada", lang)} value={indicadoresSaturacao.especialidadesMaisSaturadas} icon={TrendingDown} color="red" subtitle={t("sat_excesso", lang)} />
+        <StatCard title={t("sat_mais_carente", lang)} value={indicadoresSaturacao.especialidadesMaisCarentes} icon={TrendingUp} color="green" subtitle={t("sat_deficit_crit", lang)} />
+        <StatCard title={t("sat_formandos_ano", lang)} value={indicadoresSaturacao.formandosAnuais.toLocaleString("pt-BR")} icon={GraduationCap} color="blue" subtitle={t("sat_novos_prof", lang)} />
+        <StatCard title={t("sat_taxa_abs", lang)} value={indicadoresSaturacao.taxaAbsorcaoMedia} icon={Target} color="yellow" subtitle={t("sat_mercado_abs", lang)} />
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <StatCard title="Colapso Ortodontia" value={indicadoresSaturacao.anoColapsoOrtodontia} icon={Calendar} color="red" subtitle="Ano crítico previsto" />
-        <StatCard title="Região + Saturada" value={indicadoresSaturacao.regiaoMaisSaturada} icon={MapPin} color="red" subtitle="Sudeste" />
-        <StatCard title="Região + Oportunidade" value={indicadoresSaturacao.regiaoMaisOportunidade} icon={MapPin} color="green" subtitle="Norte" />
-        <StatCard title="Demanda Idosos" value={indicadoresSaturacao.crescimentoDemandaIdosos} icon={Users} color="purple" subtitle="Crescimento até 2040" />
+        <StatCard title={t("sat_colapso", lang)} value={indicadoresSaturacao.anoColapsoOrtodontia} icon={Calendar} color="red" subtitle={t("sat_ano_crit", lang)} />
+        <StatCard title={t("sat_reg_saturada", lang)} value={indicadoresSaturacao.regiaoMaisSaturada} icon={MapPin} color="red" subtitle="Sudeste" />
+        <StatCard title={t("sat_reg_oport", lang)} value={indicadoresSaturacao.regiaoMaisOportunidade} icon={MapPin} color="green" subtitle="Norte" />
+        <StatCard title={t("sat_dem_idosos", lang)} value={indicadoresSaturacao.crescimentoDemandaIdosos} icon={Users} color="purple" subtitle={t("sat_cresc_2040", lang)} />
       </div>
 
       <div className="bg-amber-600/10 border border-amber-600/30 rounded-xl p-4 mb-8">
@@ -93,8 +96,8 @@ export default function SaturacaoPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6">
-          <h2 className="text-white font-semibold mb-1">Tendência de Saturação 2020-2030</h2>
-          <p className="text-slate-500 text-xs mb-4">100 = equilíbrio | &gt;100 = excesso de oferta | &lt;100 = deficit</p>
+          <h2 className="text-white font-semibold mb-1">{t("sat_tendencia", lang)}</h2>
+          <p className="text-slate-500 text-xs mb-4">{t("sat_tend_sub", lang)}</p>
           <ResponsiveContainer width="100%" height={340}>
             <LineChart data={tendenciaEspecialidades} margin={{ top: 5, right: 20, left: 0, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
@@ -114,8 +117,8 @@ export default function SaturacaoPage() {
         <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h2 className="text-white font-semibold mb-1">Projeção Oferta vs Demanda</h2>
-              <p className="text-slate-500 text-xs">Selecione uma especialidade</p>
+              <h2 className="text-white font-semibold mb-1">{t("sat_proj_oferta", lang)}</h2>
+              <p className="text-slate-500 text-xs">{t("sat_selecionar", lang)}</p>
             </div>
             <select value={selEspec} onChange={(e) => setSelEspec(e.target.value)} className="bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white">
               {projecaoSaturacao.map((p) => <option key={p.especialidade} value={p.especialidade}>{p.especialidade}</option>)}
@@ -129,8 +132,8 @@ export default function SaturacaoPage() {
                 <YAxis tick={{ fill: "#94a3b8", fontSize: 10 }} tickFormatter={(v) => `${(v / 1000).toFixed(0)}k`} />
                 <Tooltip content={<CustomTooltip />} />
                 <Legend wrapperStyle={{ fontSize: 10, color: "#94a3b8" }} />
-                <Area type="monotone" dataKey="oferta" name="Oferta" stroke="#ef4444" fill="#ef4444" fillOpacity={0.15} strokeWidth={2} />
-                <Area type="monotone" dataKey="demanda" name="Demanda" stroke="#10b981" fill="#10b981" fillOpacity={0.15} strokeWidth={2} />
+                <Area type="monotone" dataKey="oferta" name={t("sat_oferta", lang)} stroke="#ef4444" fill="#ef4444" fillOpacity={0.15} strokeWidth={2} />
+                <Area type="monotone" dataKey="demanda" name={t("sat_demanda", lang)} stroke="#10b981" fill="#10b981" fillOpacity={0.15} strokeWidth={2} />
               </AreaChart>
             </ResponsiveContainer>
           )}
@@ -139,18 +142,18 @@ export default function SaturacaoPage() {
 
       {/* Projeção por Especialidade */}
       <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6 mb-8">
-        <h2 className="text-white font-semibold mb-4">Projeção por Especialidade</h2>
+        <h2 className="text-white font-semibold mb-4">{t("sat_proj_esp", lang)}</h2>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-slate-800">
-                <th className="text-left py-3 px-3 text-slate-400 font-medium">Especialidade</th>
-                <th className="text-right py-3 px-3 text-slate-400 font-medium">Profissionais</th>
-                <th className="text-right py-3 px-3 text-slate-400 font-medium">Formandos/Ano</th>
-                <th className="text-right py-3 px-3 text-slate-400 font-medium">Cresc. Demanda</th>
-                <th className="text-right py-3 px-3 text-slate-400 font-medium">Cresc. Oferta</th>
-                <th className="text-center py-3 px-3 text-slate-400 font-medium">Equilíbrio</th>
-                <th className="text-center py-3 px-3 text-slate-400 font-medium">Status</th>
+                <th className="text-left py-3 px-3 text-slate-400 font-medium">{t("col_especialidade", lang)}</th>
+                <th className="text-right py-3 px-3 text-slate-400 font-medium">{t("col_profissionais", lang)}</th>
+                <th className="text-right py-3 px-3 text-slate-400 font-medium">{t("col_formandos_ano", lang)}</th>
+                <th className="text-right py-3 px-3 text-slate-400 font-medium">{t("col_cresc_demanda", lang)}</th>
+                <th className="text-right py-3 px-3 text-slate-400 font-medium">{t("col_cresc_oferta", lang)}</th>
+                <th className="text-center py-3 px-3 text-slate-400 font-medium">{t("col_equilibrio", lang)}</th>
+                <th className="text-center py-3 px-3 text-slate-400 font-medium">{t("col_status", lang)}</th>
               </tr>
             </thead>
             <tbody>
@@ -161,7 +164,7 @@ export default function SaturacaoPage() {
                   <td className="py-3 px-3 text-right text-slate-300">{p.formandos_ano.toLocaleString("pt-BR")}</td>
                   <td className="py-3 px-3 text-right text-slate-300">{p.taxa_crescimento_demanda_pct}%</td>
                   <td className={`py-3 px-3 text-right ${p.taxa_crescimento_oferta_pct > p.taxa_crescimento_demanda_pct * 2 ? "text-red-400" : "text-slate-300"}`}>{p.taxa_crescimento_oferta_pct}%</td>
-                  <td className="py-3 px-3 text-center text-slate-300">{p.ano_equilibrio || "Saturado"}</td>
+                  <td className="py-3 px-3 text-center text-slate-300">{p.ano_equilibrio || t("sat_saturado", lang)}</td>
                   <td className="py-3 px-3 text-center"><span className={`px-2 py-1 rounded-full text-xs font-medium ${statusColor(p.status)}`}>{p.status}</span></td>
                 </tr>
               ))}
@@ -172,13 +175,13 @@ export default function SaturacaoPage() {
 
       {/* Heatmap Região x Especialidade */}
       <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6 mb-8">
-        <h2 className="text-white font-semibold mb-1">Saturação: Região × Especialidade</h2>
-        <p className="text-slate-500 text-xs mb-4">Projeção 2030 — valores em % (100 = equilíbrio)</p>
+        <h2 className="text-white font-semibold mb-1">{t("sat_heatmap", lang)}</h2>
+        <p className="text-slate-500 text-xs mb-4">{t("sat_heatmap_sub", lang)}</p>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-slate-800">
-                <th className="text-left py-3 px-3 text-slate-400 font-medium">Região</th>
+                <th className="text-left py-3 px-3 text-slate-400 font-medium">{t("col_regiao", lang)}</th>
                 {especialidades.map((e) => <th key={e} className="text-center py-3 px-3 text-slate-400 font-medium text-xs">{e}</th>)}
               </tr>
             </thead>
@@ -205,7 +208,7 @@ export default function SaturacaoPage() {
 
       {/* Alertas */}
       <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6 mb-8">
-        <h2 className="text-white font-semibold mb-4">Alertas de Saturação</h2>
+        <h2 className="text-white font-semibold mb-4">{t("sat_alertas", lang)}</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {alertasSaturacao.map((a, i) => (
             <div key={i} className={`border rounded-xl p-4 ${sevColor(a.severidade)}`}>
@@ -222,18 +225,18 @@ export default function SaturacaoPage() {
 
       {/* Pipeline Universidades */}
       <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6">
-        <h2 className="text-white font-semibold mb-4">Pipeline de Universidades por Estado</h2>
+        <h2 className="text-white font-semibold mb-4">{t("sat_pipeline", lang)}</h2>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-slate-800">
-                <th className="text-left py-3 px-3 text-slate-400 font-medium">UF</th>
-                <th className="text-left py-3 px-3 text-slate-400 font-medium">Estado</th>
-                <th className="text-right py-3 px-3 text-slate-400 font-medium">Vagas Grad.</th>
-                <th className="text-right py-3 px-3 text-slate-400 font-medium">Vagas Espec.</th>
-                <th className="text-right py-3 px-3 text-slate-400 font-medium">Conclusão</th>
-                <th className="text-right py-3 px-3 text-slate-400 font-medium">Proj. 2030</th>
-                <th className="text-right py-3 px-3 text-slate-400 font-medium">Absorção</th>
+                <th className="text-left py-3 px-3 text-slate-400 font-medium">{t("col_uf", lang)}</th>
+                <th className="text-left py-3 px-3 text-slate-400 font-medium">{t("col_estado", lang)}</th>
+                <th className="text-right py-3 px-3 text-slate-400 font-medium">{t("col_vagas_grad", lang)}</th>
+                <th className="text-right py-3 px-3 text-slate-400 font-medium">{t("col_vagas_espec", lang)}</th>
+                <th className="text-right py-3 px-3 text-slate-400 font-medium">{t("col_conclusao", lang)}</th>
+                <th className="text-right py-3 px-3 text-slate-400 font-medium">{t("col_proj_2030", lang)}</th>
+                <th className="text-right py-3 px-3 text-slate-400 font-medium">{t("col_absorcao", lang)}</th>
               </tr>
             </thead>
             <tbody>

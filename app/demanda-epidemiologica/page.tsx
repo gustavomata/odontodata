@@ -14,6 +14,8 @@ import {
   ResponsiveContainer, Legend,
 } from "recharts";
 import { useState } from "react";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { t } from "@/lib/translations";
 
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
@@ -55,29 +57,30 @@ const demandaChart = demandaPorCondicao.filter((d) => d.deficit_profissionais > 
 }));
 
 export default function DemandaEpidemiologicaPage() {
+  const { lang } = useLanguage();
   const [busca, setBusca] = useState("");
   const gapFiltrado = gapOfertaDemanda.filter((g) => g.estado.toLowerCase().includes(busca.toLowerCase()) || g.uf.toLowerCase().includes(busca.toLowerCase()));
 
   return (
     <AppShell>
       <PageHeader
-        title="Preditor de Demanda Epidemiológica"
-        subtitle="Estimativa de demanda clínica baseada em prevalência de doenças, projeções demográficas e capacidade instalada"
-        badge="SB Brasil · PNS/IBGE · SIM · SINAN · VIGITEL"
+        title={t("demanda_title", lang)}
+        subtitle={t("demanda_subtitle", lang)}
+        badge={t("demanda_badge", lang)}
       />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-        <StatCard title="Pop. Necessita Tratamento" value={indicadoresDemanda.populacaoNecessitaTratamento_mi + " mi"} icon={Users} color="red" subtitle="Demanda estimada" />
-        <StatCard title="Déficit de Consultas" value={indicadoresDemanda.deficitConsultas_mi + " mi/ano"} icon={Activity} color="red" subtitle="Consultas não realizadas" />
-        <StatCard title="Condição + Prevalente" value={indicadoresDemanda.condicaoMaisPrevalente} icon={Stethoscope} color="purple" subtitle="52.3 milhões afetados" />
-        <StatCard title="Região Maior Déficit" value={indicadoresDemanda.regiaoMaiorDeficit} icon={MapPin} color="red" subtitle="Norte do Brasil" />
+        <StatCard title={t("demanda_pop_nec", lang)} value={indicadoresDemanda.populacaoNecessitaTratamento_mi + " mi"} icon={Users} color="red" subtitle={t("demanda_estimada", lang)} />
+        <StatCard title={t("demanda_deficit_cons", lang)} value={indicadoresDemanda.deficitConsultas_mi + " mi/ano"} icon={Activity} color="red" subtitle={t("demanda_nao_realizadas", lang)} />
+        <StatCard title={t("demanda_cond_prevalente", lang)} value={indicadoresDemanda.condicaoMaisPrevalente} icon={Stethoscope} color="purple" subtitle={t("demanda_afetados", lang)} />
+        <StatCard title={t("demanda_regiao_deficit", lang)} value={indicadoresDemanda.regiaoMaiorDeficit} icon={MapPin} color="red" subtitle={t("demanda_norte", lang)} />
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <StatCard title="Demanda Idosos" value={indicadoresDemanda.crescimentoDemandaIdosos_pct} icon={TrendingUp} color="purple" subtitle="Crescimento até 2040" />
-        <StatCard title="Custo Total Estimado" value={indicadoresDemanda.custoTotalEstimado_bi} icon={DollarSign} color="yellow" subtitle="Tratamento da demanda" />
-        <StatCard title="Profissionais Necessários" value={indicadoresDemanda.profissionaisNecessarios.toLocaleString("pt-BR")} icon={Users} color="blue" subtitle="Déficit nacional" />
-        <StatCard title="Tempo Espera Médio" value={indicadoresDemanda.tempoEsperaMedio} icon={Clock} color="yellow" subtitle="Meses no SUS" />
+        <StatCard title={t("demanda_idosos", lang)} value={indicadoresDemanda.crescimentoDemandaIdosos_pct} icon={TrendingUp} color="purple" subtitle={t("demanda_cresc_2040", lang)} />
+        <StatCard title={t("demanda_custo", lang)} value={indicadoresDemanda.custoTotalEstimado_bi} icon={DollarSign} color="yellow" subtitle={t("demanda_tratamento", lang)} />
+        <StatCard title={t("demanda_prof_nec", lang)} value={indicadoresDemanda.profissionaisNecessarios.toLocaleString("pt-BR")} icon={Users} color="blue" subtitle={t("demanda_deficit_nac", lang)} />
+        <StatCard title={t("demanda_tempo_espera", lang)} value={indicadoresDemanda.tempoEsperaMedio} icon={Clock} color="yellow" subtitle={t("demanda_meses_sus", lang)} />
       </div>
 
       <div className="bg-purple-600/10 border border-purple-600/30 rounded-xl p-4 mb-8">
@@ -92,8 +95,8 @@ export default function DemandaEpidemiologicaPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6">
-          <h2 className="text-white font-semibold mb-1">Projeção Demográfica e Demanda 2024-2040</h2>
-          <p className="text-slate-500 text-xs mb-4">Milhões de consultas/ano por faixa etária</p>
+          <h2 className="text-white font-semibold mb-1">{t("demanda_proj", lang)}</h2>
+          <p className="text-slate-500 text-xs mb-4">{t("demanda_proj_sub", lang)}</p>
           <ResponsiveContainer width="100%" height={340}>
             <AreaChart data={projecaoDemografica} margin={{ top: 5, right: 20, left: 0, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
@@ -101,16 +104,16 @@ export default function DemandaEpidemiologicaPage() {
               <YAxis tick={{ fill: "#94a3b8", fontSize: 10 }} tickFormatter={(v) => `${v}mi`} />
               <Tooltip content={<CustomTooltip />} />
               <Legend wrapperStyle={{ fontSize: 10, color: "#94a3b8" }} />
-              <Area type="monotone" dataKey="demanda_geriatrica_mi" name="Geriátrica" stackId="1" stroke="#a855f7" fill="#a855f7" fillOpacity={0.4} />
-              <Area type="monotone" dataKey="demanda_adulto_mi" name="Adulto" stackId="1" stroke="#3b82f6" fill="#3b82f6" fillOpacity={0.3} />
-              <Area type="monotone" dataKey="demanda_pediatrica_mi" name="Pediátrica" stackId="1" stroke="#10b981" fill="#10b981" fillOpacity={0.3} />
+              <Area type="monotone" dataKey="demanda_geriatrica_mi" name={t("demanda_geriatrica", lang)} stackId="1" stroke="#a855f7" fill="#a855f7" fillOpacity={0.4} />
+              <Area type="monotone" dataKey="demanda_adulto_mi" name={t("demanda_adulto", lang)} stackId="1" stroke="#3b82f6" fill="#3b82f6" fillOpacity={0.3} />
+              <Area type="monotone" dataKey="demanda_pediatrica_mi" name={t("demanda_pediatrica", lang)} stackId="1" stroke="#10b981" fill="#10b981" fillOpacity={0.3} />
             </AreaChart>
           </ResponsiveContainer>
         </div>
 
         <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6">
-          <h2 className="text-white font-semibold mb-1">Déficit de Profissionais por Condição</h2>
-          <p className="text-slate-500 text-xs mb-4">Profissionais disponíveis vs necessários</p>
+          <h2 className="text-white font-semibold mb-1">{t("demanda_deficit_prof", lang)}</h2>
+          <p className="text-slate-500 text-xs mb-4">{t("demanda_deficit_prof_sub", lang)}</p>
           <ResponsiveContainer width="100%" height={340}>
             <BarChart data={demandaChart} layout="vertical" margin={{ top: 5, right: 20, left: 0, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
@@ -118,8 +121,8 @@ export default function DemandaEpidemiologicaPage() {
               <YAxis type="category" dataKey="condicao" width={120} tick={{ fill: "#94a3b8", fontSize: 9 }} />
               <Tooltip content={<CustomTooltip />} />
               <Legend wrapperStyle={{ fontSize: 10, color: "#94a3b8" }} />
-              <Bar dataKey="disponivel" name="Disponíveis" fill="#3b82f6" stackId="a" radius={[0, 0, 0, 0]} />
-              <Bar dataKey="deficit" name="Déficit" fill="#ef4444" stackId="a" radius={[0, 4, 4, 0]} />
+              <Bar dataKey="disponivel" name={t("demanda_disponivel", lang)} fill="#3b82f6" stackId="a" radius={[0, 0, 0, 0]} />
+              <Bar dataKey="deficit" name={t("demanda_deficit_bar", lang)} fill="#ef4444" stackId="a" radius={[0, 4, 4, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -127,19 +130,19 @@ export default function DemandaEpidemiologicaPage() {
 
       {/* Demanda por Condição */}
       <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6 mb-8">
-        <h2 className="text-white font-semibold mb-4">Demanda por Condição Clínica</h2>
+        <h2 className="text-white font-semibold mb-4">{t("demanda_por_condicao", lang)}</h2>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-slate-800">
-                <th className="text-left py-3 px-2 text-slate-400 font-medium">Condição</th>
-                <th className="text-right py-3 px-2 text-slate-400 font-medium">Prev. Adulto</th>
-                <th className="text-right py-3 px-2 text-slate-400 font-medium">Pop. Afetada</th>
-                <th className="text-left py-3 px-2 text-slate-400 font-medium">Especialidade</th>
-                <th className="text-right py-3 px-2 text-slate-400 font-medium">Profissionais</th>
-                <th className="text-right py-3 px-2 text-slate-400 font-medium">Déficit</th>
-                <th className="text-right py-3 px-2 text-slate-400 font-medium">Custo Médio</th>
-                <th className="text-center py-3 px-2 text-slate-400 font-medium">Tendência</th>
+                <th className="text-left py-3 px-2 text-slate-400 font-medium">{t("col_condicao", lang)}</th>
+                <th className="text-right py-3 px-2 text-slate-400 font-medium">{t("col_prev_adulto", lang)}</th>
+                <th className="text-right py-3 px-2 text-slate-400 font-medium">{t("col_pop_afetada", lang)}</th>
+                <th className="text-left py-3 px-2 text-slate-400 font-medium">{t("col_especialidade_col", lang)}</th>
+                <th className="text-right py-3 px-2 text-slate-400 font-medium">{t("col_profissionais_col", lang)}</th>
+                <th className="text-right py-3 px-2 text-slate-400 font-medium">{t("col_deficit_col", lang)}</th>
+                <th className="text-right py-3 px-2 text-slate-400 font-medium">{t("col_custo_medio_col", lang)}</th>
+                <th className="text-center py-3 px-2 text-slate-400 font-medium">{t("col_tendencia_col", lang)}</th>
               </tr>
             </thead>
             <tbody>
@@ -162,13 +165,13 @@ export default function DemandaEpidemiologicaPage() {
 
       {/* Heatmap Regional */}
       <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6 mb-8">
-        <h2 className="text-white font-semibold mb-1">Gap Oferta vs Demanda: Região × Condição</h2>
-        <p className="text-slate-500 text-xs mb-4">Valores negativos indicam déficit — em %</p>
+        <h2 className="text-white font-semibold mb-1">{t("demanda_gap_regiao", lang)}</h2>
+        <p className="text-slate-500 text-xs mb-4">{t("demanda_gap_regiao_sub", lang)}</p>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-slate-800">
-                <th className="text-left py-3 px-3 text-slate-400 font-medium">Região</th>
+                <th className="text-left py-3 px-3 text-slate-400 font-medium">{t("col_regiao", lang)}</th>
                 {condicoes.map((c) => <th key={c} className="text-center py-3 px-2 text-slate-400 font-medium text-xs">{c}</th>)}
               </tr>
             </thead>
@@ -195,21 +198,21 @@ export default function DemandaEpidemiologicaPage() {
       <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6 mb-8">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
           <div>
-            <h2 className="text-white font-semibold">Gap Oferta vs Demanda por Estado</h2>
-            <p className="text-slate-500 text-xs">Capacidade de atendimento vs demanda estimada</p>
+            <h2 className="text-white font-semibold">{t("demanda_gap_estado", lang)}</h2>
+            <p className="text-slate-500 text-xs">{t("demanda_gap_estado_sub", lang)}</p>
           </div>
-          <input type="text" placeholder="Buscar estado..." value={busca} onChange={(e) => setBusca(e.target.value)} className="bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-500 w-full sm:w-64" />
+          <input type="text" placeholder={t("demanda_buscar", lang)} value={busca} onChange={(e) => setBusca(e.target.value)} className="bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-500 w-full sm:w-64" />
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-slate-800">
-                <th className="text-left py-3 px-3 text-slate-400 font-medium">UF</th>
-                <th className="text-left py-3 px-3 text-slate-400 font-medium">Estado</th>
-                <th className="text-right py-3 px-3 text-slate-400 font-medium">Demanda (mi)</th>
-                <th className="text-right py-3 px-3 text-slate-400 font-medium">Capacidade (mi)</th>
-                <th className="text-right py-3 px-3 text-slate-400 font-medium">Gap %</th>
-                <th className="text-center py-3 px-3 text-slate-400 font-medium">Classificação</th>
+                <th className="text-left py-3 px-3 text-slate-400 font-medium">{t("col_uf", lang)}</th>
+                <th className="text-left py-3 px-3 text-slate-400 font-medium">{t("col_estado", lang)}</th>
+                <th className="text-right py-3 px-3 text-slate-400 font-medium">{t("col_demanda_mi", lang)}</th>
+                <th className="text-right py-3 px-3 text-slate-400 font-medium">{t("col_capacidade_mi", lang)}</th>
+                <th className="text-right py-3 px-3 text-slate-400 font-medium">{t("col_gap_pct", lang)}</th>
+                <th className="text-center py-3 px-3 text-slate-400 font-medium">{t("col_classificacao", lang)}</th>
               </tr>
             </thead>
             <tbody>
@@ -230,18 +233,18 @@ export default function DemandaEpidemiologicaPage() {
 
       {/* Impacto Envelhecimento */}
       <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6">
-        <h2 className="text-white font-semibold mb-4">Impacto do Envelhecimento na Demanda Odontológica</h2>
+        <h2 className="text-white font-semibold mb-4">{t("demanda_envelh", lang)}</h2>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-slate-800">
-                <th className="text-left py-3 px-3 text-slate-400 font-medium">Faixa Etária</th>
-                <th className="text-right py-3 px-3 text-slate-400 font-medium">Pop. 2024</th>
-                <th className="text-right py-3 px-3 text-slate-400 font-medium">Pop. 2030</th>
-                <th className="text-right py-3 px-3 text-slate-400 font-medium">Pop. 2040</th>
-                <th className="text-right py-3 px-3 text-slate-400 font-medium">Edentulismo</th>
-                <th className="text-right py-3 px-3 text-slate-400 font-medium">D. Prótese</th>
-                <th className="text-right py-3 px-3 text-slate-400 font-medium">D. Implante</th>
+                <th className="text-left py-3 px-3 text-slate-400 font-medium">{t("col_faixa_etaria", lang)}</th>
+                <th className="text-right py-3 px-3 text-slate-400 font-medium">{t("col_pop_2024", lang)}</th>
+                <th className="text-right py-3 px-3 text-slate-400 font-medium">{t("col_pop_2030", lang)}</th>
+                <th className="text-right py-3 px-3 text-slate-400 font-medium">{t("col_pop_2040", lang)}</th>
+                <th className="text-right py-3 px-3 text-slate-400 font-medium">{t("col_edentulismo", lang)}</th>
+                <th className="text-right py-3 px-3 text-slate-400 font-medium">{t("col_d_protese", lang)}</th>
+                <th className="text-right py-3 px-3 text-slate-400 font-medium">{t("col_d_implante", lang)}</th>
               </tr>
             </thead>
             <tbody>

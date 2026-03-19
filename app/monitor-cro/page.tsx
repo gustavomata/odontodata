@@ -14,6 +14,8 @@ import {
   ResponsiveContainer, Legend,
 } from "recharts";
 import { useState } from "react";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { t } from "@/lib/translations";
 
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
@@ -31,9 +33,9 @@ const CustomTooltip = ({ active, payload, label }: any) => {
   return null;
 };
 
-const tendColor = (t: string) => {
-  if (t === "Crescimento") return "bg-emerald-600/20 text-emerald-400";
-  if (t === "Estável") return "bg-blue-600/20 text-blue-400";
+const tendColor = (trend: string) => {
+  if (trend === "Crescimento") return "bg-emerald-600/20 text-emerald-400";
+  if (trend === "Estável") return "bg-blue-600/20 text-blue-400";
   return "bg-red-600/20 text-red-400";
 };
 
@@ -46,35 +48,36 @@ const impactoColor = (i: string) => {
 const topMigratorios = [...movimentacaoPorUF].sort((a, b) => b.saldo_migratorio - a.saldo_migratorio).slice(0, 10);
 
 export default function MonitorCROPage() {
+  const { lang } = useLanguage();
   const [busca, setBusca] = useState("");
   const ufFiltrados = movimentacaoPorUF.filter((u) => u.estado.toLowerCase().includes(busca.toLowerCase()) || u.uf.toLowerCase().includes(busca.toLowerCase()));
 
   return (
     <AppShell>
       <PageHeader
-        title="Monitor de Movimentação Profissional"
-        subtitle="Novos registros, cancelamentos, transferências e fluxos migratórios de cirurgiões-dentistas"
-        badge="CFO · CROs Regionais"
+        title={t("cro_title", lang)}
+        subtitle={t("cro_subtitle", lang)}
+        badge={t("cro_badge", lang)}
       />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-        <StatCard title="Novos Registros/Mês" value={indicadoresMonitor.novosRegistrosMes.toLocaleString("pt-BR")} icon={UserPlus} color="blue" subtitle="Média últimos 12m" />
-        <StatCard title="Saldo Líquido 12m" value={indicadoresMonitor.saldoLiquido12m} icon={TrendingUp} color="green" subtitle="Novos - Cancelados" />
-        <StatCard title="Maior Crescimento" value={indicadoresMonitor.maiorCrescimentoUF} icon={ArrowUpRight} color="green" subtitle="Santa Catarina" />
-        <StatCard title="Maior Evasão" value={indicadoresMonitor.maiorEvasaoUF} icon={ArrowDownRight} color="red" subtitle="Rio de Janeiro" />
+        <StatCard title={t("cro_novos_mes", lang)} value={indicadoresMonitor.novosRegistrosMes.toLocaleString("pt-BR")} icon={UserPlus} color="blue" subtitle={t("cro_media_12m", lang)} />
+        <StatCard title={t("cro_saldo_12m", lang)} value={indicadoresMonitor.saldoLiquido12m} icon={TrendingUp} color="green" subtitle={t("cro_novos_cancel", lang)} />
+        <StatCard title={t("cro_maior_cresc", lang)} value={indicadoresMonitor.maiorCrescimentoUF} icon={ArrowUpRight} color="green" subtitle="Santa Catarina" />
+        <StatCard title={t("cro_maior_evasao", lang)} value={indicadoresMonitor.maiorEvasaoUF} icon={ArrowDownRight} color="red" subtitle="Rio de Janeiro" />
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <StatCard title="Espec. + Cresceu" value={indicadoresMonitor.especialidadeMaisCresceu} icon={Zap} color="purple" subtitle="Harmonização Orofacial" />
-        <StatCard title="Cidade + Novos" value={indicadoresMonitor.cidadeMaisNovos} icon={MapPin} color="cyan" subtitle="Volume absoluto" />
-        <StatCard title="Taxa Transferência" value={indicadoresMonitor.taxaTransferencia} icon={Activity} color="yellow" subtitle="Profissionais migrando" />
-        <StatCard title="Média Mensal Histórica" value={indicadoresMonitor.mediaMensalHistorica.toLocaleString("pt-BR")} icon={BarChart3} color="blue" subtitle="Novos registros" />
+        <StatCard title={t("cro_espec_cresc", lang)} value={indicadoresMonitor.especialidadeMaisCresceu} icon={Zap} color="purple" subtitle="Harmonização Orofacial" />
+        <StatCard title={t("cro_cidade_novos", lang)} value={indicadoresMonitor.cidadeMaisNovos} icon={MapPin} color="cyan" subtitle={t("cro_volume_abs", lang)} />
+        <StatCard title={t("cro_taxa_transf", lang)} value={indicadoresMonitor.taxaTransferencia} icon={Activity} color="yellow" subtitle={t("cro_migrando", lang)} />
+        <StatCard title={t("cro_media_hist", lang)} value={indicadoresMonitor.mediaMensalHistorica.toLocaleString("pt-BR")} icon={BarChart3} color="blue" subtitle={t("cro_novos_registros", lang)} />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6">
-          <h2 className="text-white font-semibold mb-1">Movimentação Mensal</h2>
-          <p className="text-slate-500 text-xs mb-4">Novos registros vs cancelamentos — Mar/24 a Fev/25</p>
+          <h2 className="text-white font-semibold mb-1">{t("cro_mov_mensal", lang)}</h2>
+          <p className="text-slate-500 text-xs mb-4">{t("cro_mov_sub", lang)}</p>
           <ResponsiveContainer width="100%" height={320}>
             <BarChart data={movimentacaoMensal} margin={{ top: 5, right: 20, left: 0, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
@@ -82,23 +85,23 @@ export default function MonitorCROPage() {
               <YAxis tick={{ fill: "#94a3b8", fontSize: 10 }} />
               <Tooltip content={<CustomTooltip />} />
               <Legend wrapperStyle={{ fontSize: 10, color: "#94a3b8" }} />
-              <Bar dataKey="novos_registros" name="Novos" fill="#3b82f6" radius={[4, 4, 0, 0]} />
-              <Bar dataKey="cancelamentos" name="Cancelamentos" fill="#ef4444" radius={[4, 4, 0, 0]} />
-              <Bar dataKey="transferencias" name="Transferências" fill="#f59e0b" radius={[4, 4, 0, 0]} />
+              <Bar dataKey="novos_registros" name={t("cro_novos_label", lang)} fill="#3b82f6" radius={[4, 4, 0, 0]} />
+              <Bar dataKey="cancelamentos" name={t("cro_cancel_label", lang)} fill="#ef4444" radius={[4, 4, 0, 0]} />
+              <Bar dataKey="transferencias" name={t("cro_transf_label", lang)} fill="#f59e0b" radius={[4, 4, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>
 
         <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6">
-          <h2 className="text-white font-semibold mb-1">Top 10 Estados por Saldo Migratório</h2>
-          <p className="text-slate-500 text-xs mb-4">Transferências de entrada menos saída</p>
+          <h2 className="text-white font-semibold mb-1">{t("cro_top10_saldo", lang)}</h2>
+          <p className="text-slate-500 text-xs mb-4">{t("cro_transf_sub", lang)}</p>
           <ResponsiveContainer width="100%" height={320}>
             <BarChart data={topMigratorios} layout="vertical" margin={{ top: 5, right: 20, left: 0, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
               <XAxis type="number" tick={{ fill: "#94a3b8", fontSize: 10 }} />
               <YAxis type="category" dataKey="uf" width={40} tick={{ fill: "#94a3b8", fontSize: 11 }} />
               <Tooltip content={<CustomTooltip />} />
-              <Bar dataKey="saldo_migratorio" name="Saldo Migratório" radius={[0, 4, 4, 0]}>
+              <Bar dataKey="saldo_migratorio" name={t("cro_saldo_migr_label", lang)} radius={[0, 4, 4, 0]}>
                 {topMigratorios.map((entry, i) => (
                   <rect key={i} fill={entry.saldo_migratorio >= 0 ? "#10b981" : "#ef4444"} />
                 ))}
@@ -112,23 +115,23 @@ export default function MonitorCROPage() {
       <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6 mb-8">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
           <div>
-            <h2 className="text-white font-semibold">Movimentação por Estado</h2>
-            <p className="text-slate-500 text-xs">Últimos 12 meses — registros, cancelamentos e migrações</p>
+            <h2 className="text-white font-semibold">{t("cro_mov_estado", lang)}</h2>
+            <p className="text-slate-500 text-xs">{t("cro_mov_estado_sub", lang)}</p>
           </div>
-          <input type="text" placeholder="Buscar estado..." value={busca} onChange={(e) => setBusca(e.target.value)} className="bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-500 w-full sm:w-64" />
+          <input type="text" placeholder={t("cro_buscar", lang)} value={busca} onChange={(e) => setBusca(e.target.value)} className="bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-500 w-full sm:w-64" />
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-slate-800">
-                <th className="text-left py-3 px-2 text-slate-400 font-medium">UF</th>
-                <th className="text-right py-3 px-2 text-slate-400 font-medium">Novos</th>
-                <th className="text-right py-3 px-2 text-slate-400 font-medium">Cancel.</th>
-                <th className="text-right py-3 px-2 text-slate-400 font-medium">Saldo</th>
-                <th className="text-right py-3 px-2 text-slate-400 font-medium">Migr. In</th>
-                <th className="text-right py-3 px-2 text-slate-400 font-medium">Migr. Out</th>
-                <th className="text-right py-3 px-2 text-slate-400 font-medium">Saldo Migr.</th>
-                <th className="text-center py-3 px-2 text-slate-400 font-medium">Tendência</th>
+                <th className="text-left py-3 px-2 text-slate-400 font-medium">{t("col_uf", lang)}</th>
+                <th className="text-right py-3 px-2 text-slate-400 font-medium">{t("col_novos", lang)}</th>
+                <th className="text-right py-3 px-2 text-slate-400 font-medium">{t("col_cancel", lang)}</th>
+                <th className="text-right py-3 px-2 text-slate-400 font-medium">{t("col_saldo", lang)}</th>
+                <th className="text-right py-3 px-2 text-slate-400 font-medium">{t("col_migr_in", lang)}</th>
+                <th className="text-right py-3 px-2 text-slate-400 font-medium">{t("col_migr_out", lang)}</th>
+                <th className="text-right py-3 px-2 text-slate-400 font-medium">{t("col_saldo_migr", lang)}</th>
+                <th className="text-center py-3 px-2 text-slate-400 font-medium">{t("col_tendencia", lang)}</th>
               </tr>
             </thead>
             <tbody>
@@ -151,16 +154,16 @@ export default function MonitorCROPage() {
 
       {/* Crescimento por Especialidade */}
       <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6 mb-8">
-        <h2 className="text-white font-semibold mb-4">Crescimento por Especialidade</h2>
+        <h2 className="text-white font-semibold mb-4">{t("cro_cresc_esp", lang)}</h2>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-slate-800">
-                <th className="text-left py-3 px-3 text-slate-400 font-medium">Especialidade</th>
-                <th className="text-right py-3 px-3 text-slate-400 font-medium">Novos 12m</th>
-                <th className="text-right py-3 px-3 text-slate-400 font-medium">Crescimento</th>
-                <th className="text-left py-3 px-3 text-slate-400 font-medium">Principal Destino</th>
-                <th className="text-right py-3 px-3 text-slate-400 font-medium">% Capital</th>
+                <th className="text-left py-3 px-3 text-slate-400 font-medium">{t("col_especialidade", lang)}</th>
+                <th className="text-right py-3 px-3 text-slate-400 font-medium">{t("col_novos_12m", lang)}</th>
+                <th className="text-right py-3 px-3 text-slate-400 font-medium">{t("col_crescimento", lang)}</th>
+                <th className="text-left py-3 px-3 text-slate-400 font-medium">{t("col_principal_destino", lang)}</th>
+                <th className="text-right py-3 px-3 text-slate-400 font-medium">{t("col_pct_capital", lang)}</th>
               </tr>
             </thead>
             <tbody>
@@ -180,17 +183,17 @@ export default function MonitorCROPage() {
 
       {/* Fluxos Migratórios */}
       <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6 mb-8">
-        <h2 className="text-white font-semibold mb-4">Principais Fluxos Migratórios</h2>
+        <h2 className="text-white font-semibold mb-4">{t("cro_fluxos", lang)}</h2>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-slate-800">
-                <th className="text-left py-3 px-3 text-slate-400 font-medium">Origem</th>
+                <th className="text-left py-3 px-3 text-slate-400 font-medium">{t("col_origem", lang)}</th>
                 <th className="text-center py-3 px-3 text-slate-400 font-medium">→</th>
-                <th className="text-left py-3 px-3 text-slate-400 font-medium">Destino</th>
-                <th className="text-right py-3 px-3 text-slate-400 font-medium">Volume</th>
-                <th className="text-left py-3 px-3 text-slate-400 font-medium">Especialidade</th>
-                <th className="text-left py-3 px-3 text-slate-400 font-medium">Motivo Provável</th>
+                <th className="text-left py-3 px-3 text-slate-400 font-medium">{t("col_destino", lang)}</th>
+                <th className="text-right py-3 px-3 text-slate-400 font-medium">{t("col_volume", lang)}</th>
+                <th className="text-left py-3 px-3 text-slate-400 font-medium">{t("col_especialidade", lang)}</th>
+                <th className="text-left py-3 px-3 text-slate-400 font-medium">{t("col_motivo", lang)}</th>
               </tr>
             </thead>
             <tbody>
@@ -211,7 +214,7 @@ export default function MonitorCROPage() {
 
       {/* Alertas Competitivos */}
       <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6">
-        <h2 className="text-white font-semibold mb-4">Alertas Competitivos</h2>
+        <h2 className="text-white font-semibold mb-4">{t("cro_alertas", lang)}</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {alertasCompetitivos.map((a, i) => (
             <div key={i} className="bg-slate-800 border border-slate-700 rounded-xl p-4">
@@ -219,7 +222,7 @@ export default function MonitorCROPage() {
                 <span className="text-white font-medium text-sm">{a.cidade}/{a.uf}</span>
                 <span className={`px-2 py-1 rounded-full text-xs font-medium ${impactoColor(a.impacto)}`}>{a.impacto}</span>
               </div>
-              <p className="text-slate-400 text-xs mb-2">{a.especialidade} — <strong className="text-amber-400">+{a.novos_ultimos_3_meses} novos</strong> nos últimos 3 meses ({a.variacao_pct > 0 ? "+" : ""}{a.variacao_pct}% vs ano anterior)</p>
+              <p className="text-slate-400 text-xs mb-2">{a.especialidade} — <strong className="text-amber-400">+{a.novos_ultimos_3_meses} {t("cro_novos_3m", lang)}</strong> {t("cro_ultimos_3m", lang)} ({a.variacao_pct > 0 ? "+" : ""}{a.variacao_pct}% vs ano anterior)</p>
               <p className="text-slate-500 text-xs">{a.descricao}</p>
             </div>
           ))}
