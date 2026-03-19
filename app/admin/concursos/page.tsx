@@ -2,9 +2,9 @@
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import {
-  RefreshCw, Check, X, Play, ExternalLink, Clock, AlertTriangle,
-  Plus, ChevronDown, ChevronUp, LogOut, Stethoscope, Database,
-  FileText, Search,
+  RefreshCw, Check, X, Play, ExternalLink, AlertTriangle,
+  ChevronDown, ChevronUp, LogOut, Stethoscope, Database,
+  Search,
 } from "lucide-react";
 
 interface QueueItem {
@@ -315,7 +315,7 @@ export default function AdminConcursosPage() {
               <p className="text-amber-400 text-sm font-medium">Fluxo de trabalho</p>
               <p className="text-slate-400 text-xs mt-1">
                 1. <strong>Executar Scrape</strong> coleta novos editais do DOU, CEBRASPE, FGV e VUNESP e adiciona à fila.
-                2. <strong>Revisar</strong> cada item — clique em "Aprovar" para publicar com dados básicos ou "Rejeitar" para descartar.
+                2. <strong>Revisar</strong> cada item — clique em &quot;Aprovar&quot; para publicar com dados básicos ou &quot;Rejeitar&quot; para descartar.
                 3. Após aprovação, o concurso aparece em <strong>/vagas</strong> com status <em>edital-publicado</em>.
                 4. <strong>Edite o concurso</strong> na plataforma para completar cronograma, etapas, remuneração e conteúdo programático.
                 5. O <strong>GitHub Actions</strong> executa o scrape automaticamente todo dia às 10h UTC.

@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import Image from "next/image";
 import AppShell from "@/components/AppShell";
 import PageHeader from "@/components/PageHeader";
 import { fontesDados } from "@/lib/data";
@@ -452,7 +453,7 @@ export default function FontesPage() {
                   : "bg-slate-800/50 border-slate-700 text-slate-400 hover:border-slate-600 hover:text-slate-300"
               }`}
             >
-              <img src={c.flag} alt={code} className="w-10 h-7 rounded object-cover shadow-sm" />
+              <Image src={c.flag} alt={code} width={40} height={28} className="rounded object-cover shadow-sm" />
               <span className="text-xs">{lang === "PT" ? c.label : c.labelEn}</span>
             </button>
           );

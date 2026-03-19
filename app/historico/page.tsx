@@ -11,7 +11,6 @@ import { serieHistoricaFR } from "@/lib/data-france";
 import { serieHistoricaCA } from "@/lib/data-canada";
 import { serieHistoricaJP } from "@/lib/data-japan";
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend, AreaChart, Area } from "recharts";
-import { TrendingUp } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { t } from "@/lib/translations";
 
