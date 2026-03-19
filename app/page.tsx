@@ -1,5 +1,6 @@
 "use client";
 import { useState, useMemo } from "react";
+import Image from "next/image";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { t } from "@/lib/translations";
 import AppShell from "@/components/AppShell";
@@ -435,10 +436,12 @@ export default function Dashboard() {
                 : "bg-slate-800/50 border-slate-700 text-slate-400 hover:border-slate-600 hover:text-slate-300"
             }`}
           >
-            <img
+            <Image
               src={flagSrc}
               alt={code}
-              className="w-10 h-7 rounded object-cover shadow-sm"
+              width={40}
+              height={28}
+              className="rounded object-cover shadow-sm"
             />
             <span className="text-xs">{t(labelKey, lang)}</span>
           </button>
