@@ -16,6 +16,22 @@ import { t } from "@/lib/translations";
 
 type PaisCode = "BR" | "US" | "DE" | "UK" | "FR" | "CA" | "JP";
 
+function CustomTooltip({ active, payload, label, lang }: any) {
+  if (active && payload && payload.length) {
+    return (
+      <div className="bg-slate-800 border border-slate-700 rounded-lg p-3 text-sm">
+        <p className="text-slate-300 font-medium mb-1">{t("hist_ano_label", lang)} {label}</p>
+        {payload.map((p: any) => (
+          <p key={p.name} style={{ color: p.color || "#94a3b8" }}>
+            {p.name}: <strong>{p.value.toLocaleString()}</strong>
+          </p>
+        ))}
+      </div>
+    );
+  }
+  return null;
+}
+
 const BADGES: Record<PaisCode, string> = {
   BR: "CFO - Registros Anuais",
   US: "ADA · NPPES/CMS — Annual Records",
@@ -83,22 +99,6 @@ export default function HistoricoPage() {
   const pctCrescimento = ((totalCrescimento / serie[0].total) * 100).toFixed(1);
   const mediaAnual = serie.reduce((s, d) => s + d.novosRegistros, 0) / serie.length;
 
-  const CustomTooltip = ({ active, payload, label }: any) => {
-    if (active && payload && payload.length) {
-      return (
-        <div className="bg-slate-800 border border-slate-700 rounded-lg p-3 text-sm">
-          <p className="text-slate-300 font-medium mb-1">{t("hist_ano_label", lang)} {label}</p>
-          {payload.map((p: any) => (
-            <p key={p.name} style={{ color: p.color || "#94a3b8" }}>
-              {p.name}: <strong>{p.value.toLocaleString()}</strong>
-            </p>
-          ))}
-        </div>
-      );
-    }
-    return null;
-  };
-
   return (
     <AppShell>
       <PageHeader
@@ -146,7 +146,7 @@ export default function HistoricoPage() {
             <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
             <XAxis dataKey="ano" tick={{ fill: "#94a3b8", fontSize: 11 }} />
             <YAxis tick={{ fill: "#94a3b8", fontSize: 11 }} tickFormatter={(v) => `${(v/1000).toFixed(0)}k`} />
-            <Tooltip content={<CustomTooltip />} />
+            <Tooltip content={<CustomTooltip lang={lang} />} />
             <Area type="monotone" dataKey="total" name={t("col_total_dentistas", lang)} stroke="#3b82f6" fill="url(#gradTotal)" strokeWidth={2} dot={{ fill: "#3b82f6", r: 4 }} />
           </AreaChart>
         </ResponsiveContainer>
@@ -161,7 +161,7 @@ export default function HistoricoPage() {
               <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
               <XAxis dataKey="ano" tick={{ fill: "#94a3b8", fontSize: 11 }} />
               <YAxis tick={{ fill: "#94a3b8", fontSize: 11 }} />
-              <Tooltip content={<CustomTooltip />} />
+              <Tooltip content={<CustomTooltip lang={lang} />} />
               <Legend wrapperStyle={{ color: "#94a3b8", fontSize: 12 }} />
               <Bar dataKey="novosRegistros" name={t("hist_novos_registros", lang)} fill="#10b981" radius={[4,4,0,0]} />
               <Bar dataKey="cancelamentos" name={t("hist_cancelamentos", lang)} fill="#ef4444" radius={[4,4,0,0]} />
@@ -177,7 +177,7 @@ export default function HistoricoPage() {
               <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
               <XAxis dataKey="ano" tick={{ fill: "#94a3b8", fontSize: 11 }} />
               <YAxis tick={{ fill: "#94a3b8", fontSize: 11 }} tickFormatter={(v) => `${v}%`} />
-              <Tooltip content={<CustomTooltip />} />
+              <Tooltip content={<CustomTooltip lang={lang} />} />
               <Legend wrapperStyle={{ color: "#94a3b8", fontSize: 12 }} />
               <Line type="monotone" dataKey="crescimento" name={t("hist_cresc_label", lang)} stroke="#f59e0b" strokeWidth={2} dot={{ fill: "#f59e0b", r: 4 }} />
               <Line type="monotone" dataKey="saldo" name={t("hist_saldo_liquido", lang)} stroke="#3b82f6" strokeWidth={2} dot={{ fill: "#3b82f6", r: 4 }} strokeDasharray="5 5" />
