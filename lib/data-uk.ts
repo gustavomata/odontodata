@@ -56,6 +56,8 @@ export const serieHistoricaUK = [
   { ano: 2022, total: 42000, novosRegistros: 1900, cancelamentos: 1500 },
   { ano: 2023, total: 42200, novosRegistros: 1800, cancelamentos: 1600 },
   { ano: 2024, total: 42200, novosRegistros: 1700, cancelamentos: 1700 },
+  { ano: 2025, total: 42400, novosRegistros: 1800, cancelamentos: 1600 },
+  { ano: 2026, total: 42700, novosRegistros: 1900, cancelamentos: 1600 },
 ];
 
 // ─── GENERAL INDICATORS ───────────────────────────────────────────────────────

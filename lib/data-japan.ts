@@ -92,6 +92,8 @@ export const serieHistoricaJP = [
   { ano: 2022, total: 107000, novosRegistros: 3200, cancelamentos: 2100 },
   { ano: 2023, total: 107400, novosRegistros: 2200, cancelamentos: 2100 },
   { ano: 2024, total: 107800, novosRegistros: 2200, cancelamentos: 2100 },
+  { ano: 2025, total: 107900, novosRegistros: 2200, cancelamentos: 2100 },
+  { ano: 2026, total: 108000, novosRegistros: 2200, cancelamentos: 2100 },
 ];
 
 // ─── GENERAL INDICATORS ───────────────────────────────────────────────────────

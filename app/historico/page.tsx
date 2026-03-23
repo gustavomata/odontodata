@@ -42,13 +42,13 @@ const BADGES: Record<PaisCode, string> = {
 };
 
 const SUBTITLES: Record<PaisCode, { PT: string; EN: string }> = {
-  BR: { PT: "Evolução do número de cirurgiões-dentistas no Brasil (2015–2024)", EN: "Evolution of dentist registrations in Brazil (2015–2024)" },
-  US: { PT: "Evolução da força de trabalho odontológica nos EUA (2015–2024)", EN: "Evolution of the dental workforce in the United States (2015–2024)" },
-  DE: { PT: "Evolução do número de dentistas na Alemanha (2015–2024)", EN: "Evolution of dentist registrations in Germany (2015–2024)" },
-  UK: { PT: "Evolução do número de dentistas no Reino Unido (2015–2024)", EN: "Evolution of dentist registrations in the United Kingdom (2015–2024)" },
-  FR: { PT: "Evolução do número de dentistas na França (2015–2024)", EN: "Evolution of dentist registrations in France (2015–2024)" },
-  CA: { PT: "Evolução da força de trabalho odontológica no Canadá (2015–2024)", EN: "Evolution of the dental workforce in Canada (2015–2024)" },
-  JP: { PT: "Evolução do número de dentistas no Japão (2015–2024)", EN: "Evolution of the dental workforce in Japan (2015–2024)" },
+  BR: { PT: "Evolução do número de cirurgiões-dentistas no Brasil (2015–2026)", EN: "Evolution of dentist registrations in Brazil (2015–2026)" },
+  US: { PT: "Evolução da força de trabalho odontológica nos EUA (2015–2026)", EN: "Evolution of the dental workforce in the United States (2015–2026)" },
+  DE: { PT: "Evolução do número de dentistas na Alemanha (2015–2026)", EN: "Evolution of dentist registrations in Germany (2015–2026)" },
+  UK: { PT: "Evolução do número de dentistas no Reino Unido (2015–2026)", EN: "Evolution of dentist registrations in the United Kingdom (2015–2026)" },
+  FR: { PT: "Evolução do número de dentistas na França (2015–2026)", EN: "Evolution of dentist registrations in France (2015–2026)" },
+  CA: { PT: "Evolução da força de trabalho odontológica no Canadá (2015–2026)", EN: "Evolution of the dental workforce in Canada (2015–2026)" },
+  JP: { PT: "Evolução do número de dentistas no Japão (2015–2026)", EN: "Evolution of the dental workforce in Japan (2015–2026)" },
 };
 
 const PEAK_YEAR: Record<PaisCode, string> = { BR: "2022–2023", US: "2022–2023", DE: "2023–2024", UK: "2022–2023", FR: "2022–2023", CA: "2023–2024", JP: "2022–2023" };

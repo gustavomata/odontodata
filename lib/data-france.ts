@@ -57,6 +57,8 @@ export const serieHistoricaFR = [
   { ano: 2022, total: 42000, novosRegistros: 1600, cancelamentos: 1200 },
   { ano: 2023, total: 42200, novosRegistros: 1500, cancelamentos: 1300 },
   { ano: 2024, total: 42200, novosRegistros: 1400, cancelamentos: 1400 },
+  { ano: 2025, total: 42400, novosRegistros: 1500, cancelamentos: 1300 },
+  { ano: 2026, total: 42700, novosRegistros: 1500, cancelamentos: 1200 },
 ];
 
 // ─── GENERAL INDICATORS ───────────────────────────────────────────────────────
