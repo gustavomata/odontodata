@@ -214,7 +214,7 @@ export default function MapaPage() {
     return cidadesGeoUSA
       .filter((c) => c.uf === estadoSelecionado)
       .sort((a, b) => b.populacao - a.populacao);
-  }, [pais, estadoSelecionado]);
+  }, [pais, estadoSelecionado, cidadesGeoUSA]);
 
   // Onde Abrir: cidades do estado selecionado (ranking completo)
   const ondeAbrirDoEstado = useMemo(() => {
@@ -222,7 +222,7 @@ export default function MapaPage() {
     return cidadesUSA
       .filter((c) => c.uf === estadoSelecionado)
       .sort((a, b) => b.score_oportunidade - a.score_oportunidade);
-  }, [pais, estadoSelecionado]);
+  }, [pais, estadoSelecionado, cidadesUSA]);
 
   // Onde Abrir: top 50 nacional
   const ondeAbrirTop50 = useMemo(() => {
@@ -230,7 +230,7 @@ export default function MapaPage() {
     return [...cidadesUSA]
       .sort((a, b) => b.score_oportunidade - a.score_oportunidade)
       .slice(0, 50);
-  }, [pais]);
+  }, [pais, cidadesUSA]);
 
   // Dados do Bundesland selecionado (DE)
   const deEstadoData = useMemo((): BundeslandDental | null => {
