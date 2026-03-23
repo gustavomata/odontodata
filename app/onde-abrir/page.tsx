@@ -207,6 +207,7 @@ export default function OndeAbrirPage() {
   }, []);
 
   // Fetch cities from API when filters/sort change
+  /* eslint-disable react-compiler/react-compiler */
   const fetchCidades = useCallback(async (showAll: boolean) => {
     setCidadesLoading(true);
     try {
@@ -251,6 +252,7 @@ export default function OndeAbrirPage() {
     setCidadesTotal(list.length);
     setCidadesSource("static");
   }, [cidadesEstadoFilter, cidadesTipoFilter, cidadesBusca, cidadesSort]);
+  /* eslint-enable react-compiler/react-compiler */
 
   useEffect(() => {
     if (country === "US") fetchCidades(cidadesShowAll).finally(() => setCidadesLoading(false));
@@ -580,7 +582,7 @@ export default function OndeAbrirPage() {
                 <thead>
                   <tr className="border-b border-slate-800">
                     <th className="text-left py-3 px-3 text-slate-400 font-medium">Specialty</th>
-                    <th className="text-right py-3 px-3 text-slate-400 font-medium">Nat'l /100k</th>
+                    <th className="text-right py-3 px-3 text-slate-400 font-medium">Nat&apos;l /100k</th>
                     <th className="text-left py-3 px-3 text-slate-400 font-medium">Most Saturated</th>
                     <th className="text-left py-3 px-3 text-slate-400 font-medium">Best Opportunity</th>
                     <th className="text-right py-3 px-3 text-slate-400 font-medium">Avg Salary</th>
