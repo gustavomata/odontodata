@@ -204,32 +204,6 @@ export default function IntelLabsPage() {
             </div>
           </div>
 
-          {/* Tecnologias BR */}
-          <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6 mb-8">
-            <h2 className="text-white font-semibold mb-4">{t("labs_tecnologias", lang)}</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {tecnologiasEmergentes.map((item) => (
-                <div key={item.tecnologia} className="bg-slate-800 border border-slate-700 rounded-xl p-4">
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="text-white font-semibold text-sm">{item.tecnologia}</span>
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${tendPColor(item.tendencia)}`}>{item.tendencia}</span>
-                  </div>
-                  <div className="space-y-2">
-                    <div className="flex justify-between text-xs"><span className="text-slate-400">{lang === "PT" ? "Adoção Brasil" : "Brazil Adoption"}</span><span className="text-blue-400 font-bold">{item.adocao_brasil_pct}%</span></div>
-                    <div className="w-full bg-slate-700 rounded-full h-1.5"><div className="bg-blue-500 h-1.5 rounded-full" style={{ width: `${item.adocao_brasil_pct}%` }} /></div>
-                    <div className="flex justify-between text-xs"><span className="text-slate-400">{lang === "PT" ? "Adoção Mundial" : "World Adoption"}</span><span className="text-emerald-400 font-bold">{item.adocao_mundial_pct}%</span></div>
-                    <div className="w-full bg-slate-700 rounded-full h-1.5"><div className="bg-emerald-500 h-1.5 rounded-full" style={{ width: `${item.adocao_mundial_pct}%` }} /></div>
-                    <div className="grid grid-cols-2 gap-2 mt-3 pt-3 border-t border-slate-700">
-                      <div><p className="text-slate-500 text-xs">{lang === "PT" ? "Investimento" : "Investment"}</p><p className="text-white text-xs font-medium">R$ {(item.investimento_medio/1000).toFixed(0)}k</p></div>
-                      <div><p className="text-slate-500 text-xs">ROI</p><p className="text-white text-xs font-medium">{item.roi_estimado_meses} {lang === "PT" ? "meses" : "months"}</p></div>
-                      <div><p className="text-slate-500 text-xs">{lang === "PT" ? "Produtividade" : "Productivity"}</p><p className="text-emerald-400 text-xs font-medium">+{item.impacto_produtividade_pct}%</p></div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
           {/* Ranking de Labs por Estado */}
           <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6">
             <h2 className="text-white font-semibold mb-1">{t("labs_tpds_estado", lang)}</h2>
@@ -280,6 +254,32 @@ export default function IntelLabsPage() {
                 <p className="text-white text-sm font-semibold">Distrito Federal</p>
                 <p className="text-emerald-400 text-xs">R$ 5.200 {lang === "PT" ? "renda média" : "avg income"}</p>
               </div>
+            </div>
+          </div>
+
+          {/* Tecnologias BR */}
+          <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6 mt-8">
+            <h2 className="text-white font-semibold mb-4">{t("labs_tecnologias", lang)}</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {tecnologiasEmergentes.map((item) => (
+                <div key={item.tecnologia} className="bg-slate-800 border border-slate-700 rounded-xl p-4">
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-white font-semibold text-sm">{item.tecnologia}</span>
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${tendPColor(item.tendencia)}`}>{item.tendencia}</span>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="flex justify-between text-xs"><span className="text-slate-400">{lang === "PT" ? "Adoção Brasil" : "Brazil Adoption"}</span><span className="text-blue-400 font-bold">{item.adocao_brasil_pct}%</span></div>
+                    <div className="w-full bg-slate-700 rounded-full h-1.5"><div className="bg-blue-500 h-1.5 rounded-full" style={{ width: `${item.adocao_brasil_pct}%` }} /></div>
+                    <div className="flex justify-between text-xs"><span className="text-slate-400">{lang === "PT" ? "Adoção Mundial" : "World Adoption"}</span><span className="text-emerald-400 font-bold">{item.adocao_mundial_pct}%</span></div>
+                    <div className="w-full bg-slate-700 rounded-full h-1.5"><div className="bg-emerald-500 h-1.5 rounded-full" style={{ width: `${item.adocao_mundial_pct}%` }} /></div>
+                    <div className="grid grid-cols-2 gap-2 mt-3 pt-3 border-t border-slate-700">
+                      <div><p className="text-slate-500 text-xs">{lang === "PT" ? "Investimento" : "Investment"}</p><p className="text-white text-xs font-medium">R$ {(item.investimento_medio/1000).toFixed(0)}k</p></div>
+                      <div><p className="text-slate-500 text-xs">ROI</p><p className="text-white text-xs font-medium">{item.roi_estimado_meses} {lang === "PT" ? "meses" : "months"}</p></div>
+                      <div><p className="text-slate-500 text-xs">{lang === "PT" ? "Produtividade" : "Productivity"}</p><p className="text-emerald-400 text-xs font-medium">+{item.impacto_produtividade_pct}%</p></div>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </>
@@ -379,32 +379,6 @@ export default function IntelLabsPage() {
             </div>
           </div>
 
-          {/* Tecnologias USA */}
-          <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6 mb-8">
-            <h2 className="text-white font-semibold mb-4">{lang === "PT" ? "Tecnologias em Laboratórios" : "Lab Technologies"}</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {tecnologiasLabsUSA.map((item) => (
-                <div key={item.tecnologia} className="bg-slate-800 border border-slate-700 rounded-xl p-4">
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="text-white font-semibold text-sm">{item.tecnologia}</span>
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${tendPColor(item.tendencia)}`}>{item.tendencia}</span>
-                  </div>
-                  <div className="space-y-2">
-                    <div className="flex justify-between text-xs"><span className="text-slate-400">{lang === "PT" ? "Adoção EUA" : "USA Adoption"}</span><span className="text-blue-400 font-bold">{item.adocao_pais_pct}%</span></div>
-                    <div className="w-full bg-slate-700 rounded-full h-1.5"><div className="bg-blue-500 h-1.5 rounded-full" style={{ width: `${item.adocao_pais_pct}%` }} /></div>
-                    <div className="flex justify-between text-xs"><span className="text-slate-400">{lang === "PT" ? "Adoção Mundial" : "World Adoption"}</span><span className="text-emerald-400 font-bold">{item.adocao_mundial_pct}%</span></div>
-                    <div className="w-full bg-slate-700 rounded-full h-1.5"><div className="bg-emerald-500 h-1.5 rounded-full" style={{ width: `${item.adocao_mundial_pct}%` }} /></div>
-                    <div className="grid grid-cols-2 gap-2 mt-3 pt-3 border-t border-slate-700">
-                      <div><p className="text-slate-500 text-xs">{lang === "PT" ? "Investimento" : "Investment"}</p><p className="text-white text-xs font-medium">${(item.investimento_usd/1000).toFixed(0)}k</p></div>
-                      <div><p className="text-slate-500 text-xs">ROI</p><p className="text-white text-xs font-medium">{item.roi_meses} {lang === "PT" ? "meses" : "months"}</p></div>
-                      <div><p className="text-slate-500 text-xs">{lang === "PT" ? "Produtividade" : "Productivity"}</p><p className="text-emerald-400 text-xs font-medium">+{item.produtividade_pct}%</p></div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
           {/* CDTs por Região */}
           <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6 mb-8">
             <h2 className="text-white font-semibold mb-4">{lang === "PT" ? "CDTs por Região" : "CDTs by Region"}</h2>
@@ -490,6 +464,32 @@ export default function IntelLabsPage() {
                 <p className="text-white text-sm font-semibold">{[...labsPorEstadoUSA].sort((a, b) => b.crescimento_5a_pct - a.crescimento_5a_pct)[0].estado}</p>
                 <p className="text-emerald-400 text-xs">+{[...labsPorEstadoUSA].sort((a, b) => b.crescimento_5a_pct - a.crescimento_5a_pct)[0].crescimento_5a_pct}% {lang === "PT" ? "em 5 anos" : "in 5 years"}</p>
               </div>
+            </div>
+          </div>
+
+          {/* Tecnologias USA */}
+          <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6 mt-8">
+            <h2 className="text-white font-semibold mb-4">{lang === "PT" ? "Tecnologias em Laboratórios" : "Lab Technologies"}</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {tecnologiasLabsUSA.map((item) => (
+                <div key={item.tecnologia} className="bg-slate-800 border border-slate-700 rounded-xl p-4">
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-white font-semibold text-sm">{item.tecnologia}</span>
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${tendPColor(item.tendencia)}`}>{item.tendencia}</span>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="flex justify-between text-xs"><span className="text-slate-400">{lang === "PT" ? "Adoção EUA" : "USA Adoption"}</span><span className="text-blue-400 font-bold">{item.adocao_pais_pct}%</span></div>
+                    <div className="w-full bg-slate-700 rounded-full h-1.5"><div className="bg-blue-500 h-1.5 rounded-full" style={{ width: `${item.adocao_pais_pct}%` }} /></div>
+                    <div className="flex justify-between text-xs"><span className="text-slate-400">{lang === "PT" ? "Adoção Mundial" : "World Adoption"}</span><span className="text-emerald-400 font-bold">{item.adocao_mundial_pct}%</span></div>
+                    <div className="w-full bg-slate-700 rounded-full h-1.5"><div className="bg-emerald-500 h-1.5 rounded-full" style={{ width: `${item.adocao_mundial_pct}%` }} /></div>
+                    <div className="grid grid-cols-2 gap-2 mt-3 pt-3 border-t border-slate-700">
+                      <div><p className="text-slate-500 text-xs">{lang === "PT" ? "Investimento" : "Investment"}</p><p className="text-white text-xs font-medium">${(item.investimento_usd/1000).toFixed(0)}k</p></div>
+                      <div><p className="text-slate-500 text-xs">ROI</p><p className="text-white text-xs font-medium">{item.roi_meses} {lang === "PT" ? "meses" : "months"}</p></div>
+                      <div><p className="text-slate-500 text-xs">{lang === "PT" ? "Produtividade" : "Productivity"}</p><p className="text-emerald-400 text-xs font-medium">+{item.produtividade_pct}%</p></div>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </>
@@ -589,32 +589,6 @@ export default function IntelLabsPage() {
             </div>
           </div>
 
-          {/* Tecnologias DE */}
-          <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6 mb-8">
-            <h2 className="text-white font-semibold mb-4">{lang === "PT" ? "Tecnologias em Laboratórios" : "Lab Technologies"}</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {tecnologiasLabsDE.map((item) => (
-                <div key={item.tecnologia} className="bg-slate-800 border border-slate-700 rounded-xl p-4">
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="text-white font-semibold text-sm">{item.tecnologia}</span>
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${tendPColor(item.tendencia)}`}>{item.tendencia}</span>
-                  </div>
-                  <div className="space-y-2">
-                    <div className="flex justify-between text-xs"><span className="text-slate-400">{lang === "PT" ? "Adoção Alemanha" : "Germany Adoption"}</span><span className="text-blue-400 font-bold">{item.adocao_pais_pct}%</span></div>
-                    <div className="w-full bg-slate-700 rounded-full h-1.5"><div className="bg-blue-500 h-1.5 rounded-full" style={{ width: `${item.adocao_pais_pct}%` }} /></div>
-                    <div className="flex justify-between text-xs"><span className="text-slate-400">{lang === "PT" ? "Adoção Mundial" : "World Adoption"}</span><span className="text-emerald-400 font-bold">{item.adocao_mundial_pct}%</span></div>
-                    <div className="w-full bg-slate-700 rounded-full h-1.5"><div className="bg-emerald-500 h-1.5 rounded-full" style={{ width: `${item.adocao_mundial_pct}%` }} /></div>
-                    <div className="grid grid-cols-2 gap-2 mt-3 pt-3 border-t border-slate-700">
-                      <div><p className="text-slate-500 text-xs">{lang === "PT" ? "Investimento" : "Investment"}</p><p className="text-white text-xs font-medium">€{(item.investimento_eur/1000).toFixed(0)}k</p></div>
-                      <div><p className="text-slate-500 text-xs">ROI</p><p className="text-white text-xs font-medium">{item.roi_meses} {lang === "PT" ? "meses" : "months"}</p></div>
-                      <div><p className="text-slate-500 text-xs">{lang === "PT" ? "Produtividade" : "Productivity"}</p><p className="text-emerald-400 text-xs font-medium">+{item.produtividade_pct}%</p></div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
           {/* Ranking de Labs por Bundesland */}
           <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6">
             <h2 className="text-white font-semibold mb-1">{lang === "PT" ? "Ranking de Labs por Bundesland" : "Lab Ranking by Bundesland"}</h2>
@@ -669,6 +643,32 @@ export default function IntelLabsPage() {
                 <p className="text-white text-sm font-semibold">{[...labsPorEstadoDE].sort((a, b) => b.umsatz_mi - a.umsatz_mi)[0].estado}</p>
                 <p className="text-blue-400 text-xs">€{[...labsPorEstadoDE].sort((a, b) => b.umsatz_mi - a.umsatz_mi)[0].umsatz_mi}M {lang === "PT" ? "receita anual" : "annual revenue"}</p>
               </div>
+            </div>
+          </div>
+
+          {/* Tecnologias DE */}
+          <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6 mt-8">
+            <h2 className="text-white font-semibold mb-4">{lang === "PT" ? "Tecnologias em Laboratórios" : "Lab Technologies"}</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {tecnologiasLabsDE.map((item) => (
+                <div key={item.tecnologia} className="bg-slate-800 border border-slate-700 rounded-xl p-4">
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-white font-semibold text-sm">{item.tecnologia}</span>
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${tendPColor(item.tendencia)}`}>{item.tendencia}</span>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="flex justify-between text-xs"><span className="text-slate-400">{lang === "PT" ? "Adoção Alemanha" : "Germany Adoption"}</span><span className="text-blue-400 font-bold">{item.adocao_pais_pct}%</span></div>
+                    <div className="w-full bg-slate-700 rounded-full h-1.5"><div className="bg-blue-500 h-1.5 rounded-full" style={{ width: `${item.adocao_pais_pct}%` }} /></div>
+                    <div className="flex justify-between text-xs"><span className="text-slate-400">{lang === "PT" ? "Adoção Mundial" : "World Adoption"}</span><span className="text-emerald-400 font-bold">{item.adocao_mundial_pct}%</span></div>
+                    <div className="w-full bg-slate-700 rounded-full h-1.5"><div className="bg-emerald-500 h-1.5 rounded-full" style={{ width: `${item.adocao_mundial_pct}%` }} /></div>
+                    <div className="grid grid-cols-2 gap-2 mt-3 pt-3 border-t border-slate-700">
+                      <div><p className="text-slate-500 text-xs">{lang === "PT" ? "Investimento" : "Investment"}</p><p className="text-white text-xs font-medium">€{(item.investimento_eur/1000).toFixed(0)}k</p></div>
+                      <div><p className="text-slate-500 text-xs">ROI</p><p className="text-white text-xs font-medium">{item.roi_meses} {lang === "PT" ? "meses" : "months"}</p></div>
+                      <div><p className="text-slate-500 text-xs">{lang === "PT" ? "Produtividade" : "Productivity"}</p><p className="text-emerald-400 text-xs font-medium">+{item.produtividade_pct}%</p></div>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </>
