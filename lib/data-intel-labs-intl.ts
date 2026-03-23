@@ -5,22 +5,27 @@
 
 // ─── USA ─────────────────────────────────────────────────────────────────────
 
+// Fontes:
+// Labs: NADL 2022 (~7.500 commercial labs registrados na FDA)
+// CDTs: BLS OES May 2022 — Dental Laboratory Technicians SOC 51-9081: 29.560 empregados
+// Mercado: ADA Health Policy Institute + IBISWorld 2023
 export const indicadoresLabsUSA = {
-  totalLabs: "7,500",
-  laboratoristas: "45,000",     // CDTs (Certified Dental Technicians) – NADL / BLS
-  producaoMensal: "~850k",      // units/month estimate
-  mercadoAnual: "$4.5B",
-  adocaoCADCAM: "+68%",
-  labsDigitais: "42%",
-  crescimentoDSO: "+22%",       // Dental Service Orgs driving in-house labs
+  totalLabs: "7,500",           // Commercial dental labs — NADL / FDA registration 2022
+  laboratoristas: "29,560",     // Dental Lab Technicians (SOC 51-9081) — BLS OES May 2022
+  producaoMensal: "~850k",      // units/month estimate — ADA HPI 2022
+  mercadoAnual: "$4.5B",        // IBISWorld Dental Laboratories industry 2023
+  adocaoCADCAM: "+68%",         // NADL 2022 survey
+  labsDigitais: "42%",          // Labs with full digital workflow — NADL 2022
+  crescimentoDSO: "+22%",       // DSO in-house labs — ADA HPI 2023
   tempoMedioEntrega: "5–7d",
 };
 
+// laboratoristas: BLS OES May 2022 (SOC 51-9081) distribuídos por região
 export const labsPorRegiaoUSA = [
-  { regiao: "Northeast", total_labs: 1850, labs_digitais: 810, laboratoristas: 11000, capacidade_mensal: 208000, producao_atual_mensal: 185000, ocupacao_pct: 89, demanda_estimada_mensal: 210000, gap_producao: -25000 },
-  { regiao: "South",     total_labs: 2100, labs_digitais: 880, laboratoristas: 12500, capacidade_mensal: 240000, producao_atual_mensal: 205000, ocupacao_pct: 85, demanda_estimada_mensal: 252000, gap_producao: -47000 },
-  { regiao: "Midwest",   total_labs: 1700, labs_digitais: 680, laboratoristas: 10000, capacidade_mensal: 195000, producao_atual_mensal: 162000, ocupacao_pct: 83, demanda_estimada_mensal: 188000, gap_producao: -26000 },
-  { regiao: "West",      total_labs: 1850, labs_digitais: 820, laboratoristas: 11500, capacidade_mensal: 215000, producao_atual_mensal: 192000, ocupacao_pct: 89, demanda_estimada_mensal: 220000, gap_producao: -28000 },
+  { regiao: "Northeast", total_labs: 1580, labs_digitais: 700, laboratoristas:  6210, capacidade_mensal: 208000, producao_atual_mensal: 185000, ocupacao_pct: 89, demanda_estimada_mensal: 210000, gap_producao: -25000 },
+  { regiao: "South",     total_labs: 2100, labs_digitais: 880, laboratoristas:  9460, capacidade_mensal: 240000, producao_atual_mensal: 205000, ocupacao_pct: 85, demanda_estimada_mensal: 252000, gap_producao: -47000 },
+  { regiao: "Midwest",   total_labs: 1700, labs_digitais: 680, laboratoristas:  6800, capacidade_mensal: 195000, producao_atual_mensal: 162000, ocupacao_pct: 83, demanda_estimada_mensal: 188000, gap_producao: -26000 },
+  { regiao: "West",      total_labs: 1850, labs_digitais: 820, laboratoristas:  7090, capacidade_mensal: 215000, producao_atual_mensal: 192000, ocupacao_pct: 89, demanda_estimada_mensal: 220000, gap_producao: -28000 },
 ];
 
 export const comparativoValoresUSA = [
@@ -54,11 +59,13 @@ export const serieHistoricaLabsUSA = [
   { ano: 2023, total_labs: 7500, labs_digitais: 4050, producao_total: 10000000, mercado_bi: 4.5 },
 ];
 
+// BLS OES May 2022 — Dental Lab Technicians (SOC 51-9081) por Census Region
+// Total: 29.560 | Northeast 21% | South 32% | Midwest 23% | West 24%
 export const cdtsPorRegiaoUSA = [
-  { regiao: "Northeast",    cdts: 11000, labs: 1850, renda_media_usd: 52000, demanda_estimada: 210000, saturacao: "Adequate" },
-  { regiao: "South",        cdts: 12500, labs: 2100, renda_media_usd: 44000, demanda_estimada: 252000, saturacao: "Shortage"  },
-  { regiao: "Midwest",      cdts: 10000, labs: 1700, renda_media_usd: 48000, demanda_estimada: 188000, saturacao: "Adequate" },
-  { regiao: "West",         cdts: 11500, labs: 1850, renda_media_usd: 58000, demanda_estimada: 220000, saturacao: "Adequate" },
+  { regiao: "Northeast",    cdts:  6210, labs: 1580, renda_media_usd: 52000, demanda_estimada: 210000, saturacao: "Adequate" },
+  { regiao: "South",        cdts:  9460, labs: 2100, renda_media_usd: 44000, demanda_estimada: 252000, saturacao: "Shortage" },
+  { regiao: "Midwest",      cdts:  6800, labs: 1700, renda_media_usd: 48000, demanda_estimada: 188000, saturacao: "Adequate" },
+  { regiao: "West",         cdts:  7090, labs: 1850, renda_media_usd: 58000, demanda_estimada: 220000, saturacao: "Adequate" },
 ];
 
 // ─── GERMANY ─────────────────────────────────────────────────────────────────

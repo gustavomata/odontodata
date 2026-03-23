@@ -25,9 +25,10 @@ import {
 } from "@/lib/germany-map-data";
 import { dadosPorEstadoUSA } from "@/lib/data-usa";
 import { cidadesGeoUSA } from "@/lib/usa-map-data";
+import type { CidadeUSA } from "@/lib/data-onde-abrir-usa-cidades";
 import type { MunicipioOdonto } from "@/app/api/municipios/route";
 
-type MetricaFiltro = "saturacao" | "oportunidade" | "dentistas" | "regiao";
+type MetricaFiltro = "saturacao" | "oportunidade" | "dentistas" | "regiao" | "onde_abrir";
 
 interface BrazilMapProps {
   metrica: MetricaFiltro;
@@ -35,6 +36,7 @@ interface BrazilMapProps {
   pais: PaisCode;
   onEstadoClick: (uf: string) => void;
   onCidadeClick: (cidade: CidadeGeo) => void;
+  ondeAbrirCidades?: CidadeUSA[];
 }
 
 // ─── Helpers de cor ───────────────────────────────────────────────────────────
@@ -51,6 +53,7 @@ function getEstadoCor(uf: string, metrica: MetricaFiltro, pais: PaisCode): strin
       }
       case "dentistas": return getCorDensidade(estado.totalDentistas);
       case "regiao":    return CORES_REGIOES_MAP[estado.regiao] || "#475569";
+      default: return "#475569";
     }
   }
 
@@ -65,6 +68,7 @@ function getEstadoCor(uf: string, metrica: MetricaFiltro, pais: PaisCode): strin
       }
       case "dentistas": return getCorDensidade(estado.totalDentistas);
       case "regiao":    return CORES_REGIOES_WORLD[pais]![estado.regiao] || "#475569";
+      case "onde_abrir": return "#475569"; // colored dynamically with ondeAbrirScores
     }
   }
 
@@ -79,6 +83,7 @@ function getEstadoCor(uf: string, metrica: MetricaFiltro, pais: PaisCode): strin
       }
       case "dentistas": return getCorDensidade(bl.totalDentistas);
       case "regiao":    return CORES_REGIOES_WORLD[pais]![bl.regiao] || "#475569";
+      default: return "#475569";
     }
   }
 
@@ -208,12 +213,20 @@ function getStaticFallback(pais: PaisCode): MunicipioOdonto[] {
 
 // ─── Componente ───────────────────────────────────────────────────────────────
 
+// Helper: onde_abrir score → color
+function getOndeAbrirColor(score: number): string {
+  if (score >= 70) return "#22c55e";
+  if (score >= 55) return "#eab308";
+  return "#ef4444";
+}
+
 export default function BrazilMap({
   metrica,
   regiaoFiltro,
   pais,
   onEstadoClick,
   onCidadeClick,
+  ondeAbrirCidades,
 }: BrazilMapProps) {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
@@ -272,8 +285,14 @@ export default function BrazilMap({
     L.control.zoom({ position: "topright" }).addTo(map);
     L.control.attribution({ position: "bottomright", prefix: false }).addTo(map);
 
+    // Custom panes: states below, markers above
+    map.createPane("statesPane");
+    map.getPane("statesPane")!.style.zIndex = "350";
+    map.createPane("markersPane");
+    map.getPane("markersPane")!.style.zIndex = "450";
+
     mapInstanceRef.current = map;
-    markersLayerRef.current = L.layerGroup().addTo(map);
+    markersLayerRef.current = L.layerGroup([], { pane: "markersPane" }).addTo(map);
     setMapReady(true);
 
     return () => {
@@ -330,19 +349,41 @@ export default function BrazilMap({
     const isAllRegions = regiaoFiltro === "Todas" || regiaoFiltro === "All";
     const coresRegiao = CORES_REGIOES_WORLD[pais]!;
 
+    // Compute avg onde_abrir scores per state
+    const ondeAbrirScores: Record<string, number> = {};
+    if (metrica === "onde_abrir" && ondeAbrirCidades) {
+      const byState: Record<string, number[]> = {};
+      for (const c of ondeAbrirCidades) {
+        (byState[c.uf] ??= []).push(c.score_oportunidade);
+      }
+      for (const [uf, scores] of Object.entries(byState)) {
+        ondeAbrirScores[uf] = Math.round(scores.reduce((a, b) => a + b, 0) / scores.length);
+      }
+    }
+
     geoLayerRef.current = L.geoJSON(geoData, {
+      pane: "statesPane",
       style: (feature) => {
         const props = feature?.properties as Record<string, unknown>;
         const uf = getStateCode(props) ?? "";
         const estadoConfig = countryConfig.estados.find((e) => e.code === uf);
         const regiaoMatch = isAllRegions || (estadoConfig && estadoConfig.regiao === regiaoFiltro);
 
+        let fillColor = "#1e293b";
+        if (regiaoMatch) {
+          if (metrica === "onde_abrir" && ondeAbrirScores[uf] !== undefined) {
+            fillColor = getOndeAbrirColor(ondeAbrirScores[uf]);
+          } else {
+            fillColor = getEstadoCor(uf, metrica, pais);
+          }
+        }
+
         return {
-          fillColor: regiaoMatch ? getEstadoCor(uf, metrica, pais) : "#1e293b",
-          fillOpacity: regiaoMatch ? 0.7 : 0.15,
+          fillColor,
+          fillOpacity: regiaoMatch ? 0.35 : 0.1,
           color: regiaoMatch ? "#94a3b8" : "#334155",
           weight: 1,
-          opacity: 0.8,
+          opacity: 0.6,
         };
       },
       onEachFeature: (feature, layer) => {
@@ -369,6 +410,15 @@ export default function BrazilMap({
           const estadoConfig = countryConfig.estados.find((e) => e.code === uf);
           const corRegiao = estadoConfig ? (CORES_REGIOES_WORLD[pais]![estadoConfig.regiao] ?? "#94a3b8") : "#94a3b8";
           if (estado) {
+            const ondeScore = ondeAbrirScores[uf];
+            const ondeCount = ondeAbrirCidades?.filter((c) => c.uf === uf).length ?? 0;
+            const ondeBlock = metrica === "onde_abrir" && ondeScore !== undefined
+              ? `<div style="margin-top:6px;padding-top:6px;border-top:1px solid #334155;">
+                  <span style="color:#94a3b8;font-size:11px;">Opportunity Score</span>
+                  <strong style="color:${getOndeAbrirColor(ondeScore)};font-size:14px;margin-left:6px;">${ondeScore}</strong>
+                  <span style="color:#64748b;font-size:10px;margin-left:4px;">(${ondeCount} areas)</span>
+                </div>`
+              : "";
             layer.bindTooltip(
               `<div style="font-family:system-ui;font-size:13px;min-width:180px;">
                 <strong>${estado.estado} (${uf})</strong><br/>
@@ -381,6 +431,7 @@ export default function BrazilMap({
                   <span style="color:#94a3b8;">Public</span><strong>${estado.dentistasPublicos.toLocaleString()}</strong>
                   <span style="color:#94a3b8;">Counties</span><strong>${estado.municipios}</strong>
                 </div>
+                ${ondeBlock}
               </div>`,
               { sticky: true, className: "dark-tooltip" }
             );
@@ -421,7 +472,7 @@ export default function BrazilMap({
         }
 
         layer.on({
-          mouseover: (e) => { e.target.setStyle({ weight: 2, color: "#e2e8f0", fillOpacity: 0.9 }); e.target.bringToFront(); },
+          mouseover: (e) => { e.target.setStyle({ weight: 2, color: "#e2e8f0", fillOpacity: 0.5 }); },
           mouseout: (e) => geoLayerRef.current?.resetStyle(e.target),
           click: () => {
             if (!uf) return;
@@ -439,17 +490,107 @@ export default function BrazilMap({
         });
       },
     }).addTo(map);
-  }, [geoData, metrica, regiaoFiltro, pais, onEstadoClick, countryConfig, getStateCode]);
+  }, [geoData, metrica, regiaoFiltro, pais, onEstadoClick, countryConfig, getStateCode, ondeAbrirCidades]);
 
   useEffect(() => {
     if (mapReady) updateGeoLayer();
   }, [mapReady, updateGeoLayer]);
+
+  // Markers for onde_abrir mode (separate layer with CidadeUSA data)
+  useEffect(() => {
+    const map = mapInstanceRef.current;
+    const markersLayer = markersLayerRef.current;
+    if (!map || !markersLayer || !mapReady) return;
+    if (metrica !== "onde_abrir" || !ondeAbrirCidades || ondeAbrirCidades.length === 0) return;
+
+    const TIPO_COLORS: Record<string, string> = {
+      Metro: "#ef4444", Suburban: "#f97316", Secondary: "#eab308", Rural: "#22c55e", "College Town": "#3b82f6",
+    };
+
+    const updateMarkers = () => {
+      markersLayer.clearLayers();
+      const zoom = map.getZoom();
+      if (zoom < 4) return;
+
+      const bounds = map.getBounds();
+      const visible = ondeAbrirCidades.filter((c) => {
+        if (!c.lat || !c.lng) return false;
+        if (!bounds.contains([c.lat, c.lng])) return false;
+        if (zoom < 5 && c.populacao < 200000) return false;
+        if (zoom < 6 && c.populacao < 50000) return false;
+        return true;
+      });
+
+      visible.forEach((c) => {
+        const cor = getOndeAbrirColor(c.score_oportunidade);
+        const baseRadius = Math.max(4, Math.min(12, c.score_oportunidade / 8));
+        const scale = Math.pow(2, zoom - 4) * 0.4;
+        const radius = Math.max(3, Math.min(baseRadius * scale, 20));
+
+        const marker = L.circleMarker([c.lat!, c.lng!], {
+          pane: "markersPane",
+          radius,
+          fillColor: cor,
+          fillOpacity: 0.85,
+          color: "#e2e8f0",
+          weight: 1.5,
+          opacity: 0.8,
+        });
+
+        const tipoCor = TIPO_COLORS[c.tipo] ?? "#94a3b8";
+        marker.bindTooltip(
+          `<div style="font-family:system-ui;font-size:12px;min-width:220px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+              <span style="font-weight:700;font-size:13px;color:${cor};">${c.nome} <span style="color:#64748b;font-weight:400;font-size:11px;">· ${c.uf}</span></span>
+              <span style="font-size:9px;color:${tipoCor};border:1px solid ${tipoCor}33;border-radius:3px;padding:1px 4px;">${c.tipo}</span>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:3px 10px;font-size:11px;">
+              <span style="color:#64748b;">Score</span><strong style="color:${cor};font-size:14px;">${c.score_oportunidade}</strong>
+              <span style="color:#64748b;">Population</span><strong style="color:#cbd5e1;">${c.populacao.toLocaleString()}</strong>
+              <span style="color:#64748b;">Dentists/100k</span><strong style="color:#cbd5e1;">${c.dentistas_por_100k}</strong>
+              <span style="color:#64748b;">Income</span><strong style="color:#cbd5e1;">$${(c.mediana_renda / 1000).toFixed(0)}k</strong>
+              <span style="color:#64748b;">DSO</span><strong style="color:#cbd5e1;">${c.penetracao_dso}%</strong>
+              <span style="color:#64748b;">Growth</span><strong style="color:${c.crescimento_pop_pct >= 0 ? "#4ade80" : "#f87171"};">${c.crescimento_pop_pct >= 0 ? "+" : ""}${c.crescimento_pop_pct.toFixed(1)}%</strong>
+            </div>
+            ${c.hpsa ? '<div style="margin-top:4px;"><span style="font-size:9px;color:#fca5a5;background:#7f1d1d44;border-radius:3px;padding:1px 4px;">HPSA Designated</span></div>' : ""}
+            <div style="margin-top:6px;padding-top:6px;border-top:1px solid #334155;">
+              <span style="color:#64748b;font-size:10px;">Needed:</span> <strong style="color:#60a5fa;font-size:11px;">${c.especialidade_mais_carente}</strong>
+            </div>
+            <div style="margin-top:4px;font-size:10px;color:#94a3b8;">${c.nota}</div>
+          </div>`,
+          { className: "dark-tooltip" }
+        );
+
+        marker.on("click", () => onEstadoClick(c.uf));
+        marker.addTo(markersLayer);
+
+        // Label at higher zoom
+        if (zoom >= 6 && (c.populacao >= 200000 || zoom >= 8)) {
+          L.marker([c.lat!, c.lng!], {
+            pane: "markersPane",
+            icon: L.divIcon({
+              className: "city-label",
+              html: `<span>${c.nome}</span>`,
+              iconSize: [120, 20],
+              iconAnchor: [60, -radius - 4],
+            }),
+          }).addTo(markersLayer);
+        }
+      });
+    };
+
+    updateMarkers();
+    map.on("zoomend moveend", updateMarkers);
+    return () => { map.off("zoomend moveend", updateMarkers); };
+  }, [mapReady, metrica, ondeAbrirCidades, onEstadoClick]);
 
   // Markers dos municípios/condados/LGAs
   useEffect(() => {
     const map = mapInstanceRef.current;
     const markersLayer = markersLayerRef.current;
     if (!map || !markersLayer || !mapReady || municipios.length === 0) return;
+    // Skip regular markers when onde_abrir mode is active (handled by separate effect)
+    if (metrica === "onde_abrir" && ondeAbrirCidades && ondeAbrirCidades.length > 0) return;
 
     const labels = countryConfig.labels;
 
@@ -487,6 +628,7 @@ export default function BrazilMap({
           : null;
 
         const marker = L.circleMarker([m.lat, m.lng], {
+          pane: "markersPane",
           radius,
           fillColor: cor,
           fillOpacity: 0.85,
@@ -538,6 +680,7 @@ export default function BrazilMap({
         // Label em zoom maior
         if (zoom >= 6 && ((m.populacao ?? 0) >= 500000 || zoom >= 8)) {
           L.marker([m.lat, m.lng], {
+            pane: "markersPane",
             icon: L.divIcon({
               className: "city-label",
               html: `<span>${m.municipio}</span>`,
@@ -552,7 +695,7 @@ export default function BrazilMap({
     updateMarkers();
     map.on("zoomend moveend", updateMarkers);
     return () => { map.off("zoomend moveend", updateMarkers); };
-  }, [mapReady, metrica, municipios, onCidadeClick, pais, countryConfig]);
+  }, [mapReady, metrica, municipios, onCidadeClick, pais, countryConfig, ondeAbrirCidades]);
 
   // Badge de fonte de dados
   const fonteLabel =

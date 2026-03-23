@@ -13,6 +13,7 @@ export interface UniversidadeIntl {
   programasPosGrad?: string[];
   acreditacao: string;
   pontosFocais: string[];
+  temAdvancedStanding?: boolean;
 }
 
 // ─────────────────────────────────────────────
@@ -40,6 +41,7 @@ export const universidadesUSA: UniversidadeIntl[] = [
       "Pediatric Dentistry",
       "Endodontics",
       "Oral Medicine",
+      "AEGD",
     ],
     acreditacao: "CODA",
     pontosFocais: [
@@ -69,6 +71,7 @@ export const universidadesUSA: UniversidadeIntl[] = [
       "Pediatric Dentistry",
       "Oral Surgery",
       "Endodontics",
+      "AEGD",
     ],
     acreditacao: "CODA",
     pontosFocais: [
@@ -100,8 +103,10 @@ export const universidadesUSA: UniversidadeIntl[] = [
       "Endodontics",
       "Oral Medicine",
       "Dental Public Health",
+      "AEGD",
     ],
     acreditacao: "CODA",
+    temAdvancedStanding: true,
     pontosFocais: [
       "Oral Cancer Research",
       "Craniofacial Genetics",
@@ -131,8 +136,10 @@ export const universidadesUSA: UniversidadeIntl[] = [
       "Endodontics",
       "Oral Medicine",
       "Dental Public Health",
+      "AEGD",
     ],
     acreditacao: "CODA",
+    temAdvancedStanding: true,
     pontosFocais: [
       "Translational Research",
       "Oral Microbiology",
@@ -162,8 +169,10 @@ export const universidadesUSA: UniversidadeIntl[] = [
       "Endodontics",
       "Oral Medicine",
       "Dental Public Health",
+      "AEGD",
     ],
     acreditacao: "CODA",
+    temAdvancedStanding: true,
     pontosFocais: [
       "Periodontal Immunology",
       "Oral Microbiology",
@@ -194,8 +203,10 @@ export const universidadesUSA: UniversidadeIntl[] = [
       "Oral Medicine",
       "Dental Public Health",
       "Implantology",
+      "AEGD",
     ],
     acreditacao: "CODA",
+    temAdvancedStanding: true,
     pontosFocais: [
       "Global Oral Health",
       "Implant Dentistry",
@@ -224,6 +235,7 @@ export const universidadesUSA: UniversidadeIntl[] = [
       "Pediatric Dentistry",
       "Endodontics",
       "Dental Public Health",
+      "AEGD",
     ],
     acreditacao: "CODA",
     pontosFocais: [
@@ -254,8 +266,10 @@ export const universidadesUSA: UniversidadeIntl[] = [
       "Pediatric Dentistry",
       "Endodontics",
       "Oral Medicine",
+      "AEGD",
     ],
     acreditacao: "CODA",
+    temAdvancedStanding: true,
     pontosFocais: [
       "Craniofacial Biology",
       "Oral Oncology",
@@ -284,6 +298,7 @@ export const universidadesUSA: UniversidadeIntl[] = [
       "Pediatric Dentistry",
       "Endodontics",
       "Dental Public Health",
+      "AEGD",
     ],
     acreditacao: "CODA",
     pontosFocais: [
@@ -315,8 +330,10 @@ export const universidadesUSA: UniversidadeIntl[] = [
       "Endodontics",
       "Oral Medicine",
       "Dental Public Health",
+      "AEGD",
     ],
     acreditacao: "CODA",
+    temAdvancedStanding: true,
     pontosFocais: [
       "Geriatric Dentistry",
       "Community Dentistry",
@@ -346,8 +363,10 @@ export const universidadesUSA: UniversidadeIntl[] = [
       "Endodontics",
       "Oral Medicine",
       "Dental Public Health",
+      "AEGD",
     ],
     acreditacao: "CODA",
+    temAdvancedStanding: true,
     pontosFocais: [
       "Implant Dentistry",
       "Prosthodontics",
@@ -376,6 +395,7 @@ export const universidadesUSA: UniversidadeIntl[] = [
       "Pediatric Dentistry",
       "Endodontics",
       "Dental Public Health",
+      "AEGD",
     ],
     acreditacao: "CODA",
     pontosFocais: [
@@ -406,6 +426,7 @@ export const universidadesUSA: UniversidadeIntl[] = [
       "Pediatric Dentistry",
       "Endodontics",
       "Dental Public Health",
+      "AEGD",
     ],
     acreditacao: "CODA",
     pontosFocais: [
@@ -436,6 +457,7 @@ export const universidadesUSA: UniversidadeIntl[] = [
       "Pediatric Dentistry",
       "Endodontics",
       "Oral Medicine",
+      "AEGD",
     ],
     acreditacao: "CODA",
     pontosFocais: [
@@ -466,8 +488,10 @@ export const universidadesUSA: UniversidadeIntl[] = [
       "Pediatric Dentistry",
       "Endodontics",
       "Dental Public Health",
+      "AEGD",
     ],
     acreditacao: "CODA",
+    temAdvancedStanding: true,
     pontosFocais: [
       "Oral Biology",
       "Craniofacial Genetics",
@@ -496,8 +520,10 @@ export const universidadesUSA: UniversidadeIntl[] = [
       "Pediatric Dentistry",
       "Endodontics",
       "Dental Public Health",
+      "AEGD",
     ],
     acreditacao: "CODA",
+    temAdvancedStanding: true,
     pontosFocais: [
       "Dental Biomaterials",
       "Oral Health Disparities",
@@ -526,6 +552,7 @@ export const universidadesUSA: UniversidadeIntl[] = [
       "Pediatric Dentistry",
       "Endodontics",
       "Dental Public Health",
+      "AEGD",
     ],
     acreditacao: "CODA",
     pontosFocais: [
@@ -556,8 +583,10 @@ export const universidadesUSA: UniversidadeIntl[] = [
       "Pediatric Dentistry",
       "Endodontics",
       "Dental Public Health",
+      "AEGD",
     ],
     acreditacao: "CODA",
+    temAdvancedStanding: true,
     pontosFocais: [
       "Oral Cancer Research",
       "Geriatric Dentistry",
@@ -586,8 +615,10 @@ export const universidadesUSA: UniversidadeIntl[] = [
       "Pediatric Dentistry",
       "Endodontics",
       "Oral Medicine",
+      "AEGD",
     ],
     acreditacao: "CODA",
+    temAdvancedStanding: true,
     pontosFocais: [
       "Craniofacial Research",
       "Oral Biology",
@@ -616,8 +647,10 @@ export const universidadesUSA: UniversidadeIntl[] = [
       "Pediatric Dentistry",
       "Endodontics",
       "Dental Public Health",
+      "AEGD",
     ],
     acreditacao: "CODA",
+    temAdvancedStanding: true,
     pontosFocais: [
       "Urban Community Dentistry",
       "Oral Health Disparities",
@@ -676,6 +709,7 @@ export const universidadesUSA: UniversidadeIntl[] = [
       "Endodontics",
     ],
     acreditacao: "CODA",
+    temAdvancedStanding: true,
     pontosFocais: [
       "International Dental Health",
       "Implantology",
@@ -733,8 +767,10 @@ export const universidadesUSA: UniversidadeIntl[] = [
       "Pediatric Dentistry",
       "Endodontics",
       "Dental Public Health",
+      "AEGD",
     ],
     acreditacao: "CODA",
+    temAdvancedStanding: true,
     pontosFocais: [
       "Urban Oral Health",
       "Health Disparities",
@@ -820,6 +856,7 @@ export const universidadesUSA: UniversidadeIntl[] = [
       "Oral Surgery",
       "Pediatric Dentistry",
       "Endodontics",
+      "AEGD",
     ],
     acreditacao: "CODA",
     pontosFocais: [
@@ -880,6 +917,7 @@ export const universidadesUSA: UniversidadeIntl[] = [
       "Endodontics",
     ],
     acreditacao: "CODA",
+    temAdvancedStanding: true,
     pontosFocais: [
       "Underserved Community Dentistry",
       "Hispanic Oral Health",
@@ -939,6 +977,7 @@ export const universidadesUSA: UniversidadeIntl[] = [
       "Endodontics",
     ],
     acreditacao: "CODA",
+    temAdvancedStanding: true,
     pontosFocais: [
       "Rural Oral Health",
       "Community Dentistry",
@@ -967,8 +1006,10 @@ export const universidadesUSA: UniversidadeIntl[] = [
       "Pediatric Dentistry",
       "Endodontics",
       "Oral Medicine",
+      "AEGD",
     ],
     acreditacao: "CODA",
+    temAdvancedStanding: true,
     pontosFocais: [
       "Craniofacial Biology",
       "Implant Dentistry",
@@ -998,6 +1039,7 @@ export const universidadesUSA: UniversidadeIntl[] = [
       "Endodontics",
     ],
     acreditacao: "CODA",
+    temAdvancedStanding: true,
     pontosFocais: [
       "Global Health",
       "Community Dentistry",
@@ -1026,8 +1068,10 @@ export const universidadesUSA: UniversidadeIntl[] = [
       "Pediatric Dentistry",
       "Endodontics",
       "Dental Public Health",
+      "AEGD",
     ],
     acreditacao: "CODA",
+    temAdvancedStanding: true,
     pontosFocais: [
       "Urban Oral Health",
       "Community Dentistry",
@@ -1057,6 +1101,7 @@ export const universidadesUSA: UniversidadeIntl[] = [
       "Endodontics",
     ],
     acreditacao: "CODA",
+    temAdvancedStanding: true,
     pontosFocais: [
       "Oral Biology",
       "Craniofacial Research",

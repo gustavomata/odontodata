@@ -80,13 +80,13 @@ export default function IntelLabsPage() {
       {pais === "BR" && (
         <>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-            <StatCard title={t("labs_total", lang)} value={indicadoresLabs.totalLabs} icon={FlaskConical} color="blue" subtitle={t("labs_laboratorios", lang)} />
-            <StatCard title={t("labs_sus", lang)} value={indicadoresLabs.labsSUS} icon={FlaskConical} color="green" subtitle={t("labs_credenciados", lang)} />
+            <StatCard title={t("labs_total", lang)} value={indicadoresLabs.totalLabs.toLocaleString("pt-BR")} icon={FlaskConical} color="blue" subtitle={t("labs_laboratorios", lang)} />
+            <StatCard title={lang === "PT" ? "TPDs Ativos" : "Active Lab Technicians"} value={indicadoresLabs.tpdsAtivos.toLocaleString("pt-BR")} icon={Users} color="green" subtitle={lang === "PT" ? "registrados CFO · Mar/2025" : "registered CFO · Mar/2025"} />
             <StatCard title={t("labs_producao", lang)} value={indicadoresLabs.producaoMensal} icon={TrendingUp} color="purple" subtitle={t("labs_proteses", lang)} />
             <StatCard title={t("labs_fila", lang)} value={indicadoresLabs.filaEspera} icon={Users} color="red" subtitle={t("labs_aguardando", lang)} />
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-            <StatCard title={t("labs_tempo_fila", lang)} value={indicadoresLabs.tempoMedioFila} icon={Clock} color="yellow" subtitle={t("labs_espera_sus", lang)} />
+            <StatCard title={lang === "PT" ? "Mercado Anual" : "Annual Market"} value={indicadoresLabs.mercadoAnualBR} icon={DollarSign} color="green" subtitle={lang === "PT" ? "prótese dentária Brasil 2024" : "dental prosthetics Brazil 2024"} />
             <StatCard title={t("labs_deficit_sus", lang)} value={indicadoresLabs.deficitSUSvsMercado} icon={DollarSign} color="red" subtitle={t("labs_diferenca", lang)} />
             <StatCard title={t("labs_mun_sem", lang)} value={indicadoresLabs.municipiosSemLab_pct} icon={MapPin} color="red" subtitle={t("labs_total_mun", lang)} />
             <StatCard title={t("labs_cadcam", lang)} value={indicadoresLabs.crescimentoCADCAM} icon={Cpu} color="cyan" subtitle={t("labs_adocao", lang)} />

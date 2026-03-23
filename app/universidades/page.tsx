@@ -38,6 +38,7 @@ import {
   ChevronUp,
   DollarSign,
   MapPin,
+  Filter,
 } from "lucide-react";
 import {
   BarChart,
@@ -92,6 +93,7 @@ const saturacaoBadge = (nivel: string) => {
 
 type PaisCode = "BR" | "US" | "DE";
 type ModalType = "faculdades" | "posgrad" | null;
+type ModalIntlType = "escolas" | null;
 
 // ── Card de Universidade Internacional ───────────────────────────────
 function UniversidadeIntlCard({ u, lang }: { u: UniversidadeIntl; lang: Lang }) {
@@ -127,6 +129,7 @@ function UniversidadeIntlCard({ u, lang }: { u: UniversidadeIntl; lang: Lang }) 
             <span>{lang === "PT" ? "Vagas/ano" : "Seats/yr"}: <strong className="text-slate-200">{u.vagas_ano}</strong></span>
             <span>{lang === "PT" ? "Duração" : "Duration"}: <strong className="text-slate-200">{u.duracao_anos} {lang === "PT" ? "anos" : "yrs"}</strong></span>
             {u.temPosGrad && <span className="text-cyan-400">{lang === "PT" ? "Pós-grad" : "Postgrad"}</span>}
+            {u.temAdvancedStanding && <span className="text-emerald-400">Adv. Standing</span>}
           </div>
         </div>
         <div className="shrink-0 text-slate-500">
@@ -158,6 +161,134 @@ function UniversidadeIntlCard({ u, lang }: { u: UniversidadeIntl; lang: Lang }) 
           <p className="text-slate-600 text-xs mt-3">{u.acreditacao} · {u.regiao}</p>
         </div>
       )}
+    </div>
+  );
+}
+
+// ── Modal de Lista Completa de Universidades Internacionais ──────────
+function UniversidadesIntlModal({
+  universidades,
+  onClose,
+  lang,
+  pais,
+}: {
+  universidades: UniversidadeIntl[];
+  onClose: () => void;
+  lang: Lang;
+  pais: PaisCode;
+}) {
+  const [busca, setBusca] = useState("");
+  const [filtroTipo, setFiltroTipo] = useState("All");
+  const [filtroRegiao, setFiltroRegiao] = useState("All");
+  const [filtroEstado, setFiltroEstado] = useState("All");
+  const [apenasAEGD, setApenasAEGD] = useState(false);
+  const [apenasAdvStanding, setApenasAdvStanding] = useState(false);
+
+  const currency = pais === "US" ? "$" : "€";
+  const regioes = useMemo(() => ["All", ...Array.from(new Set(universidades.map((u) => u.regiao))).sort()], [universidades]);
+  const tipos = useMemo(() => ["All", ...Array.from(new Set(universidades.map((u) => u.tipo))).sort()], [universidades]);
+  const estados = useMemo(() => ["All", ...Array.from(new Set(universidades.map((u) => u.estado))).sort()], [universidades]);
+
+  const filtradas = useMemo(() => {
+    let lista = [...universidades];
+    if (busca) {
+      const q = busca.toLowerCase();
+      lista = lista.filter((u) => u.instituicao.toLowerCase().includes(q) || u.sigla.toLowerCase().includes(q) || u.cidade.toLowerCase().includes(q) || u.estado.toLowerCase().includes(q));
+    }
+    if (filtroTipo !== "All") lista = lista.filter((u) => u.tipo === filtroTipo);
+    if (filtroRegiao !== "All") lista = lista.filter((u) => u.regiao === filtroRegiao);
+    if (filtroEstado !== "All") lista = lista.filter((u) => u.estado === filtroEstado);
+    if (apenasAEGD) lista = lista.filter((u) => u.programasPosGrad?.includes("AEGD"));
+    if (apenasAdvStanding) lista = lista.filter((u) => u.temAdvancedStanding);
+    return lista.sort((a, b) => (a.ranking ?? 99) - (b.ranking ?? 99));
+  }, [universidades, busca, filtroTipo, filtroRegiao, filtroEstado, apenasAEGD, apenasAdvStanding]);
+
+  const totalAEGD = universidades.filter((u) => u.programasPosGrad?.includes("AEGD")).length;
+  const totalAdvStanding = universidades.filter((u) => u.temAdvancedStanding).length;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/70 backdrop-blur-sm overflow-y-auto p-4 pt-8 md:pt-16">
+      <div className="bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-6xl max-h-[85vh] flex flex-col shadow-2xl">
+        {/* Header */}
+        <div className="flex items-center justify-between p-4 md:p-6 border-b border-slate-800 shrink-0">
+          <div>
+            <h2 className="text-white font-bold text-lg md:text-xl">
+              {lang === "PT" ? "Lista Completa de Universidades" : "Complete University List"}
+            </h2>
+            <p className="text-slate-400 text-sm mt-1">
+              {filtradas.length} {lang === "PT" ? "universidades encontradas" : "universities found"}
+              {apenasAEGD && <span className="ml-2 text-cyan-400">· AEGD</span>}
+              {apenasAdvStanding && <span className="ml-2 text-emerald-400">· Advanced Standing</span>}
+            </p>
+          </div>
+          <button onClick={onClose} className="text-slate-400 hover:text-white p-2 rounded-lg hover:bg-slate-800 transition-colors">
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+
+        {/* Filtros */}
+        <div className="p-4 md:px-6 border-b border-slate-800 shrink-0">
+          <div className="flex flex-wrap gap-3">
+            <div className="relative flex-1 min-w-[200px]">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+              <input
+                type="text"
+                placeholder={lang === "PT" ? "Buscar por nome, sigla, cidade ou estado..." : "Search by name, code, city or state..."}
+                value={busca}
+                onChange={(e) => setBusca(e.target.value)}
+                className="w-full bg-slate-800 border border-slate-700 rounded-lg pl-10 pr-4 py-2 text-sm text-white placeholder:text-slate-500 focus:outline-none focus:border-blue-500"
+              />
+            </div>
+            <select value={filtroTipo} onChange={(e) => setFiltroTipo(e.target.value)} className="bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-500">
+              {tipos.map((t) => <option key={t} value={t}>{t === "All" ? (lang === "PT" ? "Todos tipos" : "All types") : t}</option>)}
+            </select>
+            <select value={filtroRegiao} onChange={(e) => { setFiltroRegiao(e.target.value); setFiltroEstado("All"); }} className="bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-500">
+              {regioes.map((r) => <option key={r} value={r}>{r === "All" ? (lang === "PT" ? "Todas regiões" : "All regions") : r}</option>)}
+            </select>
+            <select value={filtroEstado} onChange={(e) => setFiltroEstado(e.target.value)} className="bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-500">
+              {estados.map((e) => <option key={e} value={e}>{e === "All" ? (lang === "PT" ? "Todos estados" : "All states") : e}</option>)}
+            </select>
+            {pais === "US" && (<>
+              <button
+                onClick={() => setApenasAEGD(!apenasAEGD)}
+                className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium border transition-colors ${
+                  apenasAEGD
+                    ? "bg-cyan-600/20 text-cyan-400 border-cyan-600/40"
+                    : "bg-slate-800 text-slate-400 border-slate-700 hover:border-slate-600"
+                }`}
+              >
+                <Filter className="w-3.5 h-3.5" />
+                AEGD ({totalAEGD})
+              </button>
+              <button
+                onClick={() => setApenasAdvStanding(!apenasAdvStanding)}
+                className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium border transition-colors ${
+                  apenasAdvStanding
+                    ? "bg-emerald-600/20 text-emerald-400 border-emerald-600/40"
+                    : "bg-slate-800 text-slate-400 border-slate-700 hover:border-slate-600"
+                }`}
+              >
+                <Filter className="w-3.5 h-3.5" />
+                Adv. Standing ({totalAdvStanding})
+              </button>
+            </>)}
+          </div>
+        </div>
+
+        {/* Lista */}
+        <div className="overflow-y-auto flex-1 p-4 md:px-6">
+          <div className="space-y-2">
+            {filtradas.map((u) => (
+              <UniversidadeIntlCard key={u.sigla} u={u} lang={lang} />
+            ))}
+            {filtradas.length === 0 && (
+              <div className="text-center py-12 text-slate-500">
+                {lang === "PT" ? "Nenhuma universidade encontrada." : "No universities found."}
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
@@ -432,6 +563,7 @@ function UniversidadeCard({
 export default function UniversidadesPage() {
   const { lang } = useLanguage();
   const [modalAberto, setModalAberto] = useState<ModalType>(null);
+  const [modalIntl, setModalIntl] = useState<ModalIntlType>(null);
   const [pais, setPais] = useState<PaisCode>("BR");
   const [busca, setBusca] = useState("");
   const [filtroTipoIntl, setFiltroTipoIntl] = useState("All");
@@ -752,7 +884,7 @@ export default function UniversidadesPage() {
 
         {/* Key indicators */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-          <StatCard title={lang === "PT" ? "Escolas de Odontologia" : "Dental Schools"} value={indicadoresIntl.totalEscolas} icon={GraduationCap} color="blue" subtitle={`${indicadoresIntl.escolasPublicas} ${lang === "PT" ? "públicas" : "public"} · ${indicadoresIntl.escolasPrivadas} ${lang === "PT" ? "privadas" : "private"}`} />
+          <StatCard title={lang === "PT" ? "Escolas de Odontologia" : "Dental Schools"} value={indicadoresIntl.totalEscolas} icon={GraduationCap} color="blue" subtitle={`${indicadoresIntl.escolasPublicas} ${lang === "PT" ? "públicas" : "public"} · ${indicadoresIntl.escolasPrivadas} ${lang === "PT" ? "privadas" : "private"} · ${lang === "PT" ? "Clique para ver lista" : "Click to see list"}`} onClick={() => setModalIntl("escolas")} />
           <StatCard title={lang === "PT" ? "Vagas por Ano" : "Seats per Year"} value={indicadoresIntl.totalVagasAno.toLocaleString()} icon={Users} color="green" subtitle={lang === "PT" ? "primeiros anos" : "first-year students"} />
           <StatCard title={lang === "PT" ? "Mensalidade Pública" : "Public Tuition"} value={`${currency}${indicadoresIntl.mensalidadeMediaPublica.toLocaleString()}`} icon={DollarSign} color={pais === "DE" ? "green" : "yellow"} subtitle={lang === "PT" ? "média anual" : "avg per year"} />
           <StatCard title={lang === "PT" ? "Mensalidade Privada" : "Private Tuition"} value={indicadoresIntl.mensalidadeMediaPrivada > 0 ? `${currency}${indicadoresIntl.mensalidadeMediaPrivada.toLocaleString()}` : lang === "PT" ? "N/A" : "N/A"} icon={DollarSign} color="red" subtitle={lang === "PT" ? "média anual" : "avg per year"} />
@@ -819,6 +951,9 @@ export default function UniversidadesPage() {
             {univFiltradas.length === 0 && <p className="text-slate-500 text-sm text-center py-8">{lang === "PT" ? "Nenhuma universidade encontrada." : "No universities found."}</p>}
           </div>
         </div>
+
+        {/* Modal Intl */}
+        {modalIntl && <UniversidadesIntlModal universidades={univIntl} onClose={() => setModalIntl(null)} lang={lang} pais={pais} />}
 
       </>)} {/* end US/DE */}
     </AppShell>

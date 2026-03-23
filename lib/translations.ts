@@ -120,6 +120,8 @@ const T = {
   mapa_dentistas_desc:        { PT: "Total de profissionais",   EN: "Total professionals" },
   mapa_regioes:               { PT: "Regiões",                  EN: "Regions" },
   mapa_regioes_desc:          { PT: "Por região geográfica",    EN: "By geographic region" },
+  mapa_onde_abrir:            { PT: "Onde Abrir",               EN: "Where to Open" },
+  mapa_onde_abrir_desc:       { PT: "Score dental por cidade",  EN: "Dental score by city" },
   mapa_tip_br:                { PT: "Clique em um estado para ver detalhes. Dê zoom para ver as cidades.", EN: "Click a state for details. Zoom in to see cities." },
   mapa_tip_us:                { PT: "Clique em um estado para ver detalhes. Dê zoom para ver os condados.", EN: "Click a state for details. Zoom in to see counties." },
   mapa_tip_au:                { PT: "Clique em um estado para ver detalhes. Dê zoom para ver as LGAs.", EN: "Click a state for details. Zoom in to see LGAs." },

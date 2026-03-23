@@ -1,5 +1,5 @@
 "use client";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { t, type TranslationKey } from "@/lib/translations";
@@ -12,6 +12,7 @@ import { COUNTRY_CONFIGS, CORES_REGIOES_WORLD, type PaisCode } from "@/lib/world
 import { bundeslaenderDental, cidadesGeoDE, type BundeslandDental } from "@/lib/germany-map-data";
 import { dadosPorEstadoUSA, dadosPorRegiaoUSA, CORES_REGIOES_USA } from "@/lib/data-usa";
 import { cidadesGeoUSA } from "@/lib/usa-map-data";
+import { cidadesUSA as cidadesUSAStatic, type CidadeUSA } from "@/lib/data-onde-abrir-usa-cidades";
 import {
   Map,
   Filter,
@@ -31,6 +32,8 @@ import {
   GraduationCap,
   Heart,
   Globe2,
+  Star,
+  AlertTriangle,
 } from "lucide-react";
 
 // Dynamic import do mapa (Leaflet não funciona no SSR)
@@ -46,7 +49,7 @@ const BrazilMap = dynamic(() => import("@/components/BrazilMap"), {
   ),
 });
 
-type MetricaFiltro = "saturacao" | "oportunidade" | "dentistas" | "regiao";
+type MetricaFiltro = "saturacao" | "oportunidade" | "dentistas" | "regiao" | "onde_abrir";
 
 // Ícones estáticos por métrica (sem dependência de lang)
 const METRICA_ICONS: Record<MetricaFiltro, typeof Map> = {
@@ -54,6 +57,7 @@ const METRICA_ICONS: Record<MetricaFiltro, typeof Map> = {
   oportunidade: Crosshair,
   dentistas:    Users,
   regiao:       MapPin,
+  onde_abrir:   Star,
 };
 
 const METRICA_KEYS: Record<MetricaFiltro, { label: TranslationKey; desc: TranslationKey }> = {
@@ -61,6 +65,18 @@ const METRICA_KEYS: Record<MetricaFiltro, { label: TranslationKey; desc: Transla
   oportunidade: { label: "mapa_oportunidade", desc: "mapa_oportunidade_desc" },
   dentistas:    { label: "mapa_dentistas",    desc: "mapa_dentistas_desc"    },
   regiao:       { label: "mapa_regioes",      desc: "mapa_regioes_desc"      },
+  onde_abrir:   { label: "mapa_onde_abrir",   desc: "mapa_onde_abrir_desc"   },
+};
+
+const SCORE_COLOR_ONDE = (s: number) =>
+  s >= 70 ? "#22c55e" : s >= 55 ? "#eab308" : "#ef4444";
+
+const TIPO_COLOR_ONDE: Record<string, string> = {
+  Metro: "#ef4444",
+  Suburban: "#f97316",
+  Secondary: "#eab308",
+  Rural: "#22c55e",
+  "College Town": "#3b82f6",
 };
 
 function StatMini({ label, value, sub }: { label: string; value: string; sub?: string }) {
@@ -80,7 +96,25 @@ export default function MapaPage() {
   const [estadoSelecionado, setEstadoSelecionado] = useState<string | null>(null);
   const [cidadeSelecionada, setCidadeSelecionada] = useState<CidadeGeo | null>(null);
   const [showPanel, setShowPanel] = useState(false);
+  const [cidadesUSA, setCidadesUSA] = useState<CidadeUSA[]>(cidadesUSAStatic);
   const { lang } = useLanguage();
+
+  // Fetch dynamic cities from API (falls back to static import)
+  useEffect(() => {
+    if (pais !== "US") return;
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch("/api/onde-abrir/cidades?limit=200&sort=score_oportunidade&dir=desc");
+        if (!res.ok) return;
+        const json = await res.json();
+        if (!cancelled && json.data?.length > 0) {
+          setCidadesUSA(json.data);
+        }
+      } catch { /* keep static fallback */ }
+    })();
+    return () => { cancelled = true; };
+  }, [pais]);
 
   const countryConfig = COUNTRY_CONFIGS[pais]!;
 
@@ -123,6 +157,14 @@ export default function MapaPage() {
         { cor: "#F59E0B", texto: "Nordeste / South / Western" },
         { cor: "#8B5CF6", texto: "Centro-Oeste / West" },
         { cor: "#EF4444", texto: "Norte / Northern" },
+      ],
+    },
+    onde_abrir: {
+      label: lang === "PT" ? "Score Onde Abrir" : "Where to Open Score",
+      items: [
+        { cor: "#22c55e", texto: `70+ (${lang === "PT" ? "Excelente" : "Excellent"})` },
+        { cor: "#eab308", texto: `55–69 (${lang === "PT" ? "Bom" : "Good"})` },
+        { cor: "#ef4444", texto: `< 55 (${lang === "PT" ? "Competitivo" : "Competitive"})` },
       ],
     },
   }), [lang]);
@@ -173,6 +215,22 @@ export default function MapaPage() {
       .filter((c) => c.uf === estadoSelecionado)
       .sort((a, b) => b.populacao - a.populacao);
   }, [pais, estadoSelecionado]);
+
+  // Onde Abrir: cidades do estado selecionado (ranking completo)
+  const ondeAbrirDoEstado = useMemo(() => {
+    if (pais !== "US" || !estadoSelecionado) return [];
+    return cidadesUSA
+      .filter((c) => c.uf === estadoSelecionado)
+      .sort((a, b) => b.score_oportunidade - a.score_oportunidade);
+  }, [pais, estadoSelecionado]);
+
+  // Onde Abrir: top 50 nacional
+  const ondeAbrirTop50 = useMemo(() => {
+    if (pais !== "US") return [];
+    return [...cidadesUSA]
+      .sort((a, b) => b.score_oportunidade - a.score_oportunidade)
+      .slice(0, 50);
+  }, [pais]);
 
   // Dados do Bundesland selecionado (DE)
   const deEstadoData = useMemo((): BundeslandDental | null => {
@@ -253,8 +311,8 @@ export default function MapaPage() {
         {/* Métrica */}
         <div className="flex-1">
           <label className="text-xs text-slate-400 mb-2 block font-medium">{t("mapa_visualize_by", lang)}</label>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-            {(["saturacao", "oportunidade", "dentistas", "regiao"] as MetricaFiltro[]).map((key) => {
+          <div className={`grid grid-cols-2 ${pais === "US" ? "sm:grid-cols-5" : "sm:grid-cols-4"} gap-2`}>
+            {(["saturacao", "oportunidade", "dentistas", "regiao", ...(pais === "US" ? ["onde_abrir" as MetricaFiltro] : [])] as MetricaFiltro[]).map((key) => {
               const Icon = METRICA_ICONS[key];
               const label = t(METRICA_KEYS[key].label, lang);
               const desc  = t(METRICA_KEYS[key].desc,  lang);
@@ -305,6 +363,7 @@ export default function MapaPage() {
               pais={pais}
               onEstadoClick={handleEstadoClick}
               onCidadeClick={handleCidadeClick}
+              ondeAbrirCidades={pais === "US" && metrica === "onde_abrir" ? cidadesUSA : undefined}
             />
           </div>
 
@@ -334,6 +393,54 @@ export default function MapaPage() {
             </div>
           )}
         </div>
+
+        {/* Side Panel - Onde Abrir National Top 50 (no state selected) */}
+        {pais === "US" && metrica === "onde_abrir" && !estadoSelecionado && !showPanel && (
+          <div className="w-full lg:w-96 bg-slate-900 border border-slate-800 rounded-xl overflow-hidden flex flex-col" style={{ maxHeight: "calc(100vh - 320px)" }}>
+            <div className="p-4 border-b border-slate-800 shrink-0">
+              <h3 className="text-white font-bold text-lg flex items-center gap-2">
+                <Star className="w-4 h-4 text-yellow-400" />
+                {lang === "PT" ? "Top 50 Nacional" : "National Top 50"}
+              </h3>
+              <p className="text-slate-400 text-xs mt-1">
+                {lang === "PT" ? "Melhores áreas para abrir clínica dental" : "Best areas to open a dental practice"}
+              </p>
+            </div>
+            <div className="flex-1 overflow-y-auto p-4 space-y-2">
+              {ondeAbrirTop50.map((c, i) => (
+                <button
+                  key={`${c.nome}-${c.uf}`}
+                  onClick={() => { setEstadoSelecionado(c.uf); setShowPanel(true); }}
+                  className="w-full text-left bg-slate-800/50 hover:bg-slate-800 rounded-lg p-3 transition-all"
+                >
+                  <div className="flex items-center justify-between mb-1">
+                    <div className="flex items-center gap-2 min-w-0">
+                      <span className="text-[10px] text-slate-500 w-5 shrink-0">#{i + 1}</span>
+                      <p className="text-sm text-white font-medium truncate">{c.nome}</p>
+                      <span className="text-[10px] text-slate-500 shrink-0">{c.uf}</span>
+                      {c.hpsa && (
+                        <span className="px-1 py-0.5 bg-red-900/50 text-red-300 text-[9px] rounded font-medium shrink-0">
+                          HPSA
+                        </span>
+                      )}
+                    </div>
+                    <span className="text-sm font-bold shrink-0 ml-2" style={{ color: SCORE_COLOR_ONDE(c.score_oportunidade) }}>
+                      {c.score_oportunidade}
+                    </span>
+                  </div>
+                  <div className="flex gap-2 ml-7 text-[10px] text-slate-500">
+                    <span style={{ color: TIPO_COLOR_ONDE[c.tipo] }}>{c.tipo}</span>
+                    <span>·</span>
+                    <span className="text-blue-400">{c.especialidade_mais_carente}</span>
+                  </div>
+                  <div className="mt-1 ml-7 h-1 rounded-full bg-slate-700 overflow-hidden">
+                    <div className="h-full rounded-full" style={{ width: `${c.score_oportunidade}%`, background: SCORE_COLOR_ONDE(c.score_oportunidade) }} />
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Side Panel - Estado/Cidade Info */}
         {showPanel && (estadoData || cidadeSelecionada || deEstadoData || usEstadoData) && (
@@ -506,8 +613,55 @@ export default function MapaPage() {
                     </div>
                   </div>
 
-                  {/* Cities in this state */}
-                  {cidadesDoEstadoUS.length > 0 && (
+                  {/* Where to Open: full ranking for state */}
+                  {metrica === "onde_abrir" && ondeAbrirDoEstado.length > 0 && (
+                    <div>
+                      <h4 className="text-sm font-medium text-slate-300 mb-3 flex items-center gap-2">
+                        <Star className="w-3.5 h-3.5 text-yellow-400" /> Where to Open — {ondeAbrirDoEstado.length} Areas
+                      </h4>
+                      <div className="space-y-2">
+                        {ondeAbrirDoEstado.map((c, i) => (
+                          <div
+                            key={c.nome}
+                            className="bg-slate-800/50 hover:bg-slate-800 rounded-lg p-3 transition-all"
+                          >
+                            <div className="flex items-center justify-between mb-1">
+                              <div className="flex items-center gap-2 min-w-0">
+                                <span className="text-[10px] text-slate-500 w-5 shrink-0">#{i + 1}</span>
+                                <p className="text-sm text-white font-medium truncate">{c.nome}</p>
+                                <span
+                                  className="px-1.5 py-0.5 rounded-full text-[9px] font-medium shrink-0"
+                                  style={{ background: TIPO_COLOR_ONDE[c.tipo] + "22", color: TIPO_COLOR_ONDE[c.tipo] }}
+                                >
+                                  {c.tipo}
+                                </span>
+                                {c.hpsa && (
+                                  <span className="px-1.5 py-0.5 bg-red-900/50 text-red-300 text-[9px] rounded font-medium shrink-0">
+                                    HPSA
+                                  </span>
+                                )}
+                              </div>
+                              <span className="text-sm font-bold shrink-0 ml-2" style={{ color: SCORE_COLOR_ONDE(c.score_oportunidade) }}>
+                                {c.score_oportunidade}
+                              </span>
+                            </div>
+                            <p className="text-[10px] text-slate-500 ml-7 line-clamp-2">{c.nota}</p>
+                            <div className="flex gap-3 ml-7 mt-1 text-[10px] text-slate-500">
+                              <span>Pop: <span className="text-slate-300">{c.populacao >= 1e6 ? `${(c.populacao / 1e6).toFixed(1)}M` : c.populacao >= 1e3 ? `${(c.populacao / 1e3).toFixed(0)}k` : c.populacao}</span></span>
+                              <span>Dent/100k: <span className="text-slate-300">{c.dentistas_por_100k}</span></span>
+                              <span className="text-blue-400">{c.especialidade_mais_carente}</span>
+                            </div>
+                            <div className="mt-1.5 ml-7 h-1 rounded-full bg-slate-700 overflow-hidden">
+                              <div className="h-full rounded-full" style={{ width: `${c.score_oportunidade}%`, background: SCORE_COLOR_ONDE(c.score_oportunidade) }} />
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Cities in this state (non-onde_abrir mode) */}
+                  {metrica !== "onde_abrir" && cidadesDoEstadoUS.length > 0 && (
                     <div>
                       <h4 className="text-sm font-medium text-slate-300 mb-3 flex items-center gap-2">
                         <MapPin className="w-3.5 h-3.5" /> Cities ({cidadesDoEstadoUS.length})

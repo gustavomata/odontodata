@@ -143,24 +143,26 @@ export const evolucaoProteseSUS: EvoluçaoProteseSUS[] = [
 ];
 
 // =============================================================================
-// TPD POR REGIÃO (CFO 2024)
+// TPD POR REGIÃO — CFO Mar/2025 (total nacional: 25.831)
+// Distribuição proporcional por região baseada nos registros CFO por CRO estadual
 // =============================================================================
 export const tpdPorRegiao: TPDPorRegiao[] = [
-  { regiao: "Sudeste", totalTPDs: 18400, tpdPorLRPD: 4.4, idadeMedia: 42.6, formacaoTecnica_pct: 68.4, rendaMedia: 3200, cor: "#3B82F6" },
-  { regiao: "Sul", totalTPDs: 12200, tpdPorLRPD: 4.4, idadeMedia: 40.8, formacaoTecnica_pct: 72.8, rendaMedia: 3400, cor: "#10B981" },
-  { regiao: "Nordeste", totalTPDs: 7800, tpdPorLRPD: 4.3, idadeMedia: 38.4, formacaoTecnica_pct: 58.2, rendaMedia: 2400, cor: "#F59E0B" },
-  { regiao: "Centro-Oeste", totalTPDs: 4200, tpdPorLRPD: 4.6, idadeMedia: 41.2, formacaoTecnica_pct: 64.6, rendaMedia: 3000, cor: "#8B5CF6" },
-  { regiao: "Norte", totalTPDs: 2100, tpdPorLRPD: 4.4, idadeMedia: 36.8, formacaoTecnica_pct: 52.4, rendaMedia: 2200, cor: "#EF4444" },
+  { regiao: "Sudeste",      totalTPDs: 15155, tpdPorLRPD: 3.1, idadeMedia: 42.6, formacaoTecnica_pct: 68.4, rendaMedia: 3200, cor: "#3B82F6" },
+  { regiao: "Sul",          totalTPDs:  4150, tpdPorLRPD: 1.8, idadeMedia: 40.8, formacaoTecnica_pct: 72.8, rendaMedia: 3400, cor: "#10B981" },
+  { regiao: "Nordeste",     totalTPDs:  3414, tpdPorLRPD: 3.3, idadeMedia: 38.4, formacaoTecnica_pct: 58.2, rendaMedia: 2400, cor: "#F59E0B" },
+  { regiao: "Centro-Oeste", totalTPDs:  1780, tpdPorLRPD: 2.9, idadeMedia: 41.2, formacaoTecnica_pct: 64.6, rendaMedia: 3000, cor: "#8B5CF6" },
+  { regiao: "Norte",        totalTPDs:  1332, tpdPorLRPD: 3.5, idadeMedia: 36.8, formacaoTecnica_pct: 52.4, rendaMedia: 2200, cor: "#EF4444" },
 ];
 
 // =============================================================================
 // INDICADORES CONSOLIDADOS PRÓTESE
 // =============================================================================
+// Fonte: CNES DataSUS 2024 + CFO Mar/2025
 export const indicadoresProtese = {
-  totalLRPDs_Brasil: 10200,
-  lrpdSUS: 680,
-  lrpdPrivados: 9520,
-  totalTPDs: 44700,
+  totalLRPDs_Brasil: 9200,   // CNES 2024 — LRPDs cadastrados (SUS + privados)
+  lrpdSUS: 680,              // LRPDs credenciados ativos no SUS — CNES/DAB 2024
+  lrpdPrivados: 8520,        // Labs privados sem credenciamento SUS
+  totalTPDs: 25831,          // CFO Mar/2025 — portal público de estatísticas
   protesesEntreguesSUS_acumulado: 8200000,
   producaoAnual: 1040000,
   filaEsperaSUS_mil: 220,
