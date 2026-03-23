@@ -11,6 +11,7 @@ import {
 import {
   indicadoresLabsUSA, labsPorRegiaoUSA, comparativoValoresUSA,
   tecnologiasLabsUSA, serieHistoricaLabsUSA, cdtsPorRegiaoUSA,
+  labsPorEstadoUSA,
 } from "@/lib/data-intel-labs-intl";
 import {
   indicadoresLabsDE, labsPorEstadoDE, comparativoValoresDE,
@@ -203,8 +204,61 @@ export default function IntelLabsPage() {
             </div>
           </div>
 
+          {/* Ranking de Labs por Estado */}
+          <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6">
+            <h2 className="text-white font-semibold mb-1">{t("labs_tpds_estado", lang)}</h2>
+            <p className="text-slate-500 text-xs mb-4">{lang === "PT" ? "Ranking por número de laboratórios — TPDs, renda média e nível de saturação" : "Ranking by number of labs — TPDs, avg income and saturation level"} · CFO / CNES 2024</p>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b border-slate-800">
+                    <th className="text-center py-3 px-2 text-slate-400 font-medium w-8">#</th>
+                    <th className="text-left py-3 px-2 text-slate-400 font-medium">{t("col_estado", lang)}</th>
+                    <th className="text-right py-3 px-2 text-slate-400 font-medium">{t("col_labs", lang)}</th>
+                    <th className="text-right py-3 px-2 text-slate-400 font-medium">{t("labs_tpds_label", lang)}</th>
+                    <th className="text-right py-3 px-2 text-slate-400 font-medium">{t("col_renda_media", lang)}</th>
+                    <th className="text-right py-3 px-2 text-slate-400 font-medium">{t("col_demanda", lang)}</th>
+                    <th className="text-center py-3 px-2 text-slate-400 font-medium">{t("col_saturacao", lang)}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {[...tpdsPorEstado].sort((a, b) => b.labs_total - a.labs_total).map((item, i) => (
+                    <tr key={item.uf} className="border-b border-slate-800/50 hover:bg-slate-800/30">
+                      <td className="py-3 px-2 text-center text-slate-500 font-mono text-xs">{i + 1}</td>
+                      <td className="py-3 px-2 text-white font-medium">
+                        <span className="text-slate-500 font-mono text-xs mr-1">{item.uf}</span> {item.estado}
+                      </td>
+                      <td className="py-3 px-2 text-right text-blue-400 font-bold">{item.labs_total.toLocaleString("pt-BR")}</td>
+                      <td className="py-3 px-2 text-right text-slate-300">{item.tpds_total.toLocaleString("pt-BR")}</td>
+                      <td className="py-3 px-2 text-right text-slate-300">R$ {item.renda_media.toLocaleString("pt-BR")}</td>
+                      <td className="py-3 px-2 text-right text-slate-300">{item.demanda_estimada.toLocaleString("pt-BR")}</td>
+                      <td className="py-3 px-2 text-center"><span className={`px-2 py-1 rounded-full text-xs font-medium ${satColor(item.saturacao)}`}>{item.saturacao}</span></td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="bg-slate-800/50 rounded-lg p-3">
+                <p className="text-slate-400 text-xs">{lang === "PT" ? "Maior concentração" : "Most concentrated"}</p>
+                <p className="text-white text-sm font-semibold">São Paulo</p>
+                <p className="text-blue-400 text-xs">2.380 labs · 9.340 TPDs</p>
+              </div>
+              <div className="bg-slate-800/50 rounded-lg p-3">
+                <p className="text-slate-400 text-xs">{lang === "PT" ? "Maior déficit" : "Largest deficit"}</p>
+                <p className="text-white text-sm font-semibold">{lang === "PT" ? "Norte / Nordeste" : "North / Northeast"}</p>
+                <p className="text-red-400 text-xs">{lang === "PT" ? "72% dos municípios sem lab" : "72% of municipalities without a lab"}</p>
+              </div>
+              <div className="bg-slate-800/50 rounded-lg p-3">
+                <p className="text-slate-400 text-xs">{lang === "PT" ? "Melhor renda TPD" : "Highest TPD income"}</p>
+                <p className="text-white text-sm font-semibold">Distrito Federal</p>
+                <p className="text-emerald-400 text-xs">R$ 5.200 {lang === "PT" ? "renda média" : "avg income"}</p>
+              </div>
+            </div>
+          </div>
+
           {/* Tecnologias BR */}
-          <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6 mb-8">
+          <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6 mt-8">
             <h2 className="text-white font-semibold mb-4">{t("labs_tecnologias", lang)}</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {tecnologiasEmergentes.map((item) => (
@@ -226,39 +280,6 @@ export default function IntelLabsPage() {
                   </div>
                 </div>
               ))}
-            </div>
-          </div>
-
-          {/* TPDs por Estado */}
-          <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6">
-            <h2 className="text-white font-semibold mb-4">{t("labs_tpds_estado", lang)}</h2>
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="border-b border-slate-800">
-                    <th className="text-left py-3 px-3 text-slate-400 font-medium">{t("col_uf", lang)}</th>
-                    <th className="text-left py-3 px-3 text-slate-400 font-medium">{t("col_estado", lang)}</th>
-                    <th className="text-right py-3 px-3 text-slate-400 font-medium">{t("labs_tpds_label", lang)}</th>
-                    <th className="text-right py-3 px-3 text-slate-400 font-medium">{t("col_labs", lang)}</th>
-                    <th className="text-right py-3 px-3 text-slate-400 font-medium">{t("col_renda_media", lang)}</th>
-                    <th className="text-right py-3 px-3 text-slate-400 font-medium">{t("col_demanda", lang)}</th>
-                    <th className="text-center py-3 px-3 text-slate-400 font-medium">{t("col_saturacao", lang)}</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {tpdsPorEstado.map((item) => (
-                    <tr key={item.uf} className="border-b border-slate-800/50 hover:bg-slate-800/30">
-                      <td className="py-3 px-3 text-slate-300 font-mono">{item.uf}</td>
-                      <td className="py-3 px-3 text-white">{item.estado}</td>
-                      <td className="py-3 px-3 text-right text-blue-400">{item.tpds_total}</td>
-                      <td className="py-3 px-3 text-right text-slate-300">{item.labs_total}</td>
-                      <td className="py-3 px-3 text-right text-slate-300">R$ {item.renda_media.toLocaleString("pt-BR")}</td>
-                      <td className="py-3 px-3 text-right text-slate-300">{item.demanda_estimada.toLocaleString("pt-BR")}</td>
-                      <td className="py-3 px-3 text-center"><span className={`px-2 py-1 rounded-full text-xs font-medium ${satColor(item.saturacao)}`}>{item.saturacao}</span></td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
             </div>
           </div>
         </>
@@ -358,34 +379,8 @@ export default function IntelLabsPage() {
             </div>
           </div>
 
-          {/* Tecnologias USA */}
-          <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6 mb-8">
-            <h2 className="text-white font-semibold mb-4">{lang === "PT" ? "Tecnologias em Laboratórios" : "Lab Technologies"}</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {tecnologiasLabsUSA.map((item) => (
-                <div key={item.tecnologia} className="bg-slate-800 border border-slate-700 rounded-xl p-4">
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="text-white font-semibold text-sm">{item.tecnologia}</span>
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${tendPColor(item.tendencia)}`}>{item.tendencia}</span>
-                  </div>
-                  <div className="space-y-2">
-                    <div className="flex justify-between text-xs"><span className="text-slate-400">{lang === "PT" ? "Adoção EUA" : "USA Adoption"}</span><span className="text-blue-400 font-bold">{item.adocao_pais_pct}%</span></div>
-                    <div className="w-full bg-slate-700 rounded-full h-1.5"><div className="bg-blue-500 h-1.5 rounded-full" style={{ width: `${item.adocao_pais_pct}%` }} /></div>
-                    <div className="flex justify-between text-xs"><span className="text-slate-400">{lang === "PT" ? "Adoção Mundial" : "World Adoption"}</span><span className="text-emerald-400 font-bold">{item.adocao_mundial_pct}%</span></div>
-                    <div className="w-full bg-slate-700 rounded-full h-1.5"><div className="bg-emerald-500 h-1.5 rounded-full" style={{ width: `${item.adocao_mundial_pct}%` }} /></div>
-                    <div className="grid grid-cols-2 gap-2 mt-3 pt-3 border-t border-slate-700">
-                      <div><p className="text-slate-500 text-xs">{lang === "PT" ? "Investimento" : "Investment"}</p><p className="text-white text-xs font-medium">${(item.investimento_usd/1000).toFixed(0)}k</p></div>
-                      <div><p className="text-slate-500 text-xs">ROI</p><p className="text-white text-xs font-medium">{item.roi_meses} {lang === "PT" ? "meses" : "months"}</p></div>
-                      <div><p className="text-slate-500 text-xs">{lang === "PT" ? "Produtividade" : "Productivity"}</p><p className="text-emerald-400 text-xs font-medium">+{item.produtividade_pct}%</p></div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
           {/* CDTs por Região */}
-          <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6">
+          <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6 mb-8">
             <h2 className="text-white font-semibold mb-4">{lang === "PT" ? "CDTs por Região" : "CDTs by Region"}</h2>
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
@@ -412,6 +407,89 @@ export default function IntelLabsPage() {
                   ))}
                 </tbody>
               </table>
+            </div>
+          </div>
+
+          {/* Ranking de Labs por Estado */}
+          <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6">
+            <h2 className="text-white font-semibold mb-1">{lang === "PT" ? "Ranking de Labs por Estado" : "Lab Ranking by State"}</h2>
+            <p className="text-slate-500 text-xs mb-4">{lang === "PT" ? "Top 20 estados por número de laboratórios protéticos — densidade, receita média e digitalização" : "Top 20 states by number of dental labs — density, avg revenue and digitization"} · NADL / BLS 2022</p>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b border-slate-800">
+                    <th className="text-center py-3 px-2 text-slate-400 font-medium w-8">#</th>
+                    <th className="text-left py-3 px-2 text-slate-400 font-medium">{lang === "PT" ? "Estado" : "State"}</th>
+                    <th className="text-right py-3 px-2 text-slate-400 font-medium">Labs</th>
+                    <th className="text-right py-3 px-2 text-slate-400 font-medium">{lang === "PT" ? "Técnicos" : "Technicians"}</th>
+                    <th className="text-right py-3 px-2 text-slate-400 font-medium">{lang === "PT" ? "Pop. (mi)" : "Pop. (M)"}</th>
+                    <th className="text-right py-3 px-2 text-slate-400 font-medium">Labs/100k</th>
+                    <th className="text-right py-3 px-2 text-slate-400 font-medium">{lang === "PT" ? "Receita Média" : "Avg Revenue"}</th>
+                    <th className="text-right py-3 px-2 text-slate-400 font-medium">CAD/CAM</th>
+                    <th className="text-right py-3 px-2 text-slate-400 font-medium">{lang === "PT" ? "Crescimento 5a" : "5yr Growth"}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {[...labsPorEstadoUSA].sort((a, b) => b.labs - a.labs).map((item, i) => (
+                    <tr key={item.uf} className="border-b border-slate-800/50 hover:bg-slate-800/30">
+                      <td className="py-3 px-2 text-center text-slate-500 font-mono text-xs">{i + 1}</td>
+                      <td className="py-3 px-2 text-white font-medium">
+                        <span className="text-slate-500 font-mono text-xs mr-1">{item.uf}</span> {item.estado}
+                      </td>
+                      <td className="py-3 px-2 text-right text-blue-400 font-bold">{item.labs.toLocaleString()}</td>
+                      <td className="py-3 px-2 text-right text-slate-300">{item.laboratoristas.toLocaleString()}</td>
+                      <td className="py-3 px-2 text-right text-slate-400">{item.populacao_mi.toFixed(1)}</td>
+                      <td className={`py-3 px-2 text-right font-mono ${item.labs_por_100k >= 3 ? "text-emerald-400" : item.labs_por_100k >= 2.5 ? "text-blue-400" : "text-amber-400"}`}>{item.labs_por_100k.toFixed(2)}</td>
+                      <td className="py-3 px-2 text-right text-slate-300">${(item.receita_media_usd / 1000).toFixed(0)}k</td>
+                      <td className="py-3 px-2 text-right text-emerald-400">{item.cadcam_pct}%</td>
+                      <td className={`py-3 px-2 text-right font-mono font-bold ${item.crescimento_5a_pct >= 0 ? "text-emerald-400" : "text-red-400"}`}>{item.crescimento_5a_pct > 0 ? "+" : ""}{item.crescimento_5a_pct}%</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="bg-slate-800/50 rounded-lg p-3">
+                <p className="text-slate-400 text-xs">{lang === "PT" ? "Maior densidade" : "Highest density"}</p>
+                <p className="text-white text-sm font-semibold">{[...labsPorEstadoUSA].sort((a, b) => b.labs_por_100k - a.labs_por_100k)[0].estado}</p>
+                <p className="text-emerald-400 text-xs">{[...labsPorEstadoUSA].sort((a, b) => b.labs_por_100k - a.labs_por_100k)[0].labs_por_100k.toFixed(2)} labs/100k</p>
+              </div>
+              <div className="bg-slate-800/50 rounded-lg p-3">
+                <p className="text-slate-400 text-xs">{lang === "PT" ? "Maior receita média" : "Highest avg revenue"}</p>
+                <p className="text-white text-sm font-semibold">{[...labsPorEstadoUSA].sort((a, b) => b.receita_media_usd - a.receita_media_usd)[0].estado}</p>
+                <p className="text-blue-400 text-xs">${([...labsPorEstadoUSA].sort((a, b) => b.receita_media_usd - a.receita_media_usd)[0].receita_media_usd / 1000).toFixed(0)}k/year</p>
+              </div>
+              <div className="bg-slate-800/50 rounded-lg p-3">
+                <p className="text-slate-400 text-xs">{lang === "PT" ? "Maior crescimento" : "Fastest growing"}</p>
+                <p className="text-white text-sm font-semibold">{[...labsPorEstadoUSA].sort((a, b) => b.crescimento_5a_pct - a.crescimento_5a_pct)[0].estado}</p>
+                <p className="text-emerald-400 text-xs">+{[...labsPorEstadoUSA].sort((a, b) => b.crescimento_5a_pct - a.crescimento_5a_pct)[0].crescimento_5a_pct}% {lang === "PT" ? "em 5 anos" : "in 5 years"}</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Tecnologias USA */}
+          <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6 mt-8">
+            <h2 className="text-white font-semibold mb-4">{lang === "PT" ? "Tecnologias em Laboratórios" : "Lab Technologies"}</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {tecnologiasLabsUSA.map((item) => (
+                <div key={item.tecnologia} className="bg-slate-800 border border-slate-700 rounded-xl p-4">
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-white font-semibold text-sm">{item.tecnologia}</span>
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${tendPColor(item.tendencia)}`}>{item.tendencia}</span>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="flex justify-between text-xs"><span className="text-slate-400">{lang === "PT" ? "Adoção EUA" : "USA Adoption"}</span><span className="text-blue-400 font-bold">{item.adocao_pais_pct}%</span></div>
+                    <div className="w-full bg-slate-700 rounded-full h-1.5"><div className="bg-blue-500 h-1.5 rounded-full" style={{ width: `${item.adocao_pais_pct}%` }} /></div>
+                    <div className="flex justify-between text-xs"><span className="text-slate-400">{lang === "PT" ? "Adoção Mundial" : "World Adoption"}</span><span className="text-emerald-400 font-bold">{item.adocao_mundial_pct}%</span></div>
+                    <div className="w-full bg-slate-700 rounded-full h-1.5"><div className="bg-emerald-500 h-1.5 rounded-full" style={{ width: `${item.adocao_mundial_pct}%` }} /></div>
+                    <div className="grid grid-cols-2 gap-2 mt-3 pt-3 border-t border-slate-700">
+                      <div><p className="text-slate-500 text-xs">{lang === "PT" ? "Investimento" : "Investment"}</p><p className="text-white text-xs font-medium">${(item.investimento_usd/1000).toFixed(0)}k</p></div>
+                      <div><p className="text-slate-500 text-xs">ROI</p><p className="text-white text-xs font-medium">{item.roi_meses} {lang === "PT" ? "meses" : "months"}</p></div>
+                      <div><p className="text-slate-500 text-xs">{lang === "PT" ? "Produtividade" : "Productivity"}</p><p className="text-emerald-400 text-xs font-medium">+{item.produtividade_pct}%</p></div>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </>
@@ -511,8 +589,65 @@ export default function IntelLabsPage() {
             </div>
           </div>
 
+          {/* Ranking de Labs por Bundesland */}
+          <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6">
+            <h2 className="text-white font-semibold mb-1">{lang === "PT" ? "Ranking de Labs por Bundesland" : "Lab Ranking by Bundesland"}</h2>
+            <p className="text-slate-500 text-xs mb-4">{lang === "PT" ? "Todos os 16 estados federais — densidade, digitalização e balanço oferta/demanda" : "All 16 federal states — density, digitization and supply/demand balance"} · VDZI 2023</p>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b border-slate-800">
+                    <th className="text-center py-3 px-2 text-slate-400 font-medium w-8">#</th>
+                    <th className="text-left py-3 px-2 text-slate-400 font-medium">Bundesland</th>
+                    <th className="text-right py-3 px-2 text-slate-400 font-medium">Labs</th>
+                    <th className="text-right py-3 px-2 text-slate-400 font-medium">Zahntechniker</th>
+                    <th className="text-right py-3 px-2 text-slate-400 font-medium">{lang === "PT" ? "Pop. (mi)" : "Pop. (M)"}</th>
+                    <th className="text-right py-3 px-2 text-slate-400 font-medium">Labs/100k</th>
+                    <th className="text-right py-3 px-2 text-slate-400 font-medium">{lang === "PT" ? "Faturamento (M€)" : "Revenue (M€)"}</th>
+                    <th className="text-right py-3 px-2 text-slate-400 font-medium">CAD/CAM</th>
+                    <th className="text-right py-3 px-2 text-slate-400 font-medium">{lang === "PT" ? "Digital %" : "Digital %"}</th>
+                    <th className="text-center py-3 px-2 text-slate-400 font-medium">Gap</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {[...labsPorEstadoDE].sort((a, b) => b.labs - a.labs).map((item, i) => (
+                    <tr key={item.estado} className="border-b border-slate-800/50 hover:bg-slate-800/30">
+                      <td className="py-3 px-2 text-center text-slate-500 font-mono text-xs">{i + 1}</td>
+                      <td className="py-3 px-2 text-white font-medium">{item.estado}</td>
+                      <td className="py-3 px-2 text-right text-blue-400 font-bold">{item.labs.toLocaleString()}</td>
+                      <td className="py-3 px-2 text-right text-slate-300">{item.zahntechniker.toLocaleString()}</td>
+                      <td className="py-3 px-2 text-right text-slate-400">{(item as any).populacao_mi?.toFixed(1) ?? "—"}</td>
+                      <td className={`py-3 px-2 text-right font-mono ${(item as any).labs_por_100k >= 10 ? "text-emerald-400" : (item as any).labs_por_100k >= 7 ? "text-blue-400" : "text-amber-400"}`}>{(item as any).labs_por_100k?.toFixed(1) ?? "—"}</td>
+                      <td className="py-3 px-2 text-right text-slate-300">{item.umsatz_mi}</td>
+                      <td className="py-3 px-2 text-right text-emerald-400">{item.cadcam_pct}%</td>
+                      <td className="py-3 px-2 text-right text-purple-400">{(item as any).digitalisierung_pct ?? "—"}%</td>
+                      <td className={`py-3 px-2 text-center font-bold text-xs ${item.gap > 0 ? "text-emerald-400" : item.gap < 0 ? "text-red-400" : "text-slate-400"}`}>{item.gap > 0 ? `+${item.gap}` : item.gap}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="bg-slate-800/50 rounded-lg p-3">
+                <p className="text-slate-400 text-xs">{lang === "PT" ? "Maior densidade" : "Highest density"}</p>
+                <p className="text-white text-sm font-semibold">{[...labsPorEstadoDE].sort((a, b) => ((b as any).labs_por_100k ?? 0) - ((a as any).labs_por_100k ?? 0))[0].estado}</p>
+                <p className="text-emerald-400 text-xs">{((labsPorEstadoDE as any[]).sort((a, b) => (b.labs_por_100k ?? 0) - (a.labs_por_100k ?? 0))[0].labs_por_100k ?? 0).toFixed(1)} labs/100k</p>
+              </div>
+              <div className="bg-slate-800/50 rounded-lg p-3">
+                <p className="text-slate-400 text-xs">{lang === "PT" ? "Maior digitalização" : "Most digitized"}</p>
+                <p className="text-white text-sm font-semibold">{[...labsPorEstadoDE].sort((a, b) => ((b as any).digitalisierung_pct ?? 0) - ((a as any).digitalisierung_pct ?? 0))[0].estado}</p>
+                <p className="text-purple-400 text-xs">{(labsPorEstadoDE as any[]).sort((a, b) => (b.digitalisierung_pct ?? 0) - (a.digitalisierung_pct ?? 0))[0].digitalisierung_pct}% {lang === "PT" ? "digital workflow" : "digital workflow"}</p>
+              </div>
+              <div className="bg-slate-800/50 rounded-lg p-3">
+                <p className="text-slate-400 text-xs">{lang === "PT" ? "Maior mercado" : "Largest market"}</p>
+                <p className="text-white text-sm font-semibold">{[...labsPorEstadoDE].sort((a, b) => b.umsatz_mi - a.umsatz_mi)[0].estado}</p>
+                <p className="text-blue-400 text-xs">€{[...labsPorEstadoDE].sort((a, b) => b.umsatz_mi - a.umsatz_mi)[0].umsatz_mi}M {lang === "PT" ? "receita anual" : "annual revenue"}</p>
+              </div>
+            </div>
+          </div>
+
           {/* Tecnologias DE */}
-          <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6 mb-8">
+          <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6 mt-8">
             <h2 className="text-white font-semibold mb-4">{lang === "PT" ? "Tecnologias em Laboratórios" : "Lab Technologies"}</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {tecnologiasLabsDE.map((item) => (
@@ -534,39 +669,6 @@ export default function IntelLabsPage() {
                   </div>
                 </div>
               ))}
-            </div>
-          </div>
-
-          {/* Labs por Estado tabela */}
-          <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6">
-            <h2 className="text-white font-semibold mb-4">{lang === "PT" ? "Labs por Bundesland" : "Labs by Bundesland"}</h2>
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="border-b border-slate-800">
-                    <th className="text-left py-3 px-3 text-slate-400 font-medium">Bundesland</th>
-                    <th className="text-right py-3 px-3 text-slate-400 font-medium">Labs</th>
-                    <th className="text-right py-3 px-3 text-slate-400 font-medium">Zahntechniker</th>
-                    <th className="text-right py-3 px-3 text-slate-400 font-medium">{lang === "PT" ? "Faturamento (M€)" : "Revenue (M€)"}</th>
-                    <th className="text-right py-3 px-3 text-slate-400 font-medium">CAD/CAM %</th>
-                    <th className="text-right py-3 px-3 text-slate-400 font-medium">{lang === "PT" ? "Demanda GKV (%)" : "GKV Demand (%)"}</th>
-                    <th className="text-center py-3 px-3 text-slate-400 font-medium">Gap</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {labsPorEstadoDE.map((item) => (
-                    <tr key={item.estado} className="border-b border-slate-800/50 hover:bg-slate-800/30">
-                      <td className="py-3 px-3 text-white font-medium">{item.estado}</td>
-                      <td className="py-3 px-3 text-right text-blue-400">{item.labs.toLocaleString()}</td>
-                      <td className="py-3 px-3 text-right text-slate-300">{item.zahntechniker.toLocaleString()}</td>
-                      <td className="py-3 px-3 text-right text-slate-300">{item.umsatz_mi}</td>
-                      <td className="py-3 px-3 text-right text-emerald-400">{item.cadcam_pct}%</td>
-                      <td className="py-3 px-3 text-right text-slate-300">{item.demanda_gkv}%</td>
-                      <td className={`py-3 px-3 text-center font-bold text-xs ${item.gap > 0 ? "text-emerald-400" : item.gap < 0 ? "text-red-400" : "text-slate-400"}`}>{item.gap > 0 ? `+${item.gap}` : item.gap}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
             </div>
           </div>
         </>
