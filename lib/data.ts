@@ -198,8 +198,8 @@ export const serieHistorica = [
 // INDICADORES GERAIS
 // =============================================================================
 export const indicadoresGerais = {
-  totalDentistas: 421500,
-  dentistasAtivos: 387400,
+  totalDentistas: 464129,
+  dentistasAtivos: 428000,
   dentistasPublicos: 71650,
   dentistasPrivados: 315750,
   totalEspecialistas: 293050,
@@ -211,7 +211,7 @@ export const indicadoresGerais = {
   totalMunicipios: 5570,
   faculdadesOdontologia: 540,
   vagasAnuais: 25000,
-  crescimentoUltimoAno: 4.4,
+  crescimentoUltimoAno: 4.1,
 };
 
 // Tipos de fontes de dados

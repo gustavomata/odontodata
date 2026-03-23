@@ -20,6 +20,8 @@ import {
   Users, ShieldCheck, Activity, DollarSign, Building2, FlaskConical,
   CheckCircle2, TrendingUp, TrendingDown, Target,
 } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { t } from "@/lib/translations";
 
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
@@ -40,36 +42,38 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 const categorias = [...new Set(brasilSorridenteIndicadores.map((b) => b.categoria))];
 
 export default function SUSPage() {
+  const { lang } = useLanguage();
+
   return (
     <AppShell>
       <PageHeader
-        title="Produção SUS Odontológica"
-        subtitle="Análise completa da atenção em saúde bucal no Sistema Único de Saúde"
-        badge="SIA/SUS · CNES · DAB/MS · Brasil Sorridente"
+        title={t("sus_title", lang)}
+        subtitle={t("sus_subtitle", lang)}
+        badge={t("sus_badge", lang)}
       />
 
       {/* Stat Cards - Row 1 */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-        <StatCard title="Equipes Saúde Bucal" value={indicadoresSUS.totalEquipesESB} icon={Users} color="blue" subtitle="ESB implantadas" />
-        <StatCard title="Cobertura Nacional" value={indicadoresSUS.coberturaNacional + "%"} icon={ShieldCheck} color="green" subtitle="População coberta" />
-        <StatCard title="Procedimentos/Ano" value={indicadoresSUS.procedimentosAno_mi + " mi"} icon={Activity} color="purple" subtitle="Procedimentos odontológicos" />
-        <StatCard title="Investimento Federal" value={"R$ " + indicadoresSUS.investimentoFederal_bi + " bi"} icon={DollarSign} color="yellow" subtitle="Orçamento anual" />
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <StatCard title={t("sus_equipes_esb", lang)} value={indicadoresSUS.totalEquipesESB} icon={Users} color="blue" subtitle={t("sus_esb_impl", lang)} />
+        <StatCard title={t("sus_cobertura_nac", lang)} value={indicadoresSUS.coberturaNacional + "%"} icon={ShieldCheck} color="green" subtitle={t("sus_pop_coberta", lang)} />
+        <StatCard title={t("sus_procedimentos_ano", lang)} value={indicadoresSUS.procedimentosAno_mi + " mi"} icon={Activity} color="purple" subtitle={t("sus_proc_odonto", lang)} />
+        <StatCard title={t("sus_invest_fed", lang)} value={"R$ " + indicadoresSUS.investimentoFederal_bi + " bi"} icon={DollarSign} color="yellow" subtitle={t("sus_orcamento", lang)} />
       </div>
 
       {/* Stat Cards - Row 2 */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <StatCard title="CEOs" value={indicadoresSUS.totalCEOs} icon={Building2} color="cyan" subtitle="Centros de Especialidades" />
-        <StatCard title="LRPDs" value={indicadoresSUS.totalLRPDs} icon={FlaskConical} color="purple" subtitle="Laboratórios de prótese" />
-        <StatCard title="Resolutividade" value={indicadoresSUS.taxaResolutividade + "%"} icon={CheckCircle2} color="green" subtitle="Taxa de tratamento completado" />
-        <StatCard title="Razão Exo/Rest" value={indicadoresSUS.razaoExodontia_restauracao} icon={Target} color="red" subtitle="Exodontias por restauração" />
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <StatCard title={t("sus_ceos", lang)} value={indicadoresSUS.totalCEOs} icon={Building2} color="cyan" subtitle={t("sus_centros_esp", lang)} />
+        <StatCard title={t("sus_lrpds", lang)} value={indicadoresSUS.totalLRPDs} icon={FlaskConical} color="purple" subtitle={t("sus_labs_protese", lang)} />
+        <StatCard title={t("sus_resolutividade", lang)} value={indicadoresSUS.taxaResolutividade + "%"} icon={CheckCircle2} color="green" subtitle={t("sus_taxa_trat", lang)} />
+        <StatCard title={t("sus_razao_exo", lang)} value={indicadoresSUS.razaoExodontia_restauracao} icon={Target} color="red" subtitle={t("sus_exo_rest", lang)} />
       </div>
 
       {/* Charts Row 1 */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         {/* Evolução do SUS Odontológico */}
-        <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
-          <h2 className="text-white font-semibold mb-1">Evolução do SUS Odontológico</h2>
-          <p className="text-slate-500 text-xs mb-4">Série histórica 2004-2024 — equipes, CEOs e cobertura</p>
+        <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6">
+          <h2 className="text-white font-semibold mb-1">{t("sus_evolucao", lang)}</h2>
+          <p className="text-slate-500 text-xs mb-4">{t("sus_evolucao_sub", lang)}</p>
           <ResponsiveContainer width="100%" height={320}>
             <LineChart data={serieHistoricaSUS} margin={{ top: 5, right: 20, left: 0, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
@@ -78,17 +82,17 @@ export default function SUSPage() {
               <YAxis yAxisId="right" orientation="right" tick={{ fill: "#94a3b8", fontSize: 10 }} tickFormatter={(v) => `${v}%`} />
               <Tooltip content={<CustomTooltip />} />
               <Legend wrapperStyle={{ fontSize: 11, color: "#94a3b8" }} />
-              <Line yAxisId="left" type="monotone" dataKey="equipesESB" name="Equipes ESB" stroke="#3B82F6" strokeWidth={2} dot={{ r: 3 }} />
-              <Line yAxisId="left" type="monotone" dataKey="totalCEOs" name="CEOs" stroke="#F59E0B" strokeWidth={2} dot={{ r: 3 }} />
-              <Line yAxisId="right" type="monotone" dataKey="cobertura_pct" name="Cobertura %" stroke="#10B981" strokeWidth={2} dot={{ r: 3 }} />
+              <Line yAxisId="left" type="monotone" dataKey="equipesESB" name={t("sus_equipes_esb_label", lang)} stroke="#3B82F6" strokeWidth={2} dot={{ r: 3 }} />
+              <Line yAxisId="left" type="monotone" dataKey="totalCEOs" name={t("sus_ceos", lang)} stroke="#F59E0B" strokeWidth={2} dot={{ r: 3 }} />
+              <Line yAxisId="right" type="monotone" dataKey="cobertura_pct" name={t("sus_cobertura_pct", lang)} stroke="#10B981" strokeWidth={2} dot={{ r: 3 }} />
             </LineChart>
           </ResponsiveContainer>
         </div>
 
         {/* Produção por Região */}
-        <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
-          <h2 className="text-white font-semibold mb-1">Produção por Região</h2>
-          <p className="text-slate-500 text-xs mb-4">Procedimentos odontológicos SUS por tipo e região (mil)</p>
+        <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6">
+          <h2 className="text-white font-semibold mb-1">{t("sus_producao_regiao", lang)}</h2>
+          <p className="text-slate-500 text-xs mb-4">{t("sus_producao_regiao_sub", lang)}</p>
           <ResponsiveContainer width="100%" height={320}>
             <BarChart data={producaoSUSRegiao} margin={{ top: 5, right: 20, left: 0, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
@@ -96,20 +100,20 @@ export default function SUSPage() {
               <YAxis tick={{ fill: "#94a3b8", fontSize: 10 }} tickFormatter={(v) => `${(v / 1000).toFixed(0)}k`} />
               <Tooltip content={<CustomTooltip />} />
               <Legend wrapperStyle={{ fontSize: 10, color: "#94a3b8" }} />
-              <Bar dataKey="procedimentosPreventivos_mil" name="Preventivos" stackId="a" fill="#10B981" />
-              <Bar dataKey="procedimentosBasicos_mil" name="Básicos" stackId="a" fill="#3B82F6" />
-              <Bar dataKey="procedimentosEspecializados_mil" name="Especializados" stackId="a" fill="#F59E0B" />
-              <Bar dataKey="procedimentosCirurgicos_mil" name="Cirúrgicos" stackId="a" fill="#EF4444" />
-              <Bar dataKey="procedimentosProtese_mil" name="Prótese" stackId="a" fill="#8B5CF6" radius={[4, 4, 0, 0]} />
+              <Bar dataKey="procedimentosPreventivos_mil" name={t("sus_preventivos", lang)} stackId="a" fill="#10B981" />
+              <Bar dataKey="procedimentosBasicos_mil" name={t("sus_basicos", lang)} stackId="a" fill="#3B82F6" />
+              <Bar dataKey="procedimentosEspecializados_mil" name={t("sus_especializados", lang)} stackId="a" fill="#F59E0B" />
+              <Bar dataKey="procedimentosCirurgicos_mil" name={t("sus_cirurgicos", lang)} stackId="a" fill="#EF4444" />
+              <Bar dataKey="procedimentosProtese_mil" name={t("sus_protese", lang)} stackId="a" fill="#8B5CF6" radius={[4, 4, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>
       </div>
 
       {/* Brasil Sorridente Indicators */}
-      <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 mb-8">
-        <h2 className="text-white font-semibold mb-1">Brasil Sorridente — Indicadores</h2>
-        <p className="text-slate-500 text-xs mb-5">Acompanhamento de metas do programa nacional de saúde bucal</p>
+      <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6 mb-8">
+        <h2 className="text-white font-semibold mb-1">{t("sus_brasil_sorr", lang)}</h2>
+        <p className="text-slate-500 text-xs mb-5">{t("sus_brasil_sorr_sub", lang)}</p>
         <div className="space-y-6">
           {categorias.map((cat) => (
             <div key={cat}>
@@ -147,9 +151,9 @@ export default function SUSPage() {
       {/* Charts Row 2 */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         {/* CEO Produção por Região */}
-        <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
-          <h2 className="text-white font-semibold mb-1">CEO Produção por Região</h2>
-          <p className="text-slate-500 text-xs mb-4">Produção dos Centros de Especialidades Odontológicas (mil)</p>
+        <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6">
+          <h2 className="text-white font-semibold mb-1">{t("sus_ceo_producao", lang)}</h2>
+          <p className="text-slate-500 text-xs mb-4">{t("sus_ceo_producao_sub", lang)}</p>
           <ResponsiveContainer width="100%" height={320}>
             <BarChart data={ceoProducao} margin={{ top: 5, right: 20, left: 0, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
@@ -157,18 +161,18 @@ export default function SUSPage() {
               <YAxis tick={{ fill: "#94a3b8", fontSize: 10 }} />
               <Tooltip content={<CustomTooltip />} />
               <Legend wrapperStyle={{ fontSize: 10, color: "#94a3b8" }} />
-              <Bar dataKey="producaoEndodontia_mil" name="Endodontia" fill="#3B82F6" radius={[2, 2, 0, 0]} />
-              <Bar dataKey="producaoPeriodontia_mil" name="Periodontia" fill="#10B981" radius={[2, 2, 0, 0]} />
-              <Bar dataKey="producaoCirurgia_mil" name="Cirurgia" fill="#F59E0B" radius={[2, 2, 0, 0]} />
-              <Bar dataKey="producaoDiagnostico_mil" name="Diagnóstico" fill="#8B5CF6" radius={[2, 2, 0, 0]} />
+              <Bar dataKey="producaoEndodontia_mil" name={t("sus_endodontia", lang)} fill="#3B82F6" radius={[2, 2, 0, 0]} />
+              <Bar dataKey="producaoPeriodontia_mil" name={t("sus_periodontia", lang)} fill="#10B981" radius={[2, 2, 0, 0]} />
+              <Bar dataKey="producaoCirurgia_mil" name={t("sus_cirurgia", lang)} fill="#F59E0B" radius={[2, 2, 0, 0]} />
+              <Bar dataKey="producaoDiagnostico_mil" name={t("sus_diagnostico", lang)} fill="#8B5CF6" radius={[2, 2, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>
 
         {/* Atenção Básica por Porte */}
-        <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
-          <h2 className="text-white font-semibold mb-1">Atenção Básica por Porte Municipal</h2>
-          <p className="text-slate-500 text-xs mb-4">Cobertura (%) vs procedimentos per capita por faixa populacional</p>
+        <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6">
+          <h2 className="text-white font-semibold mb-1">{t("sus_atencao_basica", lang)}</h2>
+          <p className="text-slate-500 text-xs mb-4">{t("sus_atencao_sub", lang)}</p>
           <ResponsiveContainer width="100%" height={320}>
             <BarChart data={atencaoBasicaPorPorte} margin={{ top: 5, right: 20, left: 0, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
@@ -177,27 +181,27 @@ export default function SUSPage() {
               <YAxis yAxisId="right" orientation="right" tick={{ fill: "#94a3b8", fontSize: 10 }} />
               <Tooltip content={<CustomTooltip />} />
               <Legend wrapperStyle={{ fontSize: 10, color: "#94a3b8" }} />
-              <Bar yAxisId="left" dataKey="cobertura_pct" name="Cobertura %" fill="#3B82F6" radius={[4, 4, 0, 0]} />
-              <Bar yAxisId="right" dataKey="procedimentosPerCapita" name="Proc. Per Capita" fill="#10B981" radius={[4, 4, 0, 0]} />
+              <Bar yAxisId="left" dataKey="cobertura_pct" name={t("sus_cobertura_pct", lang)} fill="#3B82F6" radius={[4, 4, 0, 0]} />
+              <Bar yAxisId="right" dataKey="procedimentosPerCapita" name={t("sus_proc_percapita", lang)} fill="#10B981" radius={[4, 4, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>
       </div>
 
       {/* Table: Cobertura por UF */}
-      <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 mb-8">
-        <h2 className="text-white font-semibold mb-1">Cobertura de Saúde Bucal por UF</h2>
-        <p className="text-slate-500 text-xs mb-4">Equipes, cobertura e infraestrutura por unidade federativa</p>
+      <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6 mb-8">
+        <h2 className="text-white font-semibold mb-1">{t("sus_cobertura_uf", lang)}</h2>
+        <p className="text-slate-500 text-xs mb-4">{t("sus_cobertura_uf_sub", lang)}</p>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-slate-800">
-                <th className="text-left py-3 px-4 text-slate-400 font-medium">UF</th>
-                <th className="text-left py-3 px-4 text-slate-400 font-medium">Cobertura ESB</th>
-                <th className="text-left py-3 px-4 text-slate-400 font-medium">Equipes SB</th>
-                <th className="text-left py-3 px-4 text-slate-400 font-medium">Proporção ESB/ESF</th>
-                <th className="text-left py-3 px-4 text-slate-400 font-medium">CEOs</th>
-                <th className="text-left py-3 px-4 text-slate-400 font-medium">LRPDs</th>
+                <th className="text-left py-3 px-4 text-slate-400 font-medium">{t("col_uf", lang)}</th>
+                <th className="text-left py-3 px-4 text-slate-400 font-medium">{t("col_cobertura_esb", lang)}</th>
+                <th className="text-left py-3 px-4 text-slate-400 font-medium">{t("col_equipes_sb", lang)}</th>
+                <th className="text-left py-3 px-4 text-slate-400 font-medium">{t("col_proporcao_esb", lang)}</th>
+                <th className="text-left py-3 px-4 text-slate-400 font-medium">{t("sus_ceos", lang)}</th>
+                <th className="text-left py-3 px-4 text-slate-400 font-medium">{t("sus_lrpds", lang)}</th>
               </tr>
             </thead>
             <tbody>
@@ -233,18 +237,18 @@ export default function SUSPage() {
       </div>
 
       {/* Table: Procedimentos SUS */}
-      <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
-        <h2 className="text-white font-semibold mb-1">Procedimentos Odontológicos SUS</h2>
-        <p className="text-slate-500 text-xs mb-4">Detalhamento por grupo e subgrupo — volume, valor e tendência</p>
+      <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6">
+        <h2 className="text-white font-semibold mb-1">{t("sus_procedimentos", lang)}</h2>
+        <p className="text-slate-500 text-xs mb-4">{t("sus_procedimentos_sub", lang)}</p>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-slate-800">
-                <th className="text-left py-3 px-4 text-slate-400 font-medium">Grupo</th>
-                <th className="text-left py-3 px-4 text-slate-400 font-medium">Subgrupo</th>
-                <th className="text-left py-3 px-4 text-slate-400 font-medium">Qtd (mil)</th>
-                <th className="text-left py-3 px-4 text-slate-400 font-medium">Valor Pago (mi)</th>
-                <th className="text-left py-3 px-4 text-slate-400 font-medium">Tendência 5 anos</th>
+                <th className="text-left py-3 px-4 text-slate-400 font-medium">{t("col_grupo", lang)}</th>
+                <th className="text-left py-3 px-4 text-slate-400 font-medium">{t("col_subgrupo", lang)}</th>
+                <th className="text-left py-3 px-4 text-slate-400 font-medium">{t("col_qtd_mil", lang)}</th>
+                <th className="text-left py-3 px-4 text-slate-400 font-medium">{t("col_valor_pago_mi", lang)}</th>
+                <th className="text-left py-3 px-4 text-slate-400 font-medium">{t("col_tend_5anos", lang)}</th>
               </tr>
             </thead>
             <tbody>

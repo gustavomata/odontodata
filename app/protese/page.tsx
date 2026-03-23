@@ -35,6 +35,8 @@ import {
   Legend,
   Cell,
 } from "recharts";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { t } from "@/lib/translations";
 
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
@@ -53,6 +55,8 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 };
 
 export default function ProtesePage() {
+  const { lang } = useLanguage();
+
   const avgDefasagem =
     producaoProteseSUS
       .filter((p) => p.defasagem_pct > 0)
@@ -62,70 +66,70 @@ export default function ProtesePage() {
   return (
     <AppShell>
       <PageHeader
-        title="Protese Dentaria & Laboratorios"
-        subtitle="Panorama completo da reabilitacao protetica: LRPDs, TPDs, materiais, demanda e oferta"
-        badge="CNES . SIA/SUS . CFO . ANVISA . Brasil Sorridente"
+        title={t("protese_title", lang)}
+        subtitle={t("protese_subtitle", lang)}
+        badge={t("protese_badge", lang)}
       />
 
       {/* Indicadores principais */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         <StatCard
-          title="Total LRPDs"
+          title={t("protese_total_lrpds", lang)}
           value={indicadoresProtese.totalLRPDs_Brasil}
-          subtitle="Laboratorios no Brasil"
+          subtitle={t("protese_labs_brasil", lang)}
           icon={Building2}
           color="blue"
         />
         <StatCard
-          title="LRPDs SUS"
+          title={t("protese_lrpds_sus", lang)}
           value={indicadoresProtese.lrpdSUS}
-          subtitle="Credenciados pelo SUS"
+          subtitle={t("protese_credenciados", lang)}
           icon={Factory}
           color="green"
         />
         <StatCard
-          title="TPDs Registrados"
+          title={t("protese_tpds", lang)}
           value={indicadoresProtese.totalTPDs}
-          subtitle="Tecnicos em protese dentaria"
+          subtitle={t("protese_tecnicos", lang)}
           icon={Users}
           color="purple"
         />
         <StatCard
-          title="Producao Anual"
-          value={`${(indicadoresProtese.producaoAnual / 1000).toFixed(0)} mil proteses`}
-          subtitle="Proteses entregues pelo SUS"
+          title={t("protese_producao", lang)}
+          value={`${(indicadoresProtese.producaoAnual / 1000).toFixed(0)} ${t("protese_mil_proteses", lang)}`}
+          subtitle={t("protese_entregues", lang)}
           icon={TrendingUp}
           color="cyan"
         />
       </div>
 
       {/* Indicadores secundarios */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         <StatCard
-          title="Fila de Espera SUS"
-          value={`${indicadoresProtese.filaEsperaSUS_mil} mil`}
-          subtitle="Pacientes aguardando protese"
+          title={t("protese_fila", lang)}
+          value={`${indicadoresProtese.filaEsperaSUS_mil} ${t("protese_mil_label", lang)}`}
+          subtitle={t("protese_aguardando", lang)}
           icon={Clock}
           color="yellow"
         />
         <StatCard
-          title="Deficit Nacional"
+          title={t("protese_deficit", lang)}
           value={indicadoresProtese.deficitNacionalProteses}
-          subtitle="Proteses/ano abaixo da demanda"
+          subtitle={t("protese_deficit_sub", lang)}
           icon={AlertTriangle}
           color="red"
         />
         <StatCard
-          title="Pop. Edentula"
+          title={t("protese_pop_edentula", lang)}
           value={`${indicadoresProtese.populacaoEdentula_mi} mi`}
-          subtitle="Brasileiros sem dentes"
+          subtitle={t("protese_brasileiros", lang)}
           icon={ShieldAlert}
           color="red"
         />
         <StatCard
-          title="Mercado"
+          title={t("protese_mercado", lang)}
           value={`R$ ${indicadoresProtese.mercadoProtese_bi} bi`}
-          subtitle="Mercado de proteses dentarias"
+          subtitle={t("protese_mercado_sub", lang)}
           icon={DollarSign}
           color="green"
         />
@@ -135,7 +139,7 @@ export default function ProtesePage() {
       <div className="bg-red-600/10 border border-red-600/30 rounded-xl p-4 mb-8 flex items-start gap-3">
         <AlertTriangle className="w-5 h-5 text-red-400 mt-0.5 shrink-0" />
         <div>
-          <p className="text-red-300 font-medium text-sm">Defasagem Critica nos Valores SUS</p>
+          <p className="text-red-300 font-medium text-sm">{t("protese_alerta", lang)}</p>
           <p className="text-red-400/70 text-xs mt-1">
             A tabela SUS apresenta defasagem media de <strong>{avgDefasagem.toFixed(1)}%</strong> em
             relacao aos precos de mercado. Uma protese total que custa R$ 1.200 no privado e
@@ -148,9 +152,9 @@ export default function ProtesePage() {
       {/* Graficos lado a lado */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
         {/* Evolucao proteses SUS */}
-        <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
-          <h2 className="text-white font-semibold mb-1">Evolucao Proteses SUS (2005-2024)</h2>
-          <p className="text-slate-500 text-xs mb-4">Proteses entregues vs fila de espera (em milhares)</p>
+        <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6">
+          <h2 className="text-white font-semibold mb-1">{t("protese_evolucao", lang)}</h2>
+          <p className="text-slate-500 text-xs mb-4">{t("protese_evolucao_sub", lang)}</p>
           <ResponsiveContainer width="100%" height={280}>
             <LineChart data={evolucaoProteseSUS} margin={{ top: 5, right: 10, left: 10, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
@@ -161,7 +165,7 @@ export default function ProtesePage() {
               <Line
                 type="monotone"
                 dataKey="protesesEntregues_mil"
-                name="Proteses Entregues (mil)"
+                name={t("protese_entregues_label", lang)}
                 stroke="#10b981"
                 strokeWidth={2}
                 dot={{ fill: "#10b981", r: 4 }}
@@ -169,7 +173,7 @@ export default function ProtesePage() {
               <Line
                 type="monotone"
                 dataKey="filaEspera_mil"
-                name="Fila de Espera (mil)"
+                name={t("protese_fila_label", lang)}
                 stroke="#ef4444"
                 strokeWidth={2}
                 dot={{ fill: "#ef4444", r: 4 }}
@@ -179,10 +183,10 @@ export default function ProtesePage() {
         </div>
 
         {/* LRPD por regiao */}
-        <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
-          <h2 className="text-white font-semibold mb-1">LRPD por Regiao</h2>
+        <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6">
+          <h2 className="text-white font-semibold mb-1">{t("protese_lrpd_regiao", lang)}</h2>
           <p className="text-slate-500 text-xs mb-4">
-            Laboratorios SUS vs Privados e taxa de ocupacao
+            {t("protese_lrpd_regiao_sub", lang)}
           </p>
           <ResponsiveContainer width="100%" height={280}>
             <BarChart data={lrpdRegional}>
@@ -191,8 +195,8 @@ export default function ProtesePage() {
               <YAxis tick={{ fill: "#94a3b8", fontSize: 11 }} />
               <Tooltip content={<CustomTooltip />} />
               <Legend wrapperStyle={{ color: "#94a3b8", fontSize: 12 }} />
-              <Bar dataKey="lrpdSUS" name="LRPD SUS" fill="#3b82f6" radius={[4, 4, 0, 0]} />
-              <Bar dataKey="lrpdPrivados" name="LRPD Privados" fill="#8b5cf6" radius={[4, 4, 0, 0]} />
+              <Bar dataKey="lrpdSUS" name={t("protese_lrpd_sus", lang)} fill="#3b82f6" radius={[4, 4, 0, 0]} />
+              <Bar dataKey="lrpdPrivados" name={t("protese_lrpd_priv", lang)} fill="#8b5cf6" radius={[4, 4, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
           <div className="flex justify-center gap-6 mt-3">
@@ -207,10 +211,10 @@ export default function ProtesePage() {
       </div>
 
       {/* Demanda vs Oferta */}
-      <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 mb-6">
-        <h2 className="text-white font-semibold mb-1">Demanda vs Oferta por UF</h2>
+      <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6 mb-6">
+        <h2 className="text-white font-semibold mb-1">{t("protese_demanda_uf", lang)}</h2>
         <p className="text-slate-500 text-xs mb-4">
-          Demanda estimada de proteses vs capacidade instalada (destaque para deficit)
+          {t("protese_demanda_uf_sub", lang)}
         </p>
         <ResponsiveContainer width="100%" height={300}>
           <BarChart data={demandaVsOferta} margin={{ top: 5, right: 10, left: 10, bottom: 0 }}>
@@ -219,28 +223,28 @@ export default function ProtesePage() {
             <YAxis tick={{ fill: "#94a3b8", fontSize: 11 }} tickFormatter={(v) => `${(v / 1000).toFixed(0)}k`} />
             <Tooltip content={<CustomTooltip />} />
             <Legend wrapperStyle={{ color: "#94a3b8", fontSize: 12 }} />
-            <Bar dataKey="demandaEstimadaProteses" name="Demanda Estimada" fill="#f59e0b" radius={[4, 4, 0, 0]} />
-            <Bar dataKey="capacidadeInstalada" name="Capacidade Instalada" fill="#3b82f6" radius={[4, 4, 0, 0]} />
-            <Bar dataKey="deficit" name="Deficit" fill="#ef4444" radius={[4, 4, 0, 0]} />
+            <Bar dataKey="demandaEstimadaProteses" name={t("protese_dem_est", lang)} fill="#f59e0b" radius={[4, 4, 0, 0]} />
+            <Bar dataKey="capacidadeInstalada" name={t("protese_cap_inst", lang)} fill="#3b82f6" radius={[4, 4, 0, 0]} />
+            <Bar dataKey="deficit" name={t("protese_deficit_label", lang)} fill="#ef4444" radius={[4, 4, 0, 0]} />
           </BarChart>
         </ResponsiveContainer>
       </div>
 
       {/* Tabela producao proteses SUS */}
-      <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 mb-6">
-        <h2 className="text-white font-semibold mb-1">Tipos de Protese SUS</h2>
-        <p className="text-slate-500 text-xs mb-4">Producao anual, valores e defasagem por tipo</p>
+      <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6 mb-6">
+        <h2 className="text-white font-semibold mb-1">{t("protese_tipos_sus", lang)}</h2>
+        <p className="text-slate-500 text-xs mb-4">{t("protese_tipos_sus_sub", lang)}</p>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-slate-700">
-                <th className="text-left text-slate-400 font-medium py-2 px-3">Tipo</th>
-                <th className="text-right text-slate-400 font-medium py-2 px-3">Qtd/ano</th>
-                <th className="text-right text-slate-400 font-medium py-2 px-3">Valor SUS</th>
-                <th className="text-right text-slate-400 font-medium py-2 px-3">Valor Mercado</th>
-                <th className="text-right text-slate-400 font-medium py-2 px-3">Defasagem</th>
-                <th className="text-left text-slate-400 font-medium py-2 px-3">Material</th>
-                <th className="text-right text-slate-400 font-medium py-2 px-3">Tend. 5a</th>
+                <th className="text-left text-slate-400 font-medium py-2 px-3">{t("col_tipo", lang)}</th>
+                <th className="text-right text-slate-400 font-medium py-2 px-3">{t("col_qtd_ano", lang)}</th>
+                <th className="text-right text-slate-400 font-medium py-2 px-3">{t("col_valor_sus", lang)}</th>
+                <th className="text-right text-slate-400 font-medium py-2 px-3">{t("col_valor_mercado", lang)}</th>
+                <th className="text-right text-slate-400 font-medium py-2 px-3">{t("col_defasagem", lang)}</th>
+                <th className="text-left text-slate-400 font-medium py-2 px-3">{t("col_material", lang)}</th>
+                <th className="text-right text-slate-400 font-medium py-2 px-3">{t("col_tend_5a", lang)}</th>
               </tr>
             </thead>
             <tbody>
@@ -283,18 +287,18 @@ export default function ProtesePage() {
       </div>
 
       {/* Tabela materiais */}
-      <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 mb-6">
-        <h2 className="text-white font-semibold mb-1">Materiais e Tecnologias</h2>
-        <p className="text-slate-500 text-xs mb-4">Participacao de mercado, custos e tendencias</p>
+      <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6 mb-6">
+        <h2 className="text-white font-semibold mb-1">{t("protese_materiais", lang)}</h2>
+        <p className="text-slate-500 text-xs mb-4">{t("protese_materiais_sub", lang)}</p>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-slate-700">
-                <th className="text-left text-slate-400 font-medium py-2 px-3">Material</th>
-                <th className="text-right text-slate-400 font-medium py-2 px-3">Mercado (%)</th>
-                <th className="text-right text-slate-400 font-medium py-2 px-3">Custo Medio</th>
-                <th className="text-center text-slate-400 font-medium py-2 px-3">Tendencia</th>
-                <th className="text-right text-slate-400 font-medium py-2 px-3">Importado (%)</th>
+                <th className="text-left text-slate-400 font-medium py-2 px-3">{t("col_material", lang)}</th>
+                <th className="text-right text-slate-400 font-medium py-2 px-3">{t("col_mercado_pct", lang)}</th>
+                <th className="text-right text-slate-400 font-medium py-2 px-3">{t("col_custo_medio", lang)}</th>
+                <th className="text-center text-slate-400 font-medium py-2 px-3">{t("col_tendencia", lang)}</th>
+                <th className="text-right text-slate-400 font-medium py-2 px-3">{t("col_importado_pct", lang)}</th>
               </tr>
             </thead>
             <tbody>
@@ -331,10 +335,10 @@ export default function ProtesePage() {
       </div>
 
       {/* TPDs por regiao */}
-      <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 mb-6">
-        <h2 className="text-white font-semibold mb-1">TPDs por Regiao</h2>
+      <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 md:p-6 mb-6">
+        <h2 className="text-white font-semibold mb-1">{t("protese_tpds_regiao", lang)}</h2>
         <p className="text-slate-500 text-xs mb-4">
-          Total de tecnicos em protese dentaria e renda media por regiao
+          {t("protese_tpds_regiao_sub", lang)}
         </p>
         <ResponsiveContainer width="100%" height={280}>
           <BarChart data={tpdPorRegiao} margin={{ top: 5, right: 10, left: 10, bottom: 0 }}>
@@ -344,12 +348,12 @@ export default function ProtesePage() {
             <YAxis yAxisId="right" orientation="right" tick={{ fill: "#94a3b8", fontSize: 11 }} tickFormatter={(v) => `R$${(v / 1000).toFixed(1)}k`} />
             <Tooltip content={<CustomTooltip />} />
             <Legend wrapperStyle={{ color: "#94a3b8", fontSize: 12 }} />
-            <Bar yAxisId="left" dataKey="totalTPDs" name="Total TPDs" radius={[4, 4, 0, 0]}>
+            <Bar yAxisId="left" dataKey="totalTPDs" name={t("protese_total_tpds", lang)} radius={[4, 4, 0, 0]}>
               {tpdPorRegiao.map((r) => (
                 <Cell key={r.regiao} fill={r.cor} />
               ))}
             </Bar>
-            <Bar yAxisId="right" dataKey="rendaMedia" name="Renda Media (R$)" fill="#f59e0b" radius={[4, 4, 0, 0]} />
+            <Bar yAxisId="right" dataKey="rendaMedia" name={t("protese_renda_media", lang)} fill="#f59e0b" radius={[4, 4, 0, 0]} />
           </BarChart>
         </ResponsiveContainer>
       </div>
