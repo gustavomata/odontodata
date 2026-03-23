@@ -92,6 +92,7 @@ export const serieHistoricaUSA = [
   { ano: 2022, total: 202530, novosRegistros: 6100, cancelamentos: 2200 },
   { ano: 2023, total: 204200, novosRegistros: 5900, cancelamentos: 2400 },
   { ano: 2024, total: 205800, novosRegistros: 5800, cancelamentos: 2200 },
+  { ano: 2025, total: 209500, novosRegistros: 5900, cancelamentos: 2200 },
 ];
 
 // ─── GENERAL INDICATORS ───────────────────────────────────────────────────────
