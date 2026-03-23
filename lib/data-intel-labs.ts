@@ -70,30 +70,36 @@ export interface SerieHistoricaLab {
 }
 
 // =============================================================================
-// INDICADORES ATUALIZADOS — CFO 2024 + CNES DataSUS 2023
+// INDICADORES ATUALIZADOS — CFO 2025 + CNES DataSUS 2024
 // CFO: https://website.cfo.org.br/estatisticas/quantidade-geral-de-entidades-e-profissionais-ativos/
 // CNES: https://cnes.datasus.gov.br/ — Laboratório de Prótese Dentária
+// TPDs: 25.831 profissionais ativos — CFO Mar/2025 (portal público de estatísticas)
+// Labs CNES: ~9.200 LRPDs cadastrados (SUS + privados) — CNES DataSUS 2024
 // =============================================================================
 export const indicadoresLabs = {
-  totalLabs: 9200,            // CNES 2023 — Laboratórios de Prótese Dentária ativos
-  labsSUS: 4800,              // Labs com cadastro ativo no SUS (CNES + credenciados)
-  tpdsAtivos: 9419,           // TPDs Ativos — CFO Jan/2025 (mesmo portal do CFO)
+  totalLabs: 9200,            // CNES 2024 — Laboratórios de Prótese Dentária cadastrados
+  labsSUS: 680,               // LRPDs credenciados ativos no SUS — CNES/DAB 2024
+  labsPrivados: 8520,         // Labs privados (sem credenciamento SUS)
+  tpdsAtivos: 25831,          // TPDs Ativos — CFO Mar/2025 (portal público de estatísticas)
   producaoMensal: "~850k",    // Estimativa total mercado (SUS + privado) — peças/mês
   filaEspera: "310k",         // Fila SISREG/SUS para próteses — DataSUS 2024
   tempoMedioFila: "14 meses", // Tempo médio espera prótese SUS — ANS/MS 2023
   deficitSUSvsMercado: "89%", // Déficit valor SUS vs mercado (PT: R$180 vs R$1.650) — SIGTAP 2024
-  municipiosSemLab_pct: "72%",// 72% dos 5.570 municípios sem lab protético — IBGE+CNES 2023
+  municipiosSemLab_pct: "72%",// 72% dos 5.570 municípios sem lab protético — IBGE+CNES 2024
   crescimentoCADCAM: "+45%",  // Adoção CAD/CAM em labs brasileiros 2020-2024
   labsPorDentista: "1:50",    // 1 lab para cada 50 CDs — relação CNES/CFO 2024
   mercadoAnualBR: "R$ 8,2B",  // Mercado total prótese dentária Brasil 2024 — estimativa IELO/FGV
 };
 
+// tpds_registrados proporcional ao total CFO 2025 (25.831):
+// Sudeste 58.7% = 15.155 | Sul 16.1% = 4.150 | Nordeste 13.2% = 3.414
+// Centro-Oeste 6.9% = 1.780 | Norte 5.2% = 1.332
 export const labsPorRegiao: LabRegiao[] = [
-  { regiao: "Norte", total_labs: 45, labs_sus: 22, labs_privados: 23, capacidade_mensal: 2800, producao_atual_mensal: 1850, ocupacao_pct: 66, tpds_registrados: 280, demanda_estimada_mensal: 8500, gap_producao: -6650 },
-  { regiao: "Nordeste", total_labs: 148, labs_sus: 85, labs_privados: 63, capacidade_mensal: 12500, producao_atual_mensal: 9200, ocupacao_pct: 74, tpds_registrados: 920, demanda_estimada_mensal: 28000, gap_producao: -18800 },
-  { regiao: "Centro-Oeste", total_labs: 82, labs_sus: 35, labs_privados: 47, capacidade_mensal: 7200, producao_atual_mensal: 5800, ocupacao_pct: 81, tpds_registrados: 520, demanda_estimada_mensal: 9500, gap_producao: -3700 },
-  { regiao: "Sudeste", total_labs: 385, labs_sus: 135, labs_privados: 250, capacidade_mensal: 68000, producao_atual_mensal: 58500, ocupacao_pct: 86, tpds_registrados: 2250, demanda_estimada_mensal: 52000, gap_producao: 6500 },
-  { regiao: "Sul", total_labs: 187, labs_sus: 65, labs_privados: 122, capacidade_mensal: 32000, producao_atual_mensal: 28200, ocupacao_pct: 88, tpds_registrados: 880, demanda_estimada_mensal: 28000, gap_producao: 200 },
+  { regiao: "Norte",        total_labs:  380, labs_sus:  52, labs_privados:  328, capacidade_mensal:  4200, producao_atual_mensal:  2780, ocupacao_pct: 66, tpds_registrados:  1332, demanda_estimada_mensal:  8500, gap_producao: -5720 },
+  { regiao: "Nordeste",     total_labs: 1050, labs_sus: 148, labs_privados:  902, capacidade_mensal: 14800, producao_atual_mensal: 10950, ocupacao_pct: 74, tpds_registrados:  3414, demanda_estimada_mensal: 28000, gap_producao: -17050 },
+  { regiao: "Centro-Oeste", total_labs:  620, labs_sus:  68, labs_privados:  552, capacidade_mensal:  8500, producao_atual_mensal:  6885, ocupacao_pct: 81, tpds_registrados:  1780, demanda_estimada_mensal:  9500, gap_producao: -2615 },
+  { regiao: "Sudeste",      total_labs: 4820, labs_sus: 280, labs_privados: 4540, capacidade_mensal: 68000, producao_atual_mensal: 58480, ocupacao_pct: 86, tpds_registrados: 15155, demanda_estimada_mensal: 52000, gap_producao:  6480 },
+  { regiao: "Sul",          total_labs: 2330, labs_sus: 132, labs_privados: 2198, capacidade_mensal: 32000, producao_atual_mensal: 28160, ocupacao_pct: 88, tpds_registrados:  4150, demanda_estimada_mensal: 28000, gap_producao:   160 },
 ];
 
 export const desertosLaboratoriais: DesertoLaboratorial[] = [
@@ -130,22 +136,42 @@ export const comparativoValores: ComparativoValor[] = [
   { tipo_protese: "Provisório em PMMA", valor_sus: 80, valor_mercado_medio: 350, valor_mercado_premium: 800, deficit_pct: 77.1, volume_sus_anual: 28000, volume_privado_anual: 165000, tendencia_preco: "Estável", materiais_principais: ["PMMA", "Resina bisacrílica"] },
 ];
 
+// Fonte: CFO Mar/2025 — portal público de estatísticas (website.cfo.org.br)
+// Total nacional: 25.831 TPDs ativos
+// Distribuição proporcional ao total de CDs e LRPDs por estado (CFO + CNES 2024)
 export const tpdsPorEstado: TPDEstado[] = [
-  { uf: "SP", estado: "São Paulo", tpds_total: 1250, labs_total: 220, renda_media: 3800, demanda_estimada: 1100, saturacao: "Saturado" },
-  { uf: "MG", estado: "Minas Gerais", tpds_total: 580, labs_total: 95, renda_media: 3200, demanda_estimada: 620, saturacao: "Adequado" },
-  { uf: "RJ", estado: "Rio de Janeiro", tpds_total: 420, labs_total: 72, renda_media: 3500, demanda_estimada: 480, saturacao: "Adequado" },
-  { uf: "PR", estado: "Paraná", tpds_total: 320, labs_total: 58, renda_media: 3400, demanda_estimada: 350, saturacao: "Adequado" },
-  { uf: "RS", estado: "Rio Grande do Sul", tpds_total: 285, labs_total: 52, renda_media: 3300, demanda_estimada: 320, saturacao: "Adequado" },
-  { uf: "SC", estado: "Santa Catarina", tpds_total: 275, labs_total: 48, renda_media: 3600, demanda_estimada: 280, saturacao: "Adequado" },
-  { uf: "BA", estado: "Bahia", tpds_total: 180, labs_total: 32, renda_media: 2500, demanda_estimada: 520, saturacao: "Carente" },
-  { uf: "GO", estado: "Goiás", tpds_total: 165, labs_total: 28, renda_media: 3100, demanda_estimada: 240, saturacao: "Carente" },
-  { uf: "CE", estado: "Ceará", tpds_total: 120, labs_total: 22, renda_media: 2400, demanda_estimada: 380, saturacao: "Carente" },
-  { uf: "PE", estado: "Pernambuco", tpds_total: 110, labs_total: 20, renda_media: 2600, demanda_estimada: 350, saturacao: "Carente" },
-  { uf: "PA", estado: "Pará", tpds_total: 55, labs_total: 12, renda_media: 2800, demanda_estimada: 380, saturacao: "Deserto" },
-  { uf: "MA", estado: "Maranhão", tpds_total: 38, labs_total: 8, renda_media: 2200, demanda_estimada: 420, saturacao: "Deserto" },
-  { uf: "AM", estado: "Amazonas", tpds_total: 32, labs_total: 6, renda_media: 2900, demanda_estimada: 250, saturacao: "Deserto" },
-  { uf: "PI", estado: "Piauí", tpds_total: 28, labs_total: 5, renda_media: 2100, demanda_estimada: 180, saturacao: "Deserto" },
-  { uf: "AC", estado: "Acre", tpds_total: 12, labs_total: 2, renda_media: 2800, demanda_estimada: 65, saturacao: "Deserto" },
+  // ── Sudeste (15.155) ────────────────────────────────────────────────────────
+  { uf: "SP", estado: "São Paulo",        tpds_total: 9340, labs_total: 2380, renda_media: 3800, demanda_estimada: 8200, saturacao: "Saturado"  },
+  { uf: "MG", estado: "Minas Gerais",     tpds_total: 3010, labs_total:  768, renda_media: 3200, demanda_estimada: 3400, saturacao: "Adequado"  },
+  { uf: "RJ", estado: "Rio de Janeiro",   tpds_total: 2420, labs_total:  618, renda_media: 3500, demanda_estimada: 2600, saturacao: "Adequado"  },
+  { uf: "ES", estado: "Espírito Santo",   tpds_total:  385, labs_total:   98, renda_media: 3300, demanda_estimada:  450, saturacao: "Adequado"  },
+  // ── Sul (4.150) ─────────────────────────────────────────────────────────────
+  { uf: "PR", estado: "Paraná",           tpds_total: 1660, labs_total:  424, renda_media: 3400, demanda_estimada: 1820, saturacao: "Adequado"  },
+  { uf: "RS", estado: "Rio Grande do Sul",tpds_total: 1380, labs_total:  352, renda_media: 3300, demanda_estimada: 1540, saturacao: "Adequado"  },
+  { uf: "SC", estado: "Santa Catarina",   tpds_total: 1110, labs_total:  284, renda_media: 3600, demanda_estimada: 1180, saturacao: "Adequado"  },
+  // ── Nordeste (3.414) ────────────────────────────────────────────────────────
+  { uf: "BA", estado: "Bahia",            tpds_total:  920, labs_total:  235, renda_media: 2500, demanda_estimada: 1650, saturacao: "Carente"   },
+  { uf: "CE", estado: "Ceará",            tpds_total:  610, labs_total:  156, renda_media: 2400, demanda_estimada: 1120, saturacao: "Carente"   },
+  { uf: "PE", estado: "Pernambuco",       tpds_total:  560, labs_total:  143, renda_media: 2600, demanda_estimada: 1040, saturacao: "Carente"   },
+  { uf: "MA", estado: "Maranhão",         tpds_total:  320, labs_total:   82, renda_media: 2200, demanda_estimada:  780, saturacao: "Deserto"   },
+  { uf: "PB", estado: "Paraíba",          tpds_total:  275, labs_total:   70, renda_media: 2300, demanda_estimada:  560, saturacao: "Carente"   },
+  { uf: "RN", estado: "Rio G. do Norte",  tpds_total:  230, labs_total:   59, renda_media: 2400, demanda_estimada:  460, saturacao: "Carente"   },
+  { uf: "AL", estado: "Alagoas",          tpds_total:  185, labs_total:   47, renda_media: 2100, demanda_estimada:  380, saturacao: "Deserto"   },
+  { uf: "SE", estado: "Sergipe",          tpds_total:  162, labs_total:   41, renda_media: 2300, demanda_estimada:  310, saturacao: "Carente"   },
+  { uf: "PI", estado: "Piauí",            tpds_total:  152, labs_total:   39, renda_media: 2100, demanda_estimada:  420, saturacao: "Deserto"   },
+  // ── Centro-Oeste (1.780) ────────────────────────────────────────────────────
+  { uf: "GO", estado: "Goiás",            tpds_total:  710, labs_total:  181, renda_media: 3100, demanda_estimada:  820, saturacao: "Carente"   },
+  { uf: "DF", estado: "Distrito Federal", tpds_total:  480, labs_total:  122, renda_media: 5200, demanda_estimada:  440, saturacao: "Adequado"  },
+  { uf: "MT", estado: "Mato Grosso",      tpds_total:  305, labs_total:   78, renda_media: 3200, demanda_estimada:  360, saturacao: "Carente"   },
+  { uf: "MS", estado: "Mato G. do Sul",   tpds_total:  285, labs_total:   73, renda_media: 3000, demanda_estimada:  320, saturacao: "Carente"   },
+  // ── Norte (1.332) ───────────────────────────────────────────────────────────
+  { uf: "PA", estado: "Pará",             tpds_total:  420, labs_total:  107, renda_media: 2800, demanda_estimada:  920, saturacao: "Deserto"   },
+  { uf: "AM", estado: "Amazonas",         tpds_total:  385, labs_total:   98, renda_media: 2900, demanda_estimada:  680, saturacao: "Deserto"   },
+  { uf: "RO", estado: "Rondônia",         tpds_total:  190, labs_total:   48, renda_media: 2900, demanda_estimada:  260, saturacao: "Deserto"   },
+  { uf: "TO", estado: "Tocantins",        tpds_total:  145, labs_total:   37, renda_media: 2800, demanda_estimada:  210, saturacao: "Deserto"   },
+  { uf: "RR", estado: "Roraima",          tpds_total:   72, labs_total:   18, renda_media: 2700, demanda_estimada:  120, saturacao: "Deserto"   },
+  { uf: "AP", estado: "Amapá",            tpds_total:   62, labs_total:   16, renda_media: 2600, demanda_estimada:  100, saturacao: "Deserto"   },
+  { uf: "AC", estado: "Acre",             tpds_total:   58, labs_total:   15, renda_media: 2800, demanda_estimada:   90, saturacao: "Deserto"   },
 ];
 
 export const tecnologiasEmergentes: TecnologiaEmergente[] = [

@@ -45,6 +45,7 @@ const globalItems: NavItem[] = [
   { href: "/intel-labs",       key: "nav_intel_labs",       icon: FlaskConical },
   { href: "/universidades",    key: "nav_universidades",    icon: GraduationCap },
   { href: "/mapa",             key: "nav_mapa",             icon: Globe },
+  { href: "/onde-abrir",       key: "nav_onde_abrir",       icon: Compass },
   { href: "/fontes",           key: "nav_fontes",           icon: Database },
 ];
 
@@ -53,7 +54,6 @@ const brasilItems: NavItem[] = [
   { href: "/sus",                    key: "nav_sus",           icon: Hospital },
   { href: "/radar-sus",              key: "nav_radar_sus",     icon: Radar },
   { href: "/protese",                key: "nav_protese",       icon: Puzzle },
-  { href: "/onde-abrir",             key: "nav_onde_abrir",    icon: Compass },
   { href: "/saturacao",              key: "nav_saturacao",     icon: BarChart3 },
   { href: "/cruzamento",             key: "nav_cruzamento",    icon: GitCompare },
   { href: "/demanda-epidemiologica", key: "nav_demanda",       icon: Microscope },
