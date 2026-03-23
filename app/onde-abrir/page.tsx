@@ -207,56 +207,59 @@ export default function OndeAbrirPage() {
   }, []);
 
   // Fetch cities from API when filters/sort change
-  /* eslint-disable react-compiler/react-compiler */
-  const fetchCidades = useCallback(async (showAll: boolean) => {
-    setCidadesLoading(true);
-    try {
-      const params = new URLSearchParams();
-      params.set("limit", showAll ? "500" : "50");
-      params.set("page", "1");
-      if (cidadesEstadoFilter !== "All") params.set("uf", cidadesEstadoFilter);
-      if (cidadesTipoFilter !== "All") params.set("tipo", cidadesTipoFilter);
-      if (cidadesBusca) params.set("search", cidadesBusca);
-      if (cidadesSort.col && cidadesSort.dir) {
-        params.set("sort", cidadesSort.col);
-        params.set("dir", cidadesSort.dir);
-      }
-
-      const res = await fetch(`/api/onde-abrir/cidades?${params}`);
-      if (res.ok) {
-        const json = await res.json();
-        setCidadesData(json.data ?? []);
-        setCidadesTotal(json.total ?? 0);
-        setCidadesSource(json.source ?? "static");
-        return;
-      }
-    } catch { /* fall through */ }
-
-    // Fallback: client-side filtering of static data
-    let list = [...cidadesUSAStatic];
-    if (cidadesEstadoFilter !== "All") list = list.filter((c) => c.uf === cidadesEstadoFilter);
-    if (cidadesTipoFilter !== "All") list = list.filter((c) => c.tipo === cidadesTipoFilter);
-    if (cidadesBusca) {
-      const s = cidadesBusca.toLowerCase();
-      list = list.filter((c) => c.nome.toLowerCase().includes(s) || c.uf.toLowerCase().includes(s));
-    }
-    if (cidadesSort.col && cidadesSort.dir) {
-      list.sort((a, b) => {
-        const av = (a as any)[cidadesSort.col] ?? 0;
-        const bv = (b as any)[cidadesSort.col] ?? 0;
-        const mult = cidadesSort.dir === "asc" ? 1 : -1;
-        return typeof av === "string" ? av.localeCompare(bv) * mult : (av - bv) * mult;
-      });
-    }
-    setCidadesData(showAll ? list : list.slice(0, 50));
-    setCidadesTotal(list.length);
-    setCidadesSource("static");
-  }, [cidadesEstadoFilter, cidadesTipoFilter, cidadesBusca, cidadesSort]);
-  /* eslint-enable react-compiler/react-compiler */
-
   useEffect(() => {
-    if (country === "US") fetchCidades(cidadesShowAll).finally(() => setCidadesLoading(false));
-  }, [country, fetchCidades, cidadesShowAll]);
+    if (country !== "US") return;
+    let cancelled = false;
+    const showAll = cidadesShowAll;
+    (async () => {
+      setCidadesLoading(true);
+      try {
+        const params = new URLSearchParams();
+        params.set("limit", showAll ? "500" : "50");
+        params.set("page", "1");
+        if (cidadesEstadoFilter !== "All") params.set("uf", cidadesEstadoFilter);
+        if (cidadesTipoFilter !== "All") params.set("tipo", cidadesTipoFilter);
+        if (cidadesBusca) params.set("search", cidadesBusca);
+        if (cidadesSort.col && cidadesSort.dir) {
+          params.set("sort", cidadesSort.col);
+          params.set("dir", cidadesSort.dir);
+        }
+
+        const res = await fetch(`/api/onde-abrir/cidades?${params}`);
+        if (!cancelled && res.ok) {
+          const json = await res.json();
+          setCidadesData(json.data ?? []);
+          setCidadesTotal(json.total ?? 0);
+          setCidadesSource(json.source ?? "static");
+          setCidadesLoading(false);
+          return;
+        }
+      } catch { /* fall through */ }
+
+      if (cancelled) return;
+      // Fallback: client-side filtering of static data
+      let list = [...cidadesUSAStatic];
+      if (cidadesEstadoFilter !== "All") list = list.filter((c) => c.uf === cidadesEstadoFilter);
+      if (cidadesTipoFilter !== "All") list = list.filter((c) => c.tipo === cidadesTipoFilter);
+      if (cidadesBusca) {
+        const s = cidadesBusca.toLowerCase();
+        list = list.filter((c) => c.nome.toLowerCase().includes(s) || c.uf.toLowerCase().includes(s));
+      }
+      if (cidadesSort.col && cidadesSort.dir) {
+        list.sort((a, b) => {
+          const av = (a as any)[cidadesSort.col] ?? 0;
+          const bv = (b as any)[cidadesSort.col] ?? 0;
+          const mult = cidadesSort.dir === "asc" ? 1 : -1;
+          return typeof av === "string" ? av.localeCompare(bv) * mult : (av - bv) * mult;
+        });
+      }
+      setCidadesData(showAll ? list : list.slice(0, 50));
+      setCidadesTotal(list.length);
+      setCidadesSource("static");
+      setCidadesLoading(false);
+    })();
+    return () => { cancelled = true; };
+  }, [country, cidadesShowAll, cidadesEstadoFilter, cidadesTipoFilter, cidadesBusca, cidadesSort]);
 
   const cidadesDisplay = cidadesData;
 
