@@ -299,7 +299,7 @@ const T = {
   hist_novos_dentistas_ano:   { PT: "Novos dentistas por ano",      EN: "New dentists per year" },
   hist_registros_2023:        { PT: "+21.400 registros em 2023",    EN: "+21,400 registrations in 2023" },
   hist_queda_covid:           { PT: "Queda de 16% nos novos registros", EN: "16% drop in new registrations" },
-  hist_total_2015_2024:       { PT: "Total de Dentistas (2015–2025)", EN: "Total Dentists (2015–2025)" },
+  hist_total_2015_2024:       { PT: "Total de Dentistas (2015–2026)", EN: "Total Dentists (2015–2026)" },
   hist_total_sub:             { PT: "Evolução do estoque total de cirurgiões-dentistas registrados no CFO", EN: "Evolution of total registered dentists at CFO" },
   hist_novos_vs_cancel:       { PT: "Novos Registros vs Cancelamentos", EN: "New Registrations vs Cancellations" },
   hist_novos_vs_cancel_sub:   { PT: "Entradas e saídas anuais no registro do CFO", EN: "Annual entries and exits in CFO records" },
@@ -317,7 +317,7 @@ const T = {
   hist_cancelamentos:         { PT: "Cancelamentos",                EN: "Cancellations" },
   hist_cresc_label:           { PT: "Crescimento %",                EN: "Growth %" },
   hist_saldo_liquido:         { PT: "Saldo Líquido",                EN: "Net Balance" },
-  hist_pct_2015_2024:         { PT: "% de 2015 a 2025",            EN: "% from 2015 to 2025" },
+  hist_pct_2015_2024:         { PT: "% de 2015 a 2026",            EN: "% from 2015 to 2026" },
 
   // ─── Estabelecimentos ───────────────────────────────────────────────────────
   estab_title:                { PT: "Estabelecimentos de Saúde",    EN: "Health Establishments" },
